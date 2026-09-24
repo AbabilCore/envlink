@@ -40,7 +40,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.3.7",
     "@types/inquirer": "^9.0.9",
-    "@types/node": "^24.9.1",
+    "@types/node": "^24.13.6",
     "cli-table3": "^0.6.5",
     "colors": "^1.4.0",
     "commander": "^14.0.2",
