@@ -1,11 +1,6 @@
-import colors from 'colors';
 import { createSpinner, type Spinner } from 'nanospinner';
 import { ICONS } from '@/constants/icons';
-
-type TMethod = (
-  message: string,
-  config?: { terminate: boolean; code: 1 | 0 }
-) => void;
+import { TLogMethod, TMethod } from '@/types';
 
 class Logger {
   private spinner: Spinner;
@@ -49,6 +44,10 @@ class Logger {
       text: message,
     });
     if (config?.terminate) process.exit(config.code);
+  };
+
+  log: TLogMethod = (message) => {
+    console.log(message);
   };
 }
 
