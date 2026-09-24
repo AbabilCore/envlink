@@ -3,3 +3,4 @@ dist
 jobx.*
 envlink.*
 temp
+.env
