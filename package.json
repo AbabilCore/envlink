@@ -1,0 +1,19 @@
+{
+  "name": "envlink",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbabilCore/envlink.git"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AbabilCore/envlink/issues"
+  },
+  "homepage": "https://github.com/AbabilCore/envlink#readme"
+}
