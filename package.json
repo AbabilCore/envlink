@@ -1,7 +1,7 @@
 {
   "name": "envlink",
   "version": "0.1.0",
-  "description": "A modern CLI tool template built with TypeScript",
+  "description": "Secure and anonymous environment file sharing CLI",
   "main": "./dist/index.js",
   "bin": {
     "envlink": "./dist/index.js"
@@ -20,7 +20,16 @@
   "keywords": [
     "cli",
     "typescript",
-    "tool"
+    "envlink",
+    "environment",
+    "env",
+    "dotenv",
+    "share",
+    "secure",
+    "anonymous",
+    "password-protected",
+    "expiration",
+    "devtools"
   ],
   "author": "Ababil Hossain <hi@ababilspark.com>",
   "license": "MIT",
