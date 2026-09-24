@@ -1,4 +1,4 @@
-import { Command } from 'commander';
+import { Command, CommanderError } from 'commander';
 import * as commands from '@/cli/commands';
 import pkg from '@/constants/pkg';
 import logger from '@/utils/logger';
@@ -9,7 +9,7 @@ command.name(pkg.name).description(pkg.description).version(pkg.version);
 
 commands.init(command);
 
-command.on('command:*', ([cmd]) => {
+command.on('command:*', ([cmd]: [string]) => {
   logger.error(
     `Invalid command: ${cmd}\nTry envlink --help for a list of available commands.`,
     {
@@ -19,13 +19,19 @@ command.on('command:*', ([cmd]) => {
   );
 });
 
-command.exitOverride((err) => {
+command.exitOverride((err: CommanderError) => {
   if (err.code === 'commander.unknownOption') {
     logger.error(`Invalid option! Try envlink --help for valid options.`, {
       terminate: true,
       code: 1,
     });
   }
+
+  if (err.code === 'commander.help' || err.code === 'commander.version') {
+    process.exit(0);
+  }
+
+  throw err;
 });
 
 command.parse(process.argv);
