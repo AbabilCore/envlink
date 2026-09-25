@@ -1,6 +1,6 @@
 {
   "name": "envlink",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Secure and anonymous environment file sharing CLI",
   "main": "./dist/index.js",
   "bin": {
@@ -42,8 +42,9 @@
     "node": ">=18.0.0"
   },
   "files": [
-    "dist/cli.js",
+    "dist/index.js",
     "README.md",
+    "commands.md",
     "LICENSE"
   ],
   "devDependencies": {
