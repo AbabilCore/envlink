@@ -1,6 +1,6 @@
 {
   "name": "envlink",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Secure and anonymous environment file sharing CLI",
   "main": "./dist/index.js",
   "bin": {
@@ -61,5 +61,8 @@
     "tsup": "^8.5.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
+  },
+  "allowScripts": {
+    "esbuild": true
   }
 }
