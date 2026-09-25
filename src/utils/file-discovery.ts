@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from "fs";
 
 export function discoverEnvFiles(cwd: string = process.cwd()): string[] {
   try {
@@ -16,7 +16,7 @@ export function discoverEnvFiles(cwd: string = process.cwd()): string[] {
 
 export function readFileContent(filePath: string): string {
   try {
-    return fs.readFileSync(filePath, 'utf8');
+    return fs.readFileSync(filePath, "utf8");
   } catch (error) {
     throw new Error(`Failed to read file: ${filePath}`);
   }
@@ -31,5 +31,5 @@ export function fileExists(filePath: string): boolean {
 }
 
 export function writeFile(filePath: string, content: string): void {
-  fs.writeFileSync(filePath, content, 'utf8');
+  fs.writeFileSync(filePath, content, "utf8");
 }

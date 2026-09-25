@@ -1,5 +1,5 @@
-import API_URL from '@/config';
-import { ApiErrorResponse } from '@/types';
+import API_URL from "@/config";
+import { ApiErrorResponse } from "@/types";
 
 class ApiClient {
   private baseURL: string;
@@ -10,9 +10,9 @@ class ApiClient {
 
   async post<T>(endpoint: string, data: unknown): Promise<T> {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
@@ -20,48 +20,7 @@ class ApiClient {
     if (!response.ok) {
       const error: ApiErrorResponse = await response
         .json()
-        .catch((): ApiErrorResponse => ({ message: 'Request failed' }));
-      throw new Error(
-        error.message || `HTTP ${response.status}: ${response.statusText}`
-      );
-    }
-
-    return response.json() as Promise<T>;
-  }
-
-  async get<T>(endpoint: string): Promise<T> {
-    const response = await fetch(`${this.baseURL}${endpoint}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      const error: ApiErrorResponse = await response
-        .json()
-        .catch((): ApiErrorResponse => ({ message: 'Request failed' }));
-      throw new Error(
-        error.message || `HTTP ${response.status}: ${response.statusText}`
-      );
-    }
-
-    return response.json() as Promise<T>;
-  }
-
-  async put<T>(endpoint: string, data: unknown): Promise<T> {
-    const response = await fetch(`${this.baseURL}${endpoint}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      const error: ApiErrorResponse = await response
-        .json()
-        .catch((): ApiErrorResponse => ({ message: 'Request failed' }));
+        .catch((): ApiErrorResponse => ({ message: "Request failed" }));
       throw new Error(
         error.message || `HTTP ${response.status}: ${response.statusText}`
       );

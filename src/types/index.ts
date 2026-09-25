@@ -24,10 +24,11 @@ export interface IGetEnvLinkResponse {
   message: string;
   data: {
     id: string;
-    files: IEnvFile[];
-    status: 'active' | 'expired';
+    files?: IEnvFile[];
+    status: "active" | "expired";
     filesCount: number;
     expiresAt: string | null;
+    expiredAt?: string | null;
     installCount: number;
     createdAt: string;
   };
@@ -38,7 +39,7 @@ export interface IEnvLinkInfoResponse {
   message: string;
   data: {
     id: string;
-    status: 'active' | 'expired';
+    status: "active" | "expired";
     filesCount: number;
     fileNames: string[];
     expiresAt: string | null;

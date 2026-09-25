@@ -1,6 +1,6 @@
-import { createSpinner, type Spinner } from 'nanospinner';
-import { ICONS } from '@/constants/icons';
-import { TLogMethod, TMethod } from '@/types';
+import { createSpinner, type Spinner } from "nanospinner";
+import { ICONS } from "@/constants/icons";
+import { TLogMethod, TMethod } from "@/types";
 
 class Logger {
   private spinner: Spinner;
