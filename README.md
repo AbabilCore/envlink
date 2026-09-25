@@ -5,19 +5,30 @@ Secure and anonymous environment file sharing CLI - Share `.env` files with expi
 [![npm version](https://img.shields.io/npm/v/envlink.svg)](https://www.npmjs.com/package/envlink)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Features
-
-- Secure sharing with encryption
-- Auto-expiration (minutes, hours, days, years, or never)
-- Optional password protection
-- No signup or authentication required
-- Share multiple files at once
-- Update existing EnvLinks
-
 ## Installation
+
+### Permanent Installation
 
 ```bash
 npm install -g envlink
+```
+
+### One-Time Use (No Installation)
+
+You can use EnvLink without installing it permanently:
+
+```bash
+# Using npx (Node.js)
+npx envlink create
+npx envlink install el_abc123xyz456
+
+# Using bunx (Bun)
+bunx envlink create
+bunx envlink install el_abc123xyz456
+
+# Using pnpm
+pnpm dlx envlink create
+pnpm dlx envlink install el_abc123xyz456
 ```
 
 ## Quick Start
@@ -29,65 +40,23 @@ cd my-project
 envlink create
 ```
 
-### Install
+Share the generated EnvLink ID with your team!
+
+### Install on Another Machine
 
 ```bash
-envlink install <id>
+envlink install el_abc123xyz456
 ```
 
-## Usage
+That's it! Your environment files are now installed.
 
-### Create EnvLink
+## Documentation
 
-```bash
-# Interactive mode
-envlink create
-
-# With options
-envlink create --exp 7d
-envlink create --exp-pass mypassword
-envlink create --exp 5d --exp-pass secretpass
-```
-
-**Expiration formats:** `30m`, `24h`, `5d`, `1y`, `never`
-
-### Install EnvLink
-
-```bash
-envlink install <id>
-```
-
-### View Info
-
-```bash
-envlink info <id>
-```
-
-### Update EnvLink
-
-```bash
-envlink update <id> --files
-envlink update <id> --exp never
-```
-
-### Expire EnvLink
-
-```bash
-envlink expire <id>
-envlink expire <id> --exp-pass mypassword
-```
-
-### Help
-
-```bash
-envlink --help
-envlink create --help
-```
+For complete command reference including update, expire, and advanced options, see [commands.md](./commands.md)
 
 ## Security
 
-- End-to-end encryption
-- Password hashing with bcrypt
-- Automatic expiration
-- HTTPS transport only
-- No authentication required (anonymous)
+- Auto-expiration (configurable)
+- Optional password protection
+- No signup required
+- Anonymous sharing
