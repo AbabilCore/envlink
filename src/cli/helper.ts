@@ -9,7 +9,7 @@ import { ICONS } from "@/constants/icons";
 import * as types from "@/types";
 
 const isErrorWithMessage = (
-  error: unknown
+  error: unknown,
 ): error is types.IErrorWithMessage => {
   return (
     typeof error === "object" &&
@@ -25,7 +25,7 @@ const getErrorMessage = (error: unknown): string => {
 };
 
 export const create = async (
-  options: types.ICommandOptions = {}
+  options: types.ICommandOptions = {},
 ): Promise<void> => {
   try {
     const cwd = process.cwd();
@@ -124,7 +124,7 @@ export const create = async (
     filesToUpload.forEach((file) => logger.log(`  • ${file}`));
     logger.log(`\nExpiration: ${expiration}`);
     logger.log(
-      `Expiration password: ${expirationPassword ? "Enabled" : "Disabled"}\n`
+      `Expiration password: ${expirationPassword ? "Enabled" : "Disabled"}\n`,
     );
 
     const { confirm } = await inquirer.prompt<{ confirm: boolean }>([
@@ -153,7 +153,7 @@ export const create = async (
         files,
         expirationDuration: expiration,
         expirationPassword,
-      }
+      },
     );
 
     const expiryDate = response.data.expiresAt
@@ -178,7 +178,7 @@ export const create = async (
 
 export const install = async (
   id: string,
-  options: types.ICommandOptions = {}
+  options: types.ICommandOptions = {},
 ): Promise<void> => {
   try {
     if (!id) {
@@ -190,7 +190,7 @@ export const install = async (
 
     const getResponse = await apiClient.post<types.IGetEnvLinkResponse>(
       "/envlinks/get-info",
-      { id }
+      { id },
     );
 
     const { files, status } = getResponse.data;
@@ -259,7 +259,7 @@ export const install = async (
     selectedFiles.forEach((file) => {
       const exists = conflicts.includes(file.name);
       logger.log(
-        `  ${exists ? ICONS.WARNING : ICONS.CHECK_MARK} ${file.name}${exists ? " (will overwrite)" : ""}`
+        `  ${exists ? ICONS.WARNING : ICONS.CHECK_MARK} ${file.name}${exists ? " (will overwrite)" : ""}`,
       );
     });
 
@@ -288,7 +288,7 @@ export const install = async (
     logger.success("Installation complete!\n");
     console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     console.log(
-      `  ${ICONS.SUCCESS} Successfully installed ${selectedFiles.length} file(s)!`
+      `  ${ICONS.SUCCESS} Successfully installed ${selectedFiles.length} file(s)!`,
     );
     console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     console.log(`\n${ICONS.FILE} Installed files:`);
@@ -314,7 +314,7 @@ export const info = async (id: string): Promise<void> => {
     logger.start(`Fetching EnvLink info...`);
     const response = await apiClient.post<types.IGetEnvLinkResponse>(
       "/envlinks/get-info",
-      { id }
+      { id },
     );
 
     const data = response.data;
@@ -331,7 +331,7 @@ export const info = async (id: string): Promise<void> => {
     console.log(`  ${ICONS.FILE} Files:    ${data.filesCount}`);
     console.log(`  ${ICONS.INBOX} Installs: ${data.installCount || 0}`);
     console.log(
-      `  ${ICONS.CALENDAR} Created:  ${new Date(data.createdAt).toLocaleString()}`
+      `  ${ICONS.CALENDAR} Created:  ${new Date(data.createdAt).toLocaleString()}`,
     );
     console.log(`  ${ICONS.CLOCK} Expires:  ${expiryDate}`);
     console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -344,7 +344,7 @@ export const info = async (id: string): Promise<void> => {
       console.log("");
     } else {
       console.log(
-        `\n${ICONS.WARNING} File details not available (link may be expired)\n`
+        `\n${ICONS.WARNING} File details not available (link may be expired)\n`,
       );
     }
   } catch (error: unknown) {
@@ -357,7 +357,7 @@ export const info = async (id: string): Promise<void> => {
 
 export const expire = async (
   id: string,
-  options: types.ICommandOptions = {}
+  options: types.ICommandOptions = {},
 ): Promise<void> => {
   try {
     if (!id) {
@@ -412,7 +412,7 @@ export const expire = async (
 
 export const update = async (
   id: string,
-  options: types.ICommandOptions = {}
+  options: types.ICommandOptions = {},
 ): Promise<void> => {
   try {
     if (!id) {
@@ -426,7 +426,7 @@ export const update = async (
     if (!hasUpdates) {
       logger.error(
         "No update options provided. Use --files, --exp, or --exp-pass",
-        { terminate: true, code: 1 }
+        { terminate: true, code: 1 },
       );
       return;
     }
@@ -435,7 +435,7 @@ export const update = async (
 
     const infoResponse = await apiClient.post<types.IGetEnvLinkResponse>(
       "/envlinks/get-info",
-      { id }
+      { id },
     );
 
     if (infoResponse.data.status === "expired") {
@@ -584,7 +584,7 @@ export const update = async (
       {
         id,
         ...updateData,
-      }
+      },
     );
 
     const expiryDate = response.data.expiresAt

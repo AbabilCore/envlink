@@ -22,7 +22,7 @@ class ApiClient {
         .json()
         .catch((): ApiErrorResponse => ({ message: "Request failed" }));
       throw new Error(
-        error.message || `HTTP ${response.status}: ${response.statusText}`
+        error.message || `HTTP ${response.status}: ${response.statusText}`,
       );
     }
 

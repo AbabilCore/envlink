@@ -105,7 +105,7 @@ export interface ApiErrorResponse {
 
 export type TMethod = (
   message: string,
-  config?: { terminate: boolean; code: 1 | 0 }
+  config?: { terminate: boolean; code: 1 | 0 },
 ) => void;
 
 export type TLogMethod = (message: string) => void;
