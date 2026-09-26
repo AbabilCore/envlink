@@ -52,7 +52,8 @@ That's it! Your environment files are now installed.
 
 ## Documentation
 
-For complete command reference including update, expire, and advanced options, see [commands.md](./commands.md)
+- **[commands.md](./commands.md)** - Complete command reference including update, expire, and advanced options
+- **[faq.md](./faq.md)** - Frequently Asked Questions
 
 ## Security
 

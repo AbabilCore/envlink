@@ -34,7 +34,7 @@ envlink create --exp-pass <password>
 envlink create --exp 1y --exp-pass <password>
 ```
 
-**Expiration units:** `m` (minutes), `M` (hours), `d` (days), `y` (years), `never`
+**Expiration units:** `m` (minutes), `h` (hours), `d` (days), `M` (months), `y` (years), `never`
 
 ## Install Commands
 
@@ -117,18 +117,19 @@ envlink expire el_abc123xyz456 --exp-pass mypass123
 
 ## Common Options
 
-| Option                      | Description                                               |
-| --------------------------- | --------------------------------------------------------- |
-| `--exp <duration>`          | Expiration duration: `30m`, `24M`, `5d`, `1y`, or `never` |
-| `--exp-pass <password>`     | Password for protection/expiration                        |
-| `--current-pass <password>` | Current password (required for updating protected links)  |
-| `-f, --files`               | Update files flag                                         |
-| `-s, --select-files`        | File selection mode for install                           |
+| Option                      | Description                                                     |
+| --------------------------- | --------------------------------------------------------------- |
+| `--exp <duration>`          | Expiration duration: `30m`, `24h`, `5d`, `6M`, `1y`, or `never` |
+| `--exp-pass <password>`     | Password for protection/expiration                              |
+| `--current-pass <password>` | Current password (required for updating protected links)        |
+| `-f, --files`               | Update files flag                                               |
+| `-s, --select-files`        | File selection mode for install                                 |
 
 ## Notes
 
-- **Default expiration:** 1 days if not specified
+- **Default expiration:** 1 day if not specified
 - **EnvLink ID format:** `el_<16-char-alphanumeric>`
 - **Password protection:** Required for updates and manual expiration of protected links
 - **Expired links:** Cannot be installed or updated
 - **Never expire:** Use `--exp never` for permanent links
+- **Time units:** `m` (minutes), `h` (hours), `d` (days), `M` (months), `y` (years)
