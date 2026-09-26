@@ -1,8 +1,9 @@
 import { Command } from "commander";
 import * as helper from "./helper";
 import type { ICommandOptions } from "@/types";
+import handleCmdErr from "@/utils/command-error-handler";
 
-export const init = (command: Command): void => {
+export const create = (command: Command): void => {
   command
     .command("create")
     .description("Create a new EnvLink from local .env files")
@@ -11,7 +12,10 @@ export const init = (command: Command): void => {
     .action((options: ICommandOptions) => {
       helper.create(options);
     });
+  handleCmdErr(command, "create");
+};
 
+export const install = (command: Command) => {
   command
     .command("install [id]")
     .description("Install environment files from an EnvLink")
@@ -19,25 +23,10 @@ export const init = (command: Command): void => {
     .action((id: string, options: ICommandOptions) => {
       helper.install(id, options);
     });
+  handleCmdErr(command, "install");
+};
 
-  command
-    .command("info [id]")
-    .description("Show EnvLink information (files, expiry, install count)")
-    .action((id: string) => {
-      helper.info(id);
-    });
-
-  command
-    .command("expire [id]")
-    .description("Manually expire an EnvLink")
-    .option(
-      "--exp-pass <password>",
-      "Expiration password (if set during creation)",
-    )
-    .action((id: string, options: ICommandOptions) => {
-      helper.expire(id, options);
-    });
-
+export const update = (command: Command) => {
   command
     .command("update [id]")
     .description("Update an existing EnvLink")
@@ -51,4 +40,29 @@ export const init = (command: Command): void => {
     .action((id: string, options: ICommandOptions) => {
       helper.update(id, options);
     });
+  handleCmdErr(command, "update");
+};
+
+export const info = (command: Command) => {
+  command
+    .command("info [id]")
+    .description("Show EnvLink information (files, expiry, install count)")
+    .action((id: string) => {
+      helper.info(id);
+    });
+  handleCmdErr(command, "info");
+};
+
+export const expire = (command: Command) => {
+  command
+    .command("expire [id]")
+    .description("Manually expire an EnvLink")
+    .option(
+      "--exp-pass <password>",
+      "Expiration password (if set during creation)",
+    )
+    .action((id: string, options: ICommandOptions) => {
+      helper.expire(id, options);
+    });
+  handleCmdErr(command, "expire");
 };
