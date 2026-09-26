@@ -52,8 +52,8 @@ That's it! Your environment files are now installed.
 
 ## Documentation
 
-- **[commands.md](./commands.md)** - Complete command reference including update, expire, and advanced options
-- **[faq.md](./faq.md)** - Frequently Asked Questions
+- **[Command Reference](https://envlink.ababilspark.com)** - Complete command reference
+- **[FAQ](https://envlink.ababilspark.com/faq)** - Frequently Asked Questions
 
 ## Security
 
