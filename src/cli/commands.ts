@@ -13,7 +13,7 @@ export const init = (command: Command): void => {
     });
 
   command
-    .command("install <id>")
+    .command("install [id]")
     .description("Install environment files from an EnvLink")
     .option("-s, --select-files", "Manually select files to install")
     .action((id: string, options: ICommandOptions) => {
@@ -21,31 +21,31 @@ export const init = (command: Command): void => {
     });
 
   command
-    .command("info <id>")
+    .command("info [id]")
     .description("Show EnvLink information (files, expiry, install count)")
     .action((id: string) => {
       helper.info(id);
     });
 
   command
-    .command("expire <id>")
+    .command("expire [id]")
     .description("Manually expire an EnvLink")
     .option(
       "--exp-pass <password>",
-      "Expiration password (if set during creation)"
+      "Expiration password (if set during creation)",
     )
     .action((id: string, options: ICommandOptions) => {
       helper.expire(id, options);
     });
 
   command
-    .command("update <id>")
+    .command("update [id]")
     .description("Update an existing EnvLink")
     .option("--exp <duration>", "Update expiration (e.g., 5d, 30m, 1y, never)")
     .option("--exp-pass <password>", "Update expiration password")
     .option(
       "--current-pass <password>",
-      "Current password (required for protected EnvLinks)"
+      "Current password (required for protected EnvLinks)",
     )
     .option("-f, --files", "Update files from current directory")
     .action((id: string, options: ICommandOptions) => {
