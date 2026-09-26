@@ -127,7 +127,7 @@ envlink expire el_abc123xyz456 --exp-pass mypass123
 
 ## Notes
 
-- **Default expiration:** 24 days if not specified
+- **Default expiration:** 1 days if not specified
 - **EnvLink ID format:** `el_<16-char-alphanumeric>`
 - **Password protection:** Required for updates and manual expiration of protected links
 - **Expired links:** Cannot be installed or updated

@@ -73,7 +73,7 @@ export const create = async (
           type: "input",
           name: "expiration",
           message: "Expiration duration (30m, 24M, 5d, 1y, never):",
-          default: "24d",
+          default: "1d",
         },
       ]);
       expiration = answer.expiration;
