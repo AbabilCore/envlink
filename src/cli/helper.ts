@@ -72,7 +72,7 @@ export const create = async (
         {
           type: "input",
           name: "expiration",
-          message: "Expiration duration (30m, 24M, 5d, 1y, never):",
+          message: "Expiration duration (30m, 24h, 5d, 6M, 1y, never):",
           default: "1d",
         },
       ]);
@@ -121,10 +121,10 @@ export const create = async (
     }
 
     logger.log("\nEnvironment files:");
-    filesToUpload.forEach((file) => logger.log(`  • ${file}`));
-    logger.log(`\nExpiration: ${expiration}`);
+    filesToUpload.forEach((file) => logger.log(`  • ${colors.cyan(file)}`));
+    logger.log(`\n${colors.bold("Expiration:")} ${colors.yellow(expiration)}`);
     logger.log(
-      `Expiration password: ${expirationPassword ? "Enabled" : "Disabled"}\n`,
+      `${colors.bold("Expiration password:")} ${expirationPassword ? colors.green("Enabled") : colors.gray("Disabled")}\n`,
     );
 
     const { confirm } = await inquirer.prompt<{ confirm: boolean }>([
@@ -161,13 +161,23 @@ export const create = async (
       : "Never";
 
     logger.success("EnvLink created successfully!\n");
-    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-    console.log(`  ${ICONS.LINK} ID:      ${response.data.id}`);
-    console.log(`  ${ICONS.FILE} Files:   ${response.data.filesCount}`);
-    console.log(`  ${ICONS.CLOCK} Expires: ${expiryDate}`);
-    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
-    console.log(`${ICONS.CLIPBOARD} Install command:\n`);
-    console.log(`   npx envlink install ${response.data.id}\n`);
+    logger.log(
+      colors.cyan("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"),
+    );
+    logger.log(
+      `  ${ICONS.LINK} ${colors.bold("ID:")}      ${colors.white(response.data.id)}`,
+    );
+    logger.log(
+      `  ${ICONS.FILE} ${colors.bold("Files:")}   ${colors.white(String(response.data.filesCount))}`,
+    );
+    logger.log(
+      `  ${ICONS.CLOCK} ${colors.bold("Expires:")} ${colors.yellow(expiryDate)}`,
+    );
+    logger.log(
+      colors.cyan("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"),
+    );
+    logger.log(`${ICONS.CLIPBOARD} ${colors.green.bold("Install command:")}\n`);
+    logger.log(colors.cyan(`   npx envlink install ${response.data.id}\n`));
   } catch (error: unknown) {
     logger.error(`Failed to create EnvLink: ${getErrorMessage(error)}`, {
       terminate: true,
@@ -259,7 +269,7 @@ export const install = async (
     selectedFiles.forEach((file) => {
       const exists = conflicts.includes(file.name);
       logger.log(
-        `  ${exists ? ICONS.WARNING : ICONS.CHECK_MARK} ${file.name}${exists ? " (will overwrite)" : ""}`,
+        `  ${exists ? ICONS.WARNING : ICONS.CHECK_MARK} ${exists ? colors.yellow(file.name) : colors.cyan(file.name)}${exists ? colors.yellow(" (will overwrite)") : ""}`,
       );
     });
 
@@ -286,16 +296,20 @@ export const install = async (
     await apiClient.post("/envlinks/install", { id });
 
     logger.success("Installation complete!\n");
-    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-    console.log(
-      `  ${ICONS.SUCCESS} Successfully installed ${selectedFiles.length} file(s)!`,
+    logger.log(
+      colors.green("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"),
     );
-    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-    console.log(`\n${ICONS.FILE} Installed files:`);
+    logger.log(
+      `  ${ICONS.SUCCESS} ${colors.green(`Successfully installed ${selectedFiles.length} file(s)!`)}`,
+    );
+    logger.log(
+      colors.green("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"),
+    );
+    logger.log(`\n${ICONS.FILE} ${colors.bold("Installed files:")}`);
     selectedFiles.forEach((file) => {
-      console.log(`   ${ICONS.BULLET} ${file.name}`);
+      logger.log(`   ${ICONS.BULLET} ${colors.cyan(file.name)}`);
     });
-    console.log("");
+    logger.log("");
   } catch (error: unknown) {
     logger.error(`Failed to install EnvLink: ${getErrorMessage(error)}`, {
       terminate: true,
@@ -325,26 +339,40 @@ export const info = async (id: string): Promise<void> => {
       : "Never";
 
     logger.success("EnvLink info retrieved\n");
-    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-    console.log(`  ${ICONS.LINK} ID:       ${data.id}`);
-    console.log(`  ${statusEmoji} Status:   ${data.status.toUpperCase()}`);
-    console.log(`  ${ICONS.FILE} Files:    ${data.filesCount}`);
-    console.log(`  ${ICONS.INBOX} Installs: ${data.installCount || 0}`);
-    console.log(
-      `  ${ICONS.CALENDAR} Created:  ${new Date(data.createdAt).toLocaleString()}`,
+    logger.log(
+      colors.cyan("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"),
     );
-    console.log(`  ${ICONS.CLOCK} Expires:  ${expiryDate}`);
-    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    logger.log(
+      `  ${ICONS.LINK} ${colors.bold("ID:")}       ${colors.white(data.id)}`,
+    );
+    logger.log(
+      `  ${statusEmoji} ${colors.bold("Status:")}   ${data.status === "active" ? colors.green(data.status.toUpperCase()) : colors.red(data.status.toUpperCase())}`,
+    );
+    logger.log(
+      `  ${ICONS.FILE} ${colors.bold("Files:")}    ${colors.white(String(data.filesCount))}`,
+    );
+    logger.log(
+      `  ${ICONS.INBOX} ${colors.bold("Installs:")} ${colors.magenta(String(data.installCount || 0))}`,
+    );
+    logger.log(
+      `  ${ICONS.CALENDAR} ${colors.bold("Created:")}  ${colors.gray(new Date(data.createdAt).toLocaleString())}`,
+    );
+    logger.log(
+      `  ${ICONS.CLOCK} ${colors.bold("Expires:")}  ${colors.yellow(expiryDate)}`,
+    );
+    logger.log(
+      colors.cyan("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"),
+    );
 
     if (data.files && data.files.length > 0) {
-      console.log(`\n${ICONS.BOX} Environment files:`);
+      logger.log(`\n${ICONS.BOX} ${colors.bold("Environment files:")}`);
       data.files.forEach((file) => {
-        console.log(`   ${ICONS.BULLET} ${file.name}`);
+        logger.log(`   ${ICONS.BULLET} ${colors.cyan(file.name)}`);
       });
-      console.log("");
+      logger.log("");
     } else {
-      console.log(
-        `\n${ICONS.WARNING} File details not available (link may be expired)\n`,
+      logger.log(
+        `\n${ICONS.WARNING} ${colors.yellow("File details not available (link may be expired)")}\n`,
       );
     }
   } catch (error: unknown) {
@@ -399,9 +427,15 @@ export const expire = async (
     });
 
     logger.success("EnvLink expired successfully!\n");
-    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-    console.log(`  ${ICONS.RED_CIRCLE} EnvLink ${id} has been expired`);
-    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+    logger.log(
+      colors.red("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"),
+    );
+    logger.log(
+      `  ${ICONS.RED_CIRCLE} ${colors.red(`EnvLink ${colors.bold(id)} has been expired`)}`,
+    );
+    logger.log(
+      colors.red("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"),
+    );
   } catch (error: unknown) {
     logger.error(`Failed to expire EnvLink: ${getErrorMessage(error)}`, {
       terminate: true,
@@ -530,18 +564,24 @@ export const update = async (
       }));
 
       logger.log("\nFiles to update:");
-      filesToUpdate.forEach((file) => logger.log(`  ${ICONS.BULLET} ${file}`));
+      filesToUpdate.forEach((file) =>
+        logger.log(`  ${ICONS.BULLET} ${colors.cyan(file)}`),
+      );
     }
 
     if (options.exp) {
       updateData.expirationDuration = options.exp;
-      logger.log(`\nNew expiration: ${options.exp}`);
+      logger.log(
+        `\n${colors.bold("New expiration:")} ${colors.yellow(options.exp)}`,
+      );
     }
 
     if (options.expPass !== undefined) {
       if (options.expPass) {
         updateData.expirationPassword = options.expPass;
-        logger.log("\nExpiration password: Updated");
+        logger.log(
+          `\n${colors.bold("Expiration password:")} ${colors.green("Updated")}`,
+        );
       } else {
         const { confirmRemove } = await inquirer.prompt<{
           confirmRemove: boolean;
@@ -556,7 +596,9 @@ export const update = async (
 
         if (confirmRemove) {
           updateData.expirationPassword = "";
-          logger.log("\nExpiration password: Removed");
+          logger.log(
+            `\n${colors.bold("Expiration password:")} ${colors.red("Removed")}`,
+          );
         }
       }
     }
@@ -592,13 +634,23 @@ export const update = async (
       : "Never";
 
     logger.success("EnvLink updated successfully!\n");
-    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-    console.log(`  ${ICONS.LINK} ID:      ${response.data.id}`);
+    logger.log(
+      colors.cyan("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"),
+    );
+    logger.log(
+      `  ${ICONS.LINK} ${colors.bold("ID:")}      ${colors.white(response.data.id)}`,
+    );
     if (response.data.filesCount) {
-      console.log(`  ${ICONS.FILE} Files:   ${response.data.filesCount}`);
+      logger.log(
+        `  ${ICONS.FILE} ${colors.bold("Files:")}   ${colors.white(String(response.data.filesCount))}`,
+      );
     }
-    console.log(`  ${ICONS.CLOCK} Expires: ${expiryDate}`);
-    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+    logger.log(
+      `  ${ICONS.CLOCK} ${colors.bold("Expires:")} ${colors.yellow(expiryDate)}`,
+    );
+    logger.log(
+      colors.cyan("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"),
+    );
   } catch (error: unknown) {
     logger.error(`Failed to update EnvLink: ${getErrorMessage(error)}`, {
       terminate: true,

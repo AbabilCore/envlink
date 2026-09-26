@@ -8,7 +8,10 @@ export const create = (command: Command): void => {
     command
       .command("create")
       .description("Create a new EnvLink from local .env files")
-      .option("--exp <duration>", "Set expiration (e.g., 5d, 30m, 1y, never)")
+      .option(
+        "--exp <duration>",
+        "Set expiration (e.g., 30m, 24h, 5d, 6M, 1y, never)",
+      )
       .option("--exp-pass <password>", "Set expiration password")
       .action((options: ICommandOptions) => {
         helper.create(options);
@@ -37,7 +40,7 @@ export const update = (command: Command) => {
       .description("Update an existing EnvLink")
       .option(
         "--exp <duration>",
-        "Update expiration (e.g., 5d, 30m, 1y, never)",
+        "Update expiration (e.g., 30m, 24h, 5d, 6M, 1y, never)",
       )
       .option("--exp-pass <password>", "Update expiration password")
       .option(
