@@ -5,24 +5,9 @@ import colors from "colors";
 import logger from "@/utils/logger";
 import apiClient from "@/utils/api-client";
 import { discoverEnvFiles, readFileContent } from "@/utils/file-discovery";
+import { formatTimeForUser, getErrorMessage } from "@/utils/helpers";
 import { ICONS } from "@/constants/icons";
 import * as types from "@/types";
-
-const isErrorWithMessage = (
-  error: unknown,
-): error is types.IErrorWithMessage => {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    "message" in error &&
-    typeof (error as Record<string, unknown>).message === "string"
-  );
-};
-
-const getErrorMessage = (error: unknown): string => {
-  if (isErrorWithMessage(error)) return error.message;
-  return String(error);
-};
 
 export const create = async (
   options: types.ICommandOptions = {},
@@ -163,9 +148,7 @@ export const create = async (
       },
     );
 
-    const expiryDate = response.data.expiresAt
-      ? new Date(response.data.expiresAt).toLocaleString()
-      : "Never";
+    const expiryDate = formatTimeForUser(response.data.expiresAt);
 
     logger.success("EnvLink created successfully!\n");
     logger.log(
@@ -372,9 +355,7 @@ export const info = async (
     const data = response.data;
     const statusEmoji =
       data.status === "active" ? ICONS.GREEN_CIRCLE : ICONS.RED_CIRCLE;
-    const expiryDate = data.expiresAt
-      ? new Date(data.expiresAt).toLocaleString()
-      : "Never";
+    const expiryDate = formatTimeForUser(data.expiresAt);
 
     logger.success("EnvLink info retrieved\n");
     logger.log(
@@ -393,7 +374,6 @@ export const info = async (
       `  ${ICONS.INBOX} ${colors.bold("Installs:")} ${colors.magenta(String(data.installCount || 0))}`,
     );
 
-    // Add reference if available
     if (data.reference) {
       logger.log(
         `  ${ICONS.STAR} ${colors.bold("Reference:")} ${colors.cyan(data.reference)}`,
@@ -401,7 +381,7 @@ export const info = async (
     }
 
     logger.log(
-      `  ${ICONS.CALENDAR} ${colors.bold("Created:")}  ${colors.gray(new Date(data.createdAt).toLocaleString())}`,
+      `  ${ICONS.CALENDAR} ${colors.bold("Created:")}  ${colors.gray(formatTimeForUser(data.createdAt))}`,
     );
     logger.log(
       `  ${ICONS.CLOCK} ${colors.bold("Expires:")}  ${colors.yellow(expiryDate)}`,
@@ -687,9 +667,7 @@ export const update = async (
       },
     );
 
-    const expiryDate = response.data.expiresAt
-      ? new Date(response.data.expiresAt).toLocaleString()
-      : "Never";
+    const expiryDate = formatTimeForUser(response.data.expiresAt);
 
     logger.success("EnvLink updated successfully!\n");
     logger.log(
