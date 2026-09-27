@@ -7,7 +7,7 @@ export const ICONS = {
 
   // Special
   PARTY: "\u2605",
-  STAR: "\u2B50",
+  STAR: "\u25B8",
   HEART_EYES: "\u2665",
   ROCKET: "\u2192",
 
