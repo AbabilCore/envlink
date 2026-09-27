@@ -61,6 +61,8 @@ envlink install <id> --select-files
 envlink info <id>
 ```
 
+**Note:** Password is required and you'll be prompted for it.
+
 ## Update Commands
 
 ```bash
@@ -104,7 +106,7 @@ envlink expire <id> --pass <password>
 # 1. Create an EnvLink (password required, will prompt)
 envlink create
 
-# 2. Check EnvLink status
+# 2. Check EnvLink status (password required, will prompt)
 envlink info el_abc123xyz456
 
 # 3. Install on another machine (password required, will prompt)
@@ -138,7 +140,7 @@ envlink expire el_abc123xyz456
 
 - **Default expiration:** 1 day if not specified
 - **EnvLink ID format:** `el_<16-char-alphanumeric>`
-- **Password protection:** Required for all EnvLinks (create, install, update, expire)
+- **Password protection:** Required for all EnvLinks (create, install, info, update, expire)
 - **Reference labels:** Optional labels for organizing EnvLinks (e.g., "prod", "staging")
 - **Expired links:** Cannot be installed or updated
 - **Never expire:** Use `--exp never` for permanent links

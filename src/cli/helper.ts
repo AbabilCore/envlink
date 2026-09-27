@@ -364,7 +364,7 @@ export const info = async (
     }
 
     logger.start(`Fetching EnvLink info...`);
-    const response = await apiClient.get<types.IGetEnvLinkResponse>(
+    const response = await apiClient.post<types.IGetEnvLinkResponse>(
       "/envlinks/get-info",
       { id, password },
     );
@@ -539,7 +539,7 @@ export const update = async (
       currentPassword = pwd;
     }
 
-    const infoResponse = await apiClient.get<types.IGetEnvLinkResponse>(
+    const infoResponse = await apiClient.post<types.IGetEnvLinkResponse>(
       "/envlinks/get-info",
       { id, password: currentPassword },
     );
