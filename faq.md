@@ -56,14 +56,14 @@ Use `envlink info <id>` to view details including status, file count, expiration
 <details>
 <summary>Can I update an existing EnvLink?</summary>
 
-Yes, use `envlink update <id>` with options like `--files` to update files, `--exp` to change expiration, or `--exp-pass` to modify the password. Protected links require `--current-pass` for authentication.
+Yes, use `envlink update <id>` with options like `--files` to update files, `--exp` to change expiration, `--ref` to modify the reference label, or `--pass` to change the password. Password is required for all update operations.
 
 </details>
 
 <details>
 <summary>How do I manually expire an EnvLink?</summary>
 
-Use `envlink expire <id>` to manually expire a link. If the link is password-protected, include `--exp-pass <password>` for validation.
+Use `envlink expire <id>` to manually expire a link. Password is required and you'll be prompted if not provided via `--pass`.
 
 </details>
 
@@ -107,16 +107,47 @@ Expired EnvLinks cannot be installed or updated. The status automatically change
 ## Security
 
 <details>
-<summary>Can I protect my EnvLink with a password?</summary>
+<summary>Is password protection required?</summary>
 
-Yes, use the `--exp-pass <password>` option when creating or updating an EnvLink. Password-protected links require authentication for updates and manual expiration.
+Yes, all EnvLinks require a password. This ensures your environment files are encrypted and secure. You'll be prompted for a password during create, install, update, and expire operations if not provided via the `--pass` flag.
+
+</details>
+
+<details>
+<summary>Can the server decrypt my data? 🔥 <i>(Most Asked)</i></summary>
+
+> **No.** The server only stores encrypted data and password hashes. Your password is used to derive the encryption key through PBKDF2, and only you have access to the plaintext password. The server can verify your password but **cannot decrypt your data without it**.
+
+</details>
+
+<details>
+<summary>Can I add a reference label to my EnvLink?</summary>
+
+Yes, use the `--ref` option to add a descriptive label (e.g., "production-api-keys", "staging-db"). This helps organize and identify EnvLinks, especially when managing multiple links.
 
 </details>
 
 <details>
 <summary>How is my data secured?</summary>
 
-All file content is encrypted using AES-256-GCM encryption before storage. The encryption uses a unique initialization vector (IV) for each EnvLink, and passwords are hashed using bcrypt.
+All file content is encrypted using AES-256-GCM encryption before storage. The encryption uses a unique initialization vector (IV) and salt for each EnvLink, and passwords are hashed using bcrypt.
+
+**Encryption Flow:**
+
+```mermaid
+graph LR
+    A[Password + Files] --> B[Generate Salt + IV]
+    B --> C[PBKDF2 Key Derivation]
+    C --> D[AES-256-GCM Encrypt]
+    D --> E[Store: Encrypted Data + Salt + IV + Hash]
+
+    F[Install: Password] --> G[Verify Hash]
+    G --> H[PBKDF2 with Salt]
+    H --> I[AES-256-GCM Decrypt]
+    I --> J[Original Files]
+```
+
+**Server never stores:** Plaintext password or encryption key
 
 </details>
 

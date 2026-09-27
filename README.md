@@ -57,7 +57,8 @@ That's it! Your environment files are now installed.
 
 ## Security
 
+- AES-256-GCM encryption
+- Password-required for all EnvLinks
 - Auto-expiration (configurable)
-- Optional password protection
 - No signup required
 - Anonymous sharing
