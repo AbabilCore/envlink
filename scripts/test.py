@@ -457,7 +457,7 @@ LAST_UPDATED_BY=automated_test_suite
         (r'Proceed', 'y')           # More flexible pattern
     ]
     
-    result = run_cli_command(f'update {stats.envlink_id} --files', prompts_responses)
+    result = run_cli_command(f'update {stats.envlink_id} --files --current-pass {CONFIG["password"]}', prompts_responses)
     
     if result['success'] and 'updated successfully' in result['output']:
         log_test_result('Update EnvLink files', 'PASS', 'Files updated with new content', result['duration'])
@@ -476,7 +476,7 @@ def test_expiration_update():
     
     new_expiration = '2d'
     
-    result = run_cli_command(f'update {stats.envlink_id} --exp {new_expiration}')
+    result = run_cli_command(f'update {stats.envlink_id} --exp {new_expiration} --current-pass {CONFIG["password"]}')
     
     if result['success'] and 'updated successfully' in result['output']:
         log_test_result('Update expiration', 'PASS', f'Extended to {new_expiration}', result['duration'])
