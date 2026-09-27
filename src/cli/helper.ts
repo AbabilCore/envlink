@@ -410,15 +410,19 @@ export const info = async (
       colors.cyan("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"),
     );
 
-    if (data.files && data.files.length > 0) {
-      logger.log(`\n${ICONS.BOX} ${colors.bold("Environment files:")}`);
-      data.files.forEach((file) => {
-        logger.log(`   ${ICONS.BULLET} ${colors.cyan(file.name)}`);
-      });
+    if (data.filesCount && data.filesCount > 0) {
+      logger.log(`\n${ICONS.BOX} ${colors.bold("File count:")}`);
+      logger.log(
+        `   ${ICONS.BULLET} ${colors.cyan(`${data.filesCount} file(s) available`)}`,
+      );
       logger.log("");
+    } else if (data.status === "expired") {
+      logger.log(
+        `\n${ICONS.WARNING} ${colors.red("This EnvLink has expired and cannot be used")}\n`,
+      );
     } else {
       logger.log(
-        `\n${ICONS.WARNING} ${colors.yellow("File details not available (link may be expired)")}\n`,
+        `\n${ICONS.WARNING} ${colors.yellow("No files found in this EnvLink")}\n`,
       );
     }
   } catch (error: unknown) {
