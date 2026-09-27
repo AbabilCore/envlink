@@ -48,9 +48,9 @@ export const update = (command: Command) => {
         "Update expiration (e.g., 30m, 24h, 5d, 6M, 1y, never)",
       )
       .option("--pass <password>", "New password")
-      .option(
+      .requiredOption(
         "--current-pass <password>",
-        "Current password (required for all updates)",
+        "Current password (required for authentication)",
       )
       .option("--ref <reference>", "Update reference label")
       .option("-f, --files", "Update files from current directory")

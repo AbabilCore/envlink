@@ -66,27 +66,27 @@ envlink info <id>
 ## Update Commands
 
 ```bash
-# Update files from current directory (password required)
-envlink update <id> -f
-envlink update <id> --files
+# Update files from current directory (current password required)
+envlink update <id> -f --current-pass <password>
+envlink update <id> --files --current-pass <password>
 
 # Update expiration to 30 days
-envlink update <id> --exp 30d
+envlink update <id> --exp 30d --current-pass <password>
 
-# Update password
-envlink update <id> --pass <new-password>
+# Update password (current password required for authentication)
+envlink update <id> --pass <new-password> --current-pass <password>
 
 # Update reference label
-envlink update <id> --ref "staging-keys"
+envlink update <id> --ref "staging-keys" --current-pass <password>
 
 # Update files and set to never expire
-envlink update <id> -f --exp never
+envlink update <id> -f --exp never --current-pass <password>
 
 # Combine multiple updates
-envlink update <id> --files --exp 7d --ref "temp-keys"
+envlink update <id> --files --exp 7d --ref "temp-keys" --current-pass <password>
 ```
 
-**Note:** Password is required for all update operations. You'll be prompted if not provided.
+**Note:** Current password (`--current-pass`) is required for authentication in all update operations.
 
 ## Expire Commands
 
@@ -119,8 +119,8 @@ envlink install el_abc123xyz456
 # 1. Create 7-day link with password and reference
 envlink create --exp 7d --pass mypass123 --ref "prod-db-keys"
 
-# 2. Update files later (password required)
-envlink update el_abc123xyz456 --files
+# 2. Update files later (current password required)
+envlink update el_abc123xyz456 --files --current-pass mypass123
 
 # 3. Manually expire when done (password required)
 envlink expire el_abc123xyz456
@@ -128,13 +128,14 @@ envlink expire el_abc123xyz456
 
 ## Common Options
 
-| Option               | Description                                                     |
-| -------------------- | --------------------------------------------------------------- |
-| `--exp <duration>`   | Expiration duration: `30m`, `24h`, `5d`, `6M`, `1y`, or `never` |
-| `--pass <password>`  | Password (required for all operations)                          |
-| `--ref <reference>`  | Reference label (e.g., "prod-api-keys", "staging-db")           |
-| `-f, --files`        | Update files flag                                               |
-| `-s, --select-files` | File selection mode for install                                 |
+| Option                      | Description                                                     |
+| --------------------------- | --------------------------------------------------------------- |
+| `--exp <duration>`          | Expiration duration: `30m`, `24h`, `5d`, `6M`, `1y`, or `never` |
+| `--pass <password>`         | Password (required for create/expire operations)                |
+| `--current-pass <password>` | Current password (required for update operations)               |
+| `--ref <reference>`         | Reference label (e.g., "prod-api-keys", "staging-db")           |
+| `-f, --files`               | Update files flag                                               |
+| `-s, --select-files`        | File selection mode for install                                 |
 
 ## Notes
 

@@ -493,10 +493,19 @@ export const expire = async (
       colors.red("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"),
     );
   } catch (error: unknown) {
-    logger.error(`Failed to expire EnvLink: ${getErrorMessage(error)}`, {
-      terminate: true,
-      code: 1,
-    });
+    const errorMessage = getErrorMessage(error);
+
+    if (errorMessage.includes("Invalid EnvLink ID or expired")) {
+      logger.error("EnvLink is already expired or does not exist", {
+        terminate: true,
+        code: 1,
+      });
+    } else {
+      logger.error(`Failed to expire EnvLink: ${errorMessage}`, {
+        terminate: true,
+        code: 1,
+      });
+    }
   }
 };
 
@@ -522,25 +531,27 @@ export const update = async (
     }
 
     logger.start(`Fetching EnvLink ${id}...`);
-
-    // First, get current password to fetch info
-    let currentPassword = options.pass;
+    let currentPassword = options.currentPass;
     if (!currentPassword) {
-      const { pwd } = await inquirer.prompt<{ pwd: string }>([
+      logger.error(
+        "Current password is required for updates.\nUse: --current-pass <password>",
         {
-          type: "password",
-          name: "pwd",
-          message: "Enter current password:",
-          mask: "*",
-          validate: (input: string) => {
-            if (!input || input.length === 0) {
-              return "Password is required";
-            }
-            return true;
-          },
+          terminate: true,
+          code: 1,
         },
-      ]);
-      currentPassword = pwd;
+      );
+      return;
+    }
+
+    if (
+      typeof currentPassword !== "string" ||
+      currentPassword.trim().length === 0
+    ) {
+      logger.error("Invalid password provided. Password cannot be empty.", {
+        terminate: true,
+        code: 1,
+      });
+      return;
     }
 
     const infoResponse = await apiClient.post<types.IGetEnvLinkResponse>(
