@@ -79,53 +79,59 @@ export const create = async (
       expiration = answer.expiration;
     }
 
-    let expirationPassword = options.expPass;
-    if (!expirationPassword) {
-      const { needsPassword } = await inquirer.prompt<{
-        needsPassword: boolean;
+    let password = options.pass;
+    if (!password) {
+      const { pwd, confirmPwd } = await inquirer.prompt<{
+        pwd: string;
+        confirmPwd: string;
       }>([
         {
-          type: "confirm",
-          name: "needsPassword",
-          message: "Set expiration password?",
-          default: false,
+          type: "password",
+          name: "pwd",
+          message: "Enter password (required for encryption):",
+          mask: "*",
+          validate: (input: string) => {
+            if (!input || input.length === 0) {
+              return "Password is required";
+            }
+            return true;
+          },
+        },
+        {
+          type: "password",
+          name: "confirmPwd",
+          message: "Confirm password:",
+          mask: "*",
         },
       ]);
 
-      if (needsPassword) {
-        const { password, confirmPassword } = await inquirer.prompt<{
-          password: string;
-          confirmPassword: string;
-        }>([
-          {
-            type: "password",
-            name: "password",
-            message: "Enter expiration password:",
-            mask: "*",
-          },
-          {
-            type: "password",
-            name: "confirmPassword",
-            message: "Confirm expiration password:",
-            mask: "*",
-          },
-        ]);
-
-        if (password !== confirmPassword) {
-          logger.error("Passwords do not match.", { terminate: true, code: 1 });
-          return;
-        }
-
-        expirationPassword = password;
+      if (pwd !== confirmPwd) {
+        logger.error("Passwords do not match.", { terminate: true, code: 1 });
+        return;
       }
+
+      password = pwd;
+    }
+
+    let reference = options.ref;
+    if (!reference) {
+      const answer = await inquirer.prompt<{ ref: string }>([
+        {
+          type: "input",
+          name: "ref",
+          message: "Reference label (optional, e.g., 'prod-api-keys'):",
+        },
+      ]);
+      reference = answer.ref || undefined;
     }
 
     logger.log("\nEnvironment files:");
     filesToUpload.forEach((file) => logger.log(`  • ${colors.cyan(file)}`));
     logger.log(`\n${colors.bold("Expiration:")} ${colors.yellow(expiration)}`);
-    logger.log(
-      `${colors.bold("Expiration password:")} ${expirationPassword ? colors.green("Enabled") : colors.gray("Disabled")}\n`,
-    );
+    if (reference) {
+      logger.log(`${colors.bold("Reference:")} ${colors.cyan(reference)}`);
+    }
+    logger.log("");
 
     const { confirm } = await inquirer.prompt<{ confirm: boolean }>([
       {
@@ -152,7 +158,8 @@ export const create = async (
       {
         files,
         expirationDuration: expiration,
-        expirationPassword,
+        password,
+        reference,
       },
     );
 
@@ -196,22 +203,33 @@ export const install = async (
       return;
     }
 
+    let password = options.pass;
+    if (!password) {
+      const { pwd } = await inquirer.prompt<{ pwd: string }>([
+        {
+          type: "password",
+          name: "pwd",
+          message: "Enter password:",
+          mask: "*",
+          validate: (input: string) => {
+            if (!input || input.length === 0) {
+              return "Password is required";
+            }
+            return true;
+          },
+        },
+      ]);
+      password = pwd;
+    }
+
     logger.start(`Fetching EnvLink ${id}...`);
 
-    const getResponse = await apiClient.post<types.IGetEnvLinkResponse>(
-      "/envlinks/get-info",
-      { id },
+    const response = await apiClient.post<types.IInstallEnvLinkResponse>(
+      "/envlinks/install",
+      { id, password },
     );
 
-    const { files, status } = getResponse.data;
-
-    if (status === "expired") {
-      logger.error("This EnvLink has expired", {
-        terminate: true,
-        code: 1,
-      });
-      return;
-    }
+    const { files } = response.data;
 
     if (!files || files.length === 0) {
       logger.error("No files found in this EnvLink", {
@@ -293,8 +311,6 @@ export const install = async (
       fs.writeFileSync(filePath, file.content, "utf-8");
     });
 
-    await apiClient.post("/envlinks/install", { id });
-
     logger.success("Installation complete!\n");
     logger.log(
       colors.green("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"),
@@ -318,17 +334,39 @@ export const install = async (
   }
 };
 
-export const info = async (id: string): Promise<void> => {
+export const info = async (
+  id: string,
+  options: types.ICommandOptions = {},
+): Promise<void> => {
   try {
     if (!id) {
       logger.error("EnvLink ID is required", { terminate: true, code: 1 });
       return;
     }
 
+    let password = options.pass;
+    if (!password) {
+      const { pwd } = await inquirer.prompt<{ pwd: string }>([
+        {
+          type: "password",
+          name: "pwd",
+          message: "Enter password:",
+          mask: "*",
+          validate: (input: string) => {
+            if (!input || input.length === 0) {
+              return "Password is required";
+            }
+            return true;
+          },
+        },
+      ]);
+      password = pwd;
+    }
+
     logger.start(`Fetching EnvLink info...`);
-    const response = await apiClient.post<types.IGetEnvLinkResponse>(
+    const response = await apiClient.get<types.IGetEnvLinkResponse>(
       "/envlinks/get-info",
-      { id },
+      { id, password },
     );
 
     const data = response.data;
@@ -349,11 +387,19 @@ export const info = async (id: string): Promise<void> => {
       `  ${statusEmoji} ${colors.bold("Status:")}   ${data.status === "active" ? colors.green(data.status.toUpperCase()) : colors.red(data.status.toUpperCase())}`,
     );
     logger.log(
-      `  ${ICONS.FILE} ${colors.bold("Files:")}    ${colors.white(String(data.filesCount))}`,
+      `  ${ICONS.FILE} ${colors.bold("Files:")}    ${colors.white(String(data.filesCount || 0))}`,
     );
     logger.log(
       `  ${ICONS.INBOX} ${colors.bold("Installs:")} ${colors.magenta(String(data.installCount || 0))}`,
     );
+
+    // Add reference if available
+    if (data.reference) {
+      logger.log(
+        `  ${ICONS.STAR} ${colors.bold("Reference:")} ${colors.cyan(data.reference)}`,
+      );
+    }
+
     logger.log(
       `  ${ICONS.CALENDAR} ${colors.bold("Created:")}  ${colors.gray(new Date(data.createdAt).toLocaleString())}`,
     );
@@ -393,14 +439,20 @@ export const expire = async (
       return;
     }
 
-    let password = options.expPass;
-    if (!password && options.expPass !== undefined) {
+    let password = options.pass;
+    if (!password) {
       const { pwd } = await inquirer.prompt<{ pwd: string }>([
         {
           type: "password",
           name: "pwd",
-          message: "Enter expiration password:",
+          message: "Enter password:",
           mask: "*",
+          validate: (input: string) => {
+            if (!input || input.length === 0) {
+              return "Password is required";
+            }
+            return true;
+          },
         },
       ]);
       password = pwd;
@@ -421,7 +473,7 @@ export const expire = async (
     }
 
     logger.start("Expiring EnvLink...");
-    await apiClient.post<types.IExpireEnvLinkResponse>("/envlinks/expire", {
+    await apiClient.delete<types.IExpireEnvLinkResponse>("/envlinks/expire", {
       id,
       password,
     });
@@ -455,11 +507,11 @@ export const update = async (
     }
 
     const hasUpdates =
-      options.files || options.exp || options.expPass !== undefined;
+      options.files || options.exp || options.pass !== undefined;
 
     if (!hasUpdates) {
       logger.error(
-        "No update options provided. Use --files, --exp, or --exp-pass",
+        "No update options provided. Use --files, --exp, or --pass",
         { terminate: true, code: 1 },
       );
       return;
@@ -467,9 +519,29 @@ export const update = async (
 
     logger.start(`Fetching EnvLink ${id}...`);
 
-    const infoResponse = await apiClient.post<types.IGetEnvLinkResponse>(
+    // First, get current password to fetch info
+    let currentPassword = options.pass;
+    if (!currentPassword) {
+      const { pwd } = await inquirer.prompt<{ pwd: string }>([
+        {
+          type: "password",
+          name: "pwd",
+          message: "Enter current password:",
+          mask: "*",
+          validate: (input: string) => {
+            if (!input || input.length === 0) {
+              return "Password is required";
+            }
+            return true;
+          },
+        },
+      ]);
+      currentPassword = pwd;
+    }
+
+    const infoResponse = await apiClient.get<types.IGetEnvLinkResponse>(
       "/envlinks/get-info",
-      { id },
+      { id, password: currentPassword },
     );
 
     if (infoResponse.data.status === "expired") {
@@ -485,39 +557,12 @@ export const update = async (
     const updateData: {
       files?: types.IEnvFile[];
       expirationDuration?: string;
-      expirationPassword?: string;
-      currentPassword?: string;
-    } = {};
-
-    let currentPassword = options.currentPass;
-    if (!currentPassword) {
-      const { needsPassword } = await inquirer.prompt<{
-        needsPassword: boolean;
-      }>([
-        {
-          type: "confirm",
-          name: "needsPassword",
-          message: "Is this EnvLink password protected?",
-          default: false,
-        },
-      ]);
-
-      if (needsPassword) {
-        const { pwd } = await inquirer.prompt<{ pwd: string }>([
-          {
-            type: "password",
-            name: "pwd",
-            message: "Enter current password:",
-            mask: "*",
-          },
-        ]);
-        currentPassword = pwd;
-      }
-    }
-
-    if (currentPassword) {
-      updateData.currentPassword = currentPassword;
-    }
+      password?: string;
+      currentPassword: string;
+      reference?: string;
+    } = {
+      currentPassword,
+    };
 
     if (options.files) {
       const cwd = process.cwd();
@@ -576,11 +621,11 @@ export const update = async (
       );
     }
 
-    if (options.expPass !== undefined) {
-      if (options.expPass) {
-        updateData.expirationPassword = options.expPass;
+    if (options.pass !== undefined) {
+      if (options.pass) {
+        updateData.password = options.pass;
         logger.log(
-          `\n${colors.bold("Expiration password:")} ${colors.green("Updated")}`,
+          `\n${colors.bold("New password:")} ${colors.green("Updated")}`,
         );
       } else {
         const { confirmRemove } = await inquirer.prompt<{
@@ -589,16 +634,14 @@ export const update = async (
           {
             type: "confirm",
             name: "confirmRemove",
-            message: "Remove expiration password protection?",
+            message: "Remove password protection?",
             default: false,
           },
         ]);
 
         if (confirmRemove) {
-          updateData.expirationPassword = "";
-          logger.log(
-            `\n${colors.bold("Expiration password:")} ${colors.red("Removed")}`,
-          );
+          updateData.password = "";
+          logger.log(`\n${colors.bold("Password:")} ${colors.red("Removed")}`);
         }
       }
     }
@@ -621,7 +664,7 @@ export const update = async (
 
     logger.start("Updating EnvLink...");
 
-    const response = await apiClient.post<types.IUpdateEnvLinkResponse>(
+    const response = await apiClient.put<types.IUpdateEnvLinkResponse>(
       "/envlinks/update",
       {
         id,

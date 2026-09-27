@@ -8,14 +8,23 @@ class ApiClient {
     this.baseURL = API_URL;
   }
 
-  async post<T>(endpoint: string, data: unknown): Promise<T> {
-    const response = await fetch(`${this.baseURL}${endpoint}`, {
-      method: "POST",
+  private async request<T>(
+    endpoint: string,
+    method: string,
+    data?: unknown,
+  ): Promise<T> {
+    const config: RequestInit = {
+      method,
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
-    });
+    };
+
+    if (data) {
+      config.body = JSON.stringify(data);
+    }
+
+    const response = await fetch(`${this.baseURL}${endpoint}`, config);
 
     if (!response.ok) {
       const error: ApiErrorResponse = await response
@@ -27,6 +36,22 @@ class ApiClient {
     }
 
     return response.json() as Promise<T>;
+  }
+
+  async post<T>(endpoint: string, data: unknown): Promise<T> {
+    return this.request<T>(endpoint, "POST", data);
+  }
+
+  async get<T>(endpoint: string, data?: unknown): Promise<T> {
+    return this.request<T>(endpoint, "GET", data);
+  }
+
+  async put<T>(endpoint: string, data: unknown): Promise<T> {
+    return this.request<T>(endpoint, "PUT", data);
+  }
+
+  async delete<T>(endpoint: string, data?: unknown): Promise<T> {
+    return this.request<T>(endpoint, "DELETE", data);
   }
 }
 

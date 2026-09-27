@@ -6,7 +6,8 @@ export interface IEnvFile {
 export interface ICreateEnvLinkRequest {
   files: IEnvFile[];
   expirationDuration?: string;
-  expirationPassword?: string;
+  password: string;
+  reference?: string;
 }
 
 export interface ICreateEnvLinkResponse {
@@ -16,6 +17,7 @@ export interface ICreateEnvLinkResponse {
     id: string;
     expiresAt: string | null;
     filesCount: number;
+    reference: string | null;
   };
 }
 
@@ -30,6 +32,7 @@ export interface IGetEnvLinkResponse {
     expiresAt: string | null;
     expiredAt?: string | null;
     installCount: number;
+    reference: string | null;
     createdAt: string;
   };
 }
@@ -72,8 +75,9 @@ export interface IExpireEnvLinkResponse {
 export interface IUpdateEnvLinkRequest {
   files?: IEnvFile[];
   expirationDuration?: string;
-  expirationPassword?: string;
-  currentPassword?: string;
+  password?: string;
+  currentPassword: string;
+  reference?: string;
 }
 
 export interface IUpdateEnvLinkResponse {
@@ -88,7 +92,8 @@ export interface IUpdateEnvLinkResponse {
 
 export interface ICommandOptions {
   exp?: string;
-  expPass?: string;
+  pass?: string;
+  ref?: string;
   selectFiles?: boolean;
   currentPassword?: string;
   currentPass?: string;
