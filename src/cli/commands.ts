@@ -1,10 +1,10 @@
 import { Command } from "commander";
-import * as helper from "./helper";
 import type { ICommandOptions } from "@/types";
-import handleCmdErr from "@/utils/command-error-handler";
+import * as utils from "@/utils";
+import * as helper from "./helper";
 
 export const create = (command: Command): void => {
-  handleCmdErr(
+  utils.handleCmdErr(
     command
       .command("create")
       .description("Create a new EnvLink from local .env files")
@@ -25,7 +25,7 @@ export const create = (command: Command): void => {
 };
 
 export const install = (command: Command) => {
-  handleCmdErr(
+  utils.handleCmdErr(
     command
       .command("install [id]")
       .description("Install environment files from an EnvLink")
@@ -39,7 +39,7 @@ export const install = (command: Command) => {
 };
 
 export const update = (command: Command) => {
-  handleCmdErr(
+  utils.handleCmdErr(
     command
       .command("update [id]")
       .description("Update an existing EnvLink")
@@ -62,19 +62,20 @@ export const update = (command: Command) => {
 };
 
 export const info = (command: Command) => {
-  handleCmdErr(
+  utils.handleCmdErr(
     command
       .command("info [id]")
       .description("Show EnvLink information (files, expiry, install count)")
-      .action((id: string) => {
-        helper.info(id);
+      .option("--pass <password>", "Password for decryption (required)")
+      .action((id: string, options: ICommandOptions) => {
+        helper.info(id, options);
       }),
     "info",
   );
 };
 
 export const expire = (command: Command) => {
-  handleCmdErr(
+  utils.handleCmdErr(
     command
       .command("expire [id]")
       .description("Manually expire an EnvLink")
