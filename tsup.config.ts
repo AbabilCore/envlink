@@ -14,7 +14,7 @@ export default defineConfig([
     sourcemap: true,
     platform: "node",
     target: "node18",
-    noExternal: [/.*/],
+    external: ["bcrypt"],
     esbuildOptions(options) {
       options.legalComments = "none";
       options.platform = "node";
