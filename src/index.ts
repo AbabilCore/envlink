@@ -1,13 +1,12 @@
 import { Command } from "commander";
-import * as commands from "@/cli/commands";
 import pkg from "@/constants/pkg";
-import logger from "@/utils/logger";
 import { ICONS } from "@/constants/icons";
-import handleCmdErr from "@/utils/command-error-handler";
+import * as commands from "@/cli/commands";
+import * as utils from "@/utils";
 
 const command = new Command();
 
-handleCmdErr(command);
+utils.handleCmdErr(command);
 
 const args = process.argv;
 if (
@@ -32,7 +31,7 @@ commands.info(command);
 commands.expire(command);
 
 command.on("command:*", ([cmd]: [string]) => {
-  logger.error(
+  utils.logger.error(
     `Invalid command: ${cmd}\n${ICONS.INFO} Try envlink --help for a list of available commands.`,
     {
       terminate: true,
@@ -43,8 +42,8 @@ command.on("command:*", ([cmd]: [string]) => {
 
 if (!process.argv.slice(2).length) {
   command.outputHelp();
-  logger.log("");
-  logger.error(
+  utils.logger.log("");
+  utils.logger.error(
     `No command provided! Try envlink --help to see available commands.`,
     {
       terminate: true,

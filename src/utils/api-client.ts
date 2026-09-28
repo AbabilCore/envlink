@@ -1,5 +1,6 @@
 import API_URL from "@/config";
 import { ApiErrorResponse } from "@/types";
+import { generateZKProof } from "@/lib/auth";
 
 class ApiClient {
   private baseURL: string;
@@ -38,20 +39,37 @@ class ApiClient {
     return response.json() as Promise<T>;
   }
 
-  async post<T>(endpoint: string, data: unknown): Promise<T> {
-    return this.request<T>(endpoint, "POST", data);
-  }
-
   async get<T>(endpoint: string): Promise<T> {
     return this.request<T>(endpoint, "GET");
   }
 
-  async put<T>(endpoint: string, data: unknown): Promise<T> {
+  async post<T>(endpoint: string, data?: unknown): Promise<T> {
+    return this.request<T>(endpoint, "POST", data);
+  }
+
+  async put<T>(endpoint: string, data?: unknown): Promise<T> {
     return this.request<T>(endpoint, "PUT", data);
   }
 
   async delete<T>(endpoint: string, data?: unknown): Promise<T> {
     return this.request<T>(endpoint, "DELETE", data);
+  }
+
+  async authenticated<T>(
+    method: string,
+    endpoint: string,
+    envlinkId: string,
+    passwordHash: string,
+    additionalData?: Record<string, unknown>,
+  ): Promise<T> {
+    const passwordProof = await generateZKProof(passwordHash, envlinkId);
+
+    const requestData = {
+      passwordProof,
+      ...additionalData,
+    };
+
+    return this.request<T>(endpoint, method, requestData);
   }
 }
 

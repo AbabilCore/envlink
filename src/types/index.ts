@@ -4,9 +4,9 @@ export interface IEnvFile {
 }
 
 export interface ICreateEnvLinkRequest {
-  files: IEnvFile[];
+  encryptedPayload: string;
+  passwordHash: string;
   expirationDuration?: string;
-  password: string;
   reference?: string;
 }
 
@@ -17,7 +17,9 @@ export interface ICreateEnvLinkResponse {
     id: string;
     expiresAt: string | null;
     filesCount: number;
+    status: string;
     reference: string | null;
+    createdAt: string;
   };
 }
 
@@ -54,7 +56,7 @@ export interface IInstallEnvLinkResponse {
   success: boolean;
   message: string;
   data: {
-    files: IEnvFile[];
+    encryptedPayload: string;
   };
 }
 
@@ -62,7 +64,7 @@ export interface IInstallResponse {
   success: boolean;
   message: string;
   data: {
-    files: IEnvFile[];
+    encryptedPayload: string;
   };
 }
 
@@ -73,9 +75,9 @@ export interface IExpireEnvLinkResponse {
 }
 
 export interface IUpdateEnvLinkRequest {
-  files?: IEnvFile[];
+  encryptedPayload?: string;
   expirationDuration?: string;
-  password?: string;
+  passwordHash?: string;
   currentPassword: string;
   reference?: string;
 }
