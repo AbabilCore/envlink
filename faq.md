@@ -116,7 +116,7 @@ Yes, all EnvLinks require a password. This ensures your environment files are en
 <details>
 <summary>Can the server decrypt my data? 🔥 <i>(Most Asked)</i></summary>
 
-> **No.** The server only stores encrypted data and password hashes. Your password is used to derive the encryption key through PBKDF2, and only you have access to the plaintext password. The server can verify your password but **cannot decrypt your data without it**.
+> **No.** The server only stores encrypted data and password hashes. Your password is used to derive the encryption key through PBKDF2, and only you have access to the plaintext password. The server can verify you know the correct password **without ever seeing or storing the password itself**.
 
 </details>
 
@@ -130,24 +130,28 @@ Yes, use the `--ref` option to add a descriptive label (e.g., "production-api-ke
 <details>
 <summary>How is my data secured?</summary>
 
-All file content is encrypted using AES-256-GCM encryption before storage. The encryption uses a unique initialization vector (IV) and salt for each EnvLink, and passwords are hashed using bcrypt.
+All file content is encrypted using AES-256-GCM encryption before storage. The encryption uses a unique initialization vector (IV) and salt for each EnvLink. The authentication system ensures the server can verify you know the password without ever seeing it.
 
-**Encryption Flow:**
+**Security Flow:**
 
 ```mermaid
 graph LR
-    A[Password + Files] --> B[Generate Salt + IV]
-    B --> C[PBKDF2 Key Derivation]
-    C --> D[AES-256-GCM Encrypt]
-    D --> E[Store: Encrypted Data + Salt + IV + Hash]
+    A[Password + Files] --> B[SHA256 Hash Password]
+    B --> C[Generate Salt + IV]
+    C --> D[PBKDF2 Key Derivation]
+    D --> E[AES-256-GCM Encrypt]
+    E --> F[Secure Authentication]
+    F --> G[Store: Encrypted Data + Salt + IV + Hash]
 
-    F[Install: Password] --> G[Verify Hash]
-    G --> H[PBKDF2 with Salt]
-    H --> I[AES-256-GCM Decrypt]
-    I --> J[Original Files]
+    H[Install: Password] --> I[Generate Proof]
+    I --> J[Verify Server-side]
+    J --> K[PBKDF2 with Salt]
+    K --> L[AES-256-GCM Decrypt]
+    L --> M[Original Files]
 ```
 
-**Server never stores:** Plaintext password or encryption key
+**Server never stores:** Plaintext password, encryption key, or authentication tokens
+**Authentication:** Secure proof-based system using PBKDF2 (100,000 iterations)
 
 </details>
 
