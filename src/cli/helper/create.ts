@@ -7,6 +7,13 @@ import { ICONS } from "@/constants/icons";
 import * as types from "@/types";
 import * as utils from "@/utils";
 
+interface ICreateEnvLinkPayload extends Record<string, unknown> {
+  encryptedPayload: string;
+  passwordHash: string;
+  expirationDuration: string;
+  reference?: string;
+}
+
 export const create = async (
   options: types.ICommandOptions = {},
 ): Promise<void> => {
@@ -45,11 +52,13 @@ export const create = async (
     ]);
 
     let filesToUpload = selectedFiles;
+
     if (selectedFiles.includes("__SELECT_ALL__")) {
       filesToUpload = envFiles;
     }
 
     let expiration = options.exp;
+
     if (!expiration) {
       const answer = await inquirer.prompt<{ expiration: string }>([
         {
@@ -63,6 +72,7 @@ export const create = async (
     }
 
     let password = options.pass;
+
     if (!password) {
       const { pwd, confirmPwd } = await inquirer.prompt<{
         pwd: string;
@@ -100,6 +110,7 @@ export const create = async (
     }
 
     let reference = options.ref;
+
     if (!reference) {
       const answer = await inquirer.prompt<{ ref: string }>([
         {
@@ -148,21 +159,15 @@ export const create = async (
     const encryptedPayload = JSON.stringify(
       await encrypt(JSON.stringify(files), password),
     );
+
     const passwordHash = hashPasswordDeterministic(password);
 
-    // Build request payload, only including defined fields
-    const requestPayload: {
-      encryptedPayload: string;
-      passwordHash: string;
-      expirationDuration: string;
-      reference?: string;
-    } = {
+    const requestPayload: ICreateEnvLinkPayload = {
       encryptedPayload,
       passwordHash,
       expirationDuration: expiration,
     };
 
-    // Only include reference if it's defined and not empty
     if (reference && reference.trim() !== "") {
       requestPayload.reference = reference;
     }
@@ -197,12 +202,9 @@ export const create = async (
       colors.cyan(`   npx envlink install ${response.data.id}\n`),
     );
   } catch (error: unknown) {
-    utils.logger.error(
-      `Failed to create EnvLink: ${utils.getErrorMessage(error)}`,
-      {
-        terminate: true,
-        code: 1,
-      },
-    );
+    utils.logger.error(utils.getErrorMessage(error), {
+      terminate: true,
+      code: 1,
+    });
   }
 };

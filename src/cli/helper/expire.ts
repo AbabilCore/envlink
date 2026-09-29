@@ -4,6 +4,10 @@ import { ICONS } from "@/constants/icons";
 import * as types from "@/types";
 import * as utils from "@/utils";
 
+interface IExpireEnvLinkPayload extends Record<string, unknown> {
+  password: string;
+}
+
 export const expire = async (
   id: string,
   options: types.ICommandOptions = {},
@@ -18,6 +22,7 @@ export const expire = async (
     }
 
     let password = options.pass;
+
     if (!password) {
       const { pwd } = await inquirer.prompt<{ pwd: string }>([
         {
@@ -51,11 +56,10 @@ export const expire = async (
     }
 
     utils.logger.start("Expiring EnvLink...");
+    const payload: IExpireEnvLinkPayload = { password };
     await utils.apiClient.delete<types.IExpireEnvLinkResponse>(
       `/envlinks/${id}`,
-      {
-        password,
-      },
+      payload,
     );
 
     utils.logger.success("EnvLink expired successfully!\n");
@@ -69,18 +73,9 @@ export const expire = async (
       colors.red("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"),
     );
   } catch (error: unknown) {
-    const errorMessage = utils.getErrorMessage(error);
-
-    if (errorMessage.includes("Invalid EnvLink ID or expired")) {
-      utils.logger.error("EnvLink is already expired or does not exist", {
-        terminate: true,
-        code: 1,
-      });
-    } else {
-      utils.logger.error(`Failed to expire EnvLink: ${errorMessage}`, {
-        terminate: true,
-        code: 1,
-      });
-    }
+    utils.logger.error(utils.getErrorMessage(error), {
+      terminate: true,
+      code: 1,
+    });
   }
 };

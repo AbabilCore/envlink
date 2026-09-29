@@ -19,6 +19,7 @@ export const info = async (
     }
 
     let password = options.pass;
+
     if (!password) {
       const { pwd } = await inquirer.prompt<{ pwd: string }>([
         {
@@ -101,12 +102,9 @@ export const info = async (
       );
     }
   } catch (error: unknown) {
-    utils.logger.error(
-      `Failed to fetch EnvLink info: ${utils.getErrorMessage(error)}`,
-      {
-        terminate: true,
-        code: 1,
-      },
-    );
+    utils.logger.error(utils.getErrorMessage(error), {
+      terminate: true,
+      code: 1,
+    });
   }
 };

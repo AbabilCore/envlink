@@ -162,12 +162,9 @@ export const install = async (
     });
     utils.logger.log("");
   } catch (error: unknown) {
-    utils.logger.error(
-      `Failed to install EnvLink: ${utils.getErrorMessage(error)}`,
-      {
-        terminate: true,
-        code: 1,
-      },
-    );
+    utils.logger.error(utils.getErrorMessage(error), {
+      terminate: true,
+      code: 1,
+    });
   }
 };

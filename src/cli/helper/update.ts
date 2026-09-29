@@ -1,9 +1,18 @@
 import inquirer from "inquirer";
 import path from "path";
 import colors from "colors";
+import { hashPasswordDeterministic } from "@/lib/auth";
+import { encrypt } from "@/lib/crypto";
 import { ICONS } from "@/constants/icons";
 import * as types from "@/types";
 import * as utils from "@/utils";
+
+interface IUpdateEnvLinkPayload extends Record<string, unknown> {
+  encryptedPayload?: string;
+  expirationDuration?: string;
+  passwordHash?: string;
+  reference?: string;
+}
 
 export const update = async (
   id: string,
@@ -56,10 +65,14 @@ export const update = async (
       return;
     }
 
-    const infoResponse = await utils.apiClient.post<types.IGetEnvLinkResponse>(
-      `/envlinks/${id}/info`,
-      { password: currentPassword },
-    );
+    const passwordHash = hashPasswordDeterministic(currentPassword);
+    const infoResponse =
+      await utils.apiClient.authenticated<types.IGetEnvLinkResponse>(
+        "POST",
+        `/envlinks/${id}/info`,
+        id,
+        passwordHash,
+      );
 
     if (infoResponse.data.status === "expired") {
       utils.logger.error("Cannot update expired EnvLink", {
@@ -71,15 +84,7 @@ export const update = async (
 
     utils.logger.success("EnvLink found\n");
 
-    const updateData: {
-      files?: types.IEnvFile[];
-      expirationDuration?: string;
-      password?: string;
-      currentPassword: string;
-      reference?: string;
-    } = {
-      currentPassword,
-    };
+    const updateData: IUpdateEnvLinkPayload = {};
 
     if (options.files) {
       const cwd = process.cwd();
@@ -120,10 +125,16 @@ export const update = async (
         filesToUpdate = envFiles;
       }
 
-      updateData.files = filesToUpdate.map((filename) => ({
+      const files: types.IEnvFile[] = filesToUpdate.map((filename) => ({
         name: filename,
         content: utils.readFileContent(path.join(cwd, filename)),
       }));
+
+      const encryptionPassword = options.pass || currentPassword;
+
+      updateData.encryptedPayload = JSON.stringify(
+        await encrypt(JSON.stringify(files), encryptionPassword),
+      );
 
       utils.logger.log("\nFiles to update:");
       filesToUpdate.forEach((file) =>
@@ -140,7 +151,7 @@ export const update = async (
 
     if (options.pass !== undefined) {
       if (options.pass) {
-        updateData.password = options.pass;
+        updateData.passwordHash = hashPasswordDeterministic(options.pass);
         utils.logger.log(
           `\n${colors.bold("New password:")} ${colors.green("Updated")}`,
         );
@@ -157,12 +168,19 @@ export const update = async (
         ]);
 
         if (confirmRemove) {
-          updateData.password = "";
+          updateData.passwordHash = "";
           utils.logger.log(
             `\n${colors.bold("Password:")} ${colors.red("Removed")}`,
           );
         }
       }
+    }
+
+    if (options.ref) {
+      updateData.reference = options.ref;
+      utils.logger.log(
+        `\n${colors.bold("Reference:")} ${colors.cyan(options.ref)}`,
+      );
     }
 
     utils.logger.log("");
@@ -183,10 +201,14 @@ export const update = async (
 
     utils.logger.start("Updating EnvLink...");
 
-    const response = await utils.apiClient.put<types.IUpdateEnvLinkResponse>(
-      `/envlinks/${id}`,
-      updateData,
-    );
+    const response =
+      await utils.apiClient.authenticated<types.IUpdateEnvLinkResponse>(
+        "PUT",
+        `/envlinks/${id}`,
+        id,
+        passwordHash,
+        updateData,
+      );
 
     const expiryDate = utils.formatTimeForUser(response.data.expiresAt);
 
@@ -209,12 +231,9 @@ export const update = async (
       colors.cyan("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"),
     );
   } catch (error: unknown) {
-    utils.logger.error(
-      `Failed to update EnvLink: ${utils.getErrorMessage(error)}`,
-      {
-        terminate: true,
-        code: 1,
-      },
-    );
+    utils.logger.error(utils.getErrorMessage(error), {
+      terminate: true,
+      code: 1,
+    });
   }
 };
