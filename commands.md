@@ -35,33 +35,44 @@ envlink create --ref "production-api-keys"
 
 # Create with all options
 envlink create --exp 1y --pass <password> --ref "prod-env"
+
+# Create optional-password EnvLink (no password required, 1h fixed expiration)
+envlink create --optional-pass
 ```
 
-**Expiration units:** `m` (minutes), `h` (hours), `d` (days), `M` (months), `y` (years), `never`
+**Expiration units:** `m` (minutes), `h` (hours), `d` (days), `M` (months), `y` (years)
 
-**Password:** Required for all EnvLinks. If not provided via `--pass`, you'll be prompted.
+**Password:** Required for regular EnvLinks. If not provided via `--pass`, you'll be prompted.
+
+**Optional-password:** Creates EnvLinks without password authentication using `--optional-pass` flag.
 
 ## Install Commands
 
 ```bash
-# Install all files from EnvLink (password required, will prompt)
+# Install all files from EnvLink (password required for regular EnvLinks)
 envlink install <id>
 
 # Install with file selection prompt
 envlink install <id> -s
 envlink install <id> --select-files
+
+# Install from optional-password EnvLink (no password required)
+envlink install <extended_id>
 ```
 
-**Note:** Password is required for installation. You'll be prompted if not provided.
+**Note:** Password is required for regular EnvLinks. Optional-password EnvLinks use extended ID format and don't require passwords.
 
 ## Info Commands
 
 ```bash
 # Show EnvLink details (status, files, expiry, install count)
 envlink info <id>
+
+# Show optional-password EnvLink details (no password required)
+envlink info <extended_id>
 ```
 
-**Note:** Password is required and you'll be prompted for it.
+**Note:** Password is required for regular EnvLinks. Optional-password EnvLinks use extended ID format and don't require passwords.
 
 ## Update Commands
 
@@ -79,24 +90,26 @@ envlink update <id> --pass <new-password> --current-pass <password>
 # Update reference label
 envlink update <id> --ref "staging-keys" --current-pass <password>
 
-# Update files and set to never expire
-envlink update <id> -f --exp never --current-pass <password>
-
 # Combine multiple updates
 envlink update <id> --files --exp 7d --ref "temp-keys" --current-pass <password>
 ```
 
-**Note:** Current password (`--current-pass`) is required for authentication in all update operations.
+**Note:** Update operations are only supported for regular password-protected EnvLinks. Optional-password EnvLinks cannot be updated for security reasons.
 
 ## Expire Commands
 
 ```bash
-# Manually expire an EnvLink (password required, will prompt)
+# Manually expire a regular EnvLink (password required, will prompt)
 envlink expire <id>
 
 # Expire with password (non-interactive)
 envlink expire <id> --pass <password>
+
+# Expire optional-password EnvLink (no password required)
+envlink expire <extended_id>
 ```
+
+**Note:** Password is required for regular EnvLinks. Optional-password EnvLinks can be expired without passwords.
 
 ## Examples
 
@@ -111,6 +124,22 @@ envlink info el_abc123xyz456
 
 # 3. Install on another machine (password required, will prompt)
 envlink install el_abc123xyz456
+```
+
+### Optional-Password Workflow
+
+```bash
+# 1. Create optional-password EnvLink (no password required)
+envlink create --optional-pass
+
+# 2. Check status using extended ID (no password required)
+envlink info el_abc123xyz456_accesskey789
+
+# 3. Install on another machine (no password required)
+envlink install el_abc123xyz456_accesskey789
+
+# 4. Expire when done (no password required)
+envlink expire el_abc123xyz456_accesskey789
 ```
 
 ### Advanced Workflow
@@ -130,19 +159,26 @@ envlink expire el_abc123xyz456
 
 | Option                      | Description                                                     |
 | --------------------------- | --------------------------------------------------------------- |
-| `--exp <duration>`          | Expiration duration: `30m`, `24h`, `5d`, `6M`, `1y`, or `never` |
+| `--exp <duration>`          | Expiration duration: `30m`, `24h`, `5d`, `6M`, `1y`           |
 | `--pass <password>`         | Password (required for create/expire operations)                |
 | `--current-pass <password>` | Current password (required for update operations)               |
 | `--ref <reference>`         | Reference label (e.g., "prod-api-keys", "staging-db")           |
+| `--optional-pass`           | Create optional-password EnvLink (no password required)         |
 | `-f, --files`               | Update files flag                                               |
 | `-s, --select-files`        | File selection mode for install                                 |
 
 ## Notes
 
-- **Default expiration:** 1 day if not specified
-- **EnvLink ID format:** `el_<16-char-alphanumeric>`
-- **Password protection:** Required for all EnvLinks (create, install, info, update, expire)
-- **Reference labels:** Optional labels for organizing EnvLinks (e.g., "prod", "staging")
+- **Default expiration:** 1 day for regular EnvLinks, 1 hour (fixed) for optional-password EnvLinks
+- **EnvLink ID formats:** 
+  - Regular: `el_<16-char-alphanumeric>`
+  - Optional-password: `el_<16-char-alphanumeric>_<access-key>`
+- **Password protection:** Required for regular EnvLinks (create, install, info, update, expire)
+- **Optional-password EnvLinks:** No password required, use access key authentication via extended ID
+- **Reference labels:** Optional labels for organizing regular EnvLinks (not supported for optional-password)
 - **Expired links:** Cannot be installed or updated
-- **Never expire:** Use `--exp never` for permanent links
 - **Time units:** `m` (minutes), `h` (hours), `d` (days), `M` (months), `y` (years)
+- **Operation support:**
+  - Regular EnvLinks: create, info, install, update, expire
+  - Optional-password EnvLinks: create, info, install, expire (update not supported for security)
+- **Date format:** All dates displayed in DD/MM/YYYY H:M:S format
