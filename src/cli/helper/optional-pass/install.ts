@@ -46,6 +46,7 @@ export const install = async (
 
     const response = await utils.apiClient.post<types.IInstallEnvLinkResponse>(
       `/envlinks/${id}/install`,
+      {},
     );
 
     const { encryptedData } = response.data;
