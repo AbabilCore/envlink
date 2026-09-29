@@ -28,4 +28,5 @@ export const ICONS = {
   SHIELD: "\u26E9",
   DATABASE: "\u25A3",
   SETTINGS: "\u2699",
+  TAG: "\u2690",
 } as const;
