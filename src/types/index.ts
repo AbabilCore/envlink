@@ -4,8 +4,9 @@ export interface IEnvFile {
 }
 
 export interface ICreateEnvLinkRequest {
-  encryptedPayload: string;
-  passwordHash: string;
+  encryptedData: string;
+  passwordHash?: string;
+  accessKey?: string;
   expirationDuration?: string;
   reference?: string;
 }
@@ -15,11 +16,12 @@ export interface ICreateEnvLinkResponse {
   message: string;
   data: {
     id: string;
-    expiresAt: string | null;
+    expiresAt: string;
     filesCount: number;
-    status: string;
-    reference: string | null;
+    reference?: string;
     createdAt: string;
+    accessKey?: string;
+    baseId?: string;
   };
 }
 
@@ -44,10 +46,8 @@ export interface IEnvLinkInfoResponse {
   message: string;
   data: {
     id: string;
-    status: "active" | "expired";
     filesCount: number;
-    fileNames: string[];
-    expiresAt: string | null;
+    expiresAt: string;
     createdAt: string;
   };
 }
@@ -56,7 +56,7 @@ export interface IInstallEnvLinkResponse {
   success: boolean;
   message: string;
   data: {
-    encryptedPayload: string;
+    encryptedData: string;
   };
 }
 
@@ -64,7 +64,7 @@ export interface IInstallResponse {
   success: boolean;
   message: string;
   data: {
-    encryptedPayload: string;
+    encryptedData: string;
   };
 }
 
@@ -75,7 +75,7 @@ export interface IExpireEnvLinkResponse {
 }
 
 export interface IUpdateEnvLinkRequest {
-  encryptedPayload?: string;
+  encryptedData?: string;
   expirationDuration?: string;
   passwordHash?: string;
   currentPassword: string;
@@ -87,7 +87,7 @@ export interface IUpdateEnvLinkResponse {
   message: string;
   data: {
     id: string;
-    expiresAt: string | null;
+    expiresAt: string;
     filesCount?: number;
   };
 }
@@ -100,6 +100,7 @@ export interface ICommandOptions {
   currentPassword?: string;
   currentPass?: string;
   files?: boolean;
+  optionalPass?: boolean;
 }
 
 export interface IErrorWithMessage {
