@@ -6,7 +6,7 @@ interface PackageJson {
 
 const pkg: PackageJson = {
   name: "envlink",
-  version: "2.0.4",
+  version: "2.1.0",
   description: "Secure and anonymous environment file sharing CLI",
 };
 
