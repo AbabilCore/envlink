@@ -17,8 +17,16 @@ export const create = (command: Command): void => {
         "--ref <reference>",
         "Set reference label (e.g., 'prod-api-keys')",
       )
+      .option(
+        "--optional-pass",
+        "Create optional-password EnvLink (1h expiration, info+install only)",
+      )
       .action((options: ICommandOptions) => {
-        helper.create(options);
+        if (options.optionalPass) {
+          helper.optionalPass.create(options);
+        } else {
+          helper.create(options);
+        }
       }),
     "create",
   );
@@ -30,9 +38,18 @@ export const install = (command: Command) => {
       .command("install [id]")
       .description("Install environment files from an EnvLink")
       .option("-s, --select-files", "Manually select files to install")
-      .option("--pass <password>", "Password for decryption (required)")
+      .option(
+        "--pass <password>",
+        "Password for decryption (optional for optional-password EnvLinks)",
+      )
       .action((id: string, options: ICommandOptions) => {
-        helper.install(id, options);
+        const parsed = utils.parseEnvLinkId(id);
+
+        if (parsed.isOptionalPass) {
+          helper.optionalPass.install(id, options);
+        } else {
+          helper.install(id, options);
+        }
       }),
     "install",
   );
@@ -66,9 +83,18 @@ export const info = (command: Command) => {
     command
       .command("info [id]")
       .description("Show EnvLink information (files, expiry, install count)")
-      .option("--pass <password>", "Password for decryption (required)")
+      .option(
+        "--pass <password>",
+        "Password for decryption (optional for optional-password EnvLinks)",
+      )
       .action((id: string, options: ICommandOptions) => {
-        helper.info(id, options);
+        const parsed = utils.parseEnvLinkId(id);
+
+        if (parsed.isOptionalPass) {
+          helper.optionalPass.info(id);
+        } else {
+          helper.info(id, options);
+        }
       }),
     "info",
   );
@@ -79,9 +105,18 @@ export const expire = (command: Command) => {
     command
       .command("expire [id]")
       .description("Manually expire an EnvLink")
-      .option("--pass <password>", "Password (required)")
+      .option(
+        "--pass <password>",
+        "Password (optional for optional-password EnvLinks)",
+      )
       .action((id: string, options: ICommandOptions) => {
-        helper.expire(id, options);
+        const parsed = utils.parseEnvLinkId(id);
+
+        if (parsed.isOptionalPass) {
+          helper.optionalPass.expire(id);
+        } else {
+          helper.expire(id, options);
+        }
       }),
     "expire",
   );
