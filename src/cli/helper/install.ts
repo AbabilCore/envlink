@@ -49,9 +49,9 @@ export const install = async (
         passwordHash,
       );
 
-    const { encryptedPayload } = response.data;
+    const { encryptedData } = response.data;
 
-    if (!encryptedPayload) {
+    if (!encryptedData) {
       utils.logger.error("No encrypted payload found in this EnvLink", {
         terminate: true,
         code: 1,
@@ -61,7 +61,7 @@ export const install = async (
 
     const { decrypt } = await import("@/lib/crypto");
     const files: types.IEnvFile[] = JSON.parse(
-      await decrypt(JSON.parse(encryptedPayload), password),
+      await decrypt(JSON.parse(encryptedData), password),
     );
 
     if (!files || files.length === 0) {

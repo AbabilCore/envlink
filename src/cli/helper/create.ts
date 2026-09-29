@@ -8,7 +8,7 @@ import * as types from "@/types";
 import * as utils from "@/utils";
 
 interface ICreateEnvLinkPayload extends Record<string, unknown> {
-  encryptedPayload: string;
+  encryptedData: string;
   passwordHash: string;
   expirationDuration: string;
   reference?: string;
@@ -156,14 +156,14 @@ export const create = async (
       content: utils.readFileContent(path.join(cwd, filename)),
     }));
 
-    const encryptedPayload = JSON.stringify(
+    const encryptedData = JSON.stringify(
       await encrypt(JSON.stringify(files), password),
     );
 
     const passwordHash = hashPasswordDeterministic(password);
 
     const requestPayload: ICreateEnvLinkPayload = {
-      encryptedPayload,
+      encryptedData,
       passwordHash,
       expirationDuration: expiration,
     };

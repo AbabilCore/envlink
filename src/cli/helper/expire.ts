@@ -4,10 +4,6 @@ import { ICONS } from "@/constants/icons";
 import * as types from "@/types";
 import * as utils from "@/utils";
 
-interface IExpireEnvLinkPayload extends Record<string, unknown> {
-  password: string;
-}
-
 export const expire = async (
   id: string,
   options: types.ICommandOptions = {},
@@ -56,10 +52,15 @@ export const expire = async (
     }
 
     utils.logger.start("Expiring EnvLink...");
-    const payload: IExpireEnvLinkPayload = { password };
-    await utils.apiClient.delete<types.IExpireEnvLinkResponse>(
+
+    const { hashPasswordDeterministic } = await import("@/lib/auth");
+    const passwordHash = hashPasswordDeterministic(password);
+
+    await utils.apiClient.authenticated<types.IExpireEnvLinkResponse>(
+      "DELETE",
       `/envlinks/${id}`,
-      payload,
+      id,
+      passwordHash,
     );
 
     utils.logger.success("EnvLink expired successfully!\n");

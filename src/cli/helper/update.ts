@@ -8,7 +8,7 @@ import * as types from "@/types";
 import * as utils from "@/utils";
 
 interface IUpdateEnvLinkPayload extends Record<string, unknown> {
-  encryptedPayload?: string;
+  encryptedData?: string;
   expirationDuration?: string;
   passwordHash?: string;
   reference?: string;
@@ -132,7 +132,7 @@ export const update = async (
 
       const encryptionPassword = options.pass || currentPassword;
 
-      updateData.encryptedPayload = JSON.stringify(
+      updateData.encryptedData = JSON.stringify(
         await encrypt(JSON.stringify(files), encryptionPassword),
       );
 

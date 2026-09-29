@@ -61,7 +61,7 @@ export const info = async (
       `  ${ICONS.LINK} ${colors.bold("ID:")}       ${colors.white(data.id)}`,
     );
     utils.logger.log(
-      `  ${statusEmoji} ${colors.bold("Status:")}   ${data.status === "active" ? colors.green(data.status.toUpperCase()) : colors.red(data.status.toUpperCase())}`,
+      `  ${statusEmoji} ${colors.bold("Status:")}   ${colors.green("ACTIVE")}`,
     );
     utils.logger.log(
       `  ${ICONS.FILE} ${colors.bold("Files:")}    ${colors.white(String(data.filesCount || 0))}`,
