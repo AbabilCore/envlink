@@ -1,9 +1,19 @@
 # EnvLink
 
-Secure and anonymous environment file sharing CLI - Share `.env` files with expiration and password protection.
+Secure and anonymous environment file sharing CLI - Share `.env` files with expiration and optional password protection.
 
 [![npm version](https://img.shields.io/npm/v/envlink.svg)](https://www.npmjs.com/package/envlink)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Key Features
+
+- **Two Security Models**: Password-protected (zero-knowledge) and optional-password (convenient)
+- **Quick Sharing**: Password-free sharing with extended IDs
+- **Strong Encryption**: AES-256-GCM with PBKDF2 key derivation
+- **Auto-Expiration**: From minutes to never (password-protected) or fixed 1-hour (optional-password)
+- **No Signup**: Completely anonymous
+- **Update Support**: Modify password-protected EnvLinks after creation
+- **Multi-File**: Share up to 10 .env files per EnvLink
 
 ## Installation
 
@@ -33,22 +43,35 @@ pnpm dlx envlink install el_abc123xyz456
 
 ## Quick Start
 
-### Create and Share
+### Password-Protected (Secure)
+
+Create a secure EnvLink with password protection:
 
 ```bash
 cd my-project
-envlink create
+envlink create --pass yourpassword
 ```
 
-Share the generated EnvLink ID with your team!
-
-### Install on Another Machine
+Share the ID and password with your team:
 
 ```bash
-envlink install el_abc123xyz456
+envlink install el_abc123xyz456 --pass yourpassword
 ```
 
-That's it! Your environment files are now installed.
+### Optional-Password (Convenient)
+
+Create a convenient EnvLink without passwords (1-hour expiration):
+
+```bash
+cd my-project
+envlink create --optional-pass
+```
+
+Share just the extended ID:
+
+```bash
+envlink install el_abc123xyz456_accesskey789
+```
 
 ## Documentation
 
@@ -57,8 +80,23 @@ That's it! Your environment files are now installed.
 
 ## Security
 
-- AES-256-GCM encryption
-- Password-required for all EnvLinks
-- Auto-expiration (configurable)
+EnvLink offers two security models:
+
+### Password-Protected EnvLinks
+- **Zero-knowledge security** - Server cannot decrypt your data
+- AES-256-GCM encryption with PBKDF2 key derivation
+- Zero-knowledge proof authentication
+- Flexible expiration (minutes to never)
+- Full update support
+
+### Optional-Password EnvLinks
+- **Convenience over security** - Server can decrypt your data
+- AES-256-GCM encryption with access-key authentication
+- Fixed 1-hour expiration
+- Install-only after creation (no updates)
+- **Use only for non-sensitive data**
+
+**Both methods:**
 - No signup required
 - Anonymous sharing
+- Client-side encryption before transmission

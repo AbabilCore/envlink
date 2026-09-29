@@ -1,92 +1,21 @@
 # EnvLink FAQ
 
-## General
-
-<details>
-<summary>What is EnvLink?</summary>
-
-EnvLink is a secure and anonymous CLI tool for sharing environment (.env) files with your team. It allows you to share sensitive configuration files with built-in expiration and optional password protection without requiring signup or authentication.
-
-</details>
-
-<details>
-<summary>How do I install EnvLink?</summary>
-
-You can install EnvLink globally with `npm install -g envlink`, or use it without installation via `npx envlink`, `bunx envlink`, or `pnpm dlx envlink`.
-
-</details>
-
-<details>
-<summary>What is the basic workflow for sharing .env files?</summary>
-
-Run `envlink create` in your project directory to create an EnvLink and get a unique ID (e.g., el_abc123xyz456). Share this ID with your team, and they can run `envlink install el_abc123xyz456` to receive the files.
-
-</details>
-
-<details>
-<summary>Do I need to create an account to use EnvLink?</summary>
-
-No, EnvLink is completely anonymous and does not require any signup or authentication.
-
-</details>
-
-<details>
-<summary>What Node.js version is required?</summary>
-
-EnvLink requires Node.js version 18.0.0 or higher.
-
-</details>
-
-## Commands
-
-<details>
-<summary>How do I see all available commands?</summary>
-
-Run `envlink --help` to see all commands, or `envlink <command> --help` for help with a specific command.
-
-</details>
-
-<details>
-<summary>How do I check the status of an EnvLink?</summary>
-
-Use `envlink info <id>` to view details including status, file count, expiration date, install count, and file names.
-
-</details>
-
-<details>
-<summary>Can I update an existing EnvLink?</summary>
-
-Yes, use `envlink update <id>` with options like `--files` to update files, `--exp` to change expiration, `--ref` to modify the reference label, or `--pass` to change the password. Password is required for all update operations.
-
-</details>
-
-<details>
-<summary>How do I manually expire an EnvLink?</summary>
-
-Use `envlink expire <id>` to manually expire a link. Password is required and you'll be prompted if not provided via `--pass`.
-
-</details>
-
-<details>
-<summary>Can I select which files to install?</summary>
-
-Yes, use `envlink install <id> --select-files` or `-s` to get a prompt allowing you to choose which files to install.
-
-</details>
-
 ## Expiration
 
 <details>
 <summary>What expiration formats are supported?</summary>
 
-EnvLink supports: minutes (m), hours (h), days (d), months (M), years (y), or 'never'. Examples: `30m` for 30 minutes, `24h` for 24 hours, `5d` for 5 days, `6M` for 6 months, `1y` for 1 year, or `never` for permanent links.
+**Password-Protected EnvLinks:** Support flexible expiration - minutes (m), hours (h), days (d), months (M), years (y), or 'never'. Examples: `30m` for 30 minutes, `24h` for 24 hours, `5d` for 5 days, `6M` for 6 months, `1y` for 1 year, or `never` for permanent links.
+
+**Optional-Password EnvLinks:** Fixed 1-hour expiration for security and convenience.
 
 </details>
 
 <details>
 <summary>What is the default expiration time?</summary>
 
-The default expiration time is 1 day if not specified during creation.
+**Password-Protected:** 1 day if not specified during creation  
+**Optional-Password:** Fixed 1 hour (cannot be changed)
 
 </details>
 
@@ -109,14 +38,39 @@ Expired EnvLinks cannot be installed or updated. The status automatically change
 <details>
 <summary>Is password protection required?</summary>
 
-Yes, all EnvLinks require a password. This ensures your environment files are encrypted and secure. You'll be prompted for a password during create, install, update, and expire operations if not provided via the `--pass` flag.
+No, password protection is optional. EnvLink supports two types:
+
+**Password-Protected EnvLinks:** Use `envlink create --pass <password>` for enhanced security with explicit password protection.
+
+**Optional-Password EnvLinks:** Use `envlink create --optional-pass` for convenient sharing without password requirements. These expire automatically after 1 hour and use an extended ID format (e.g., el_abc123xyz456_accesskey789).
+
+Both types maintain client-side encryption - your data is always encrypted before transmission to the server.
+
+</details>
+
+<details>
+<summary>What's the difference between password-protected and optional-password EnvLinks?</summary>
+
+| Feature | Password-Protected | Optional-Password |
+|---------|-------------------|-------------------|
+| **Password Required** | Yes, for all operations | No password needed |
+| **Server Can Decrypt** | **No** (Zero-knowledge) | **Yes** (Has access key) |
+| **ID Format** | `el_abc123xyz456` | `el_abc123xyz456_accesskey789` |
+| **Expiration** | Flexible (minutes to never) | Fixed 1 hour |
+| **Update Support** | Yes (with current password) | No (install-only after creation) |
+| **Security Level** | High (Zero-knowledge proof) | Lower (Convenience trade-off) |
+| **Use Case** | Sensitive data, team sharing | Non-sensitive, temporary sharing |
+
+Both types use client-side encryption, but only password-protected EnvLinks are zero-knowledge secure.
 
 </details>
 
 <details>
 <summary>Can the server decrypt my data? 🔥 <i>(Most Asked)</i></summary>
 
-> **No.** The server only stores encrypted data and password hashes. Your password is used to derive the encryption key through PBKDF2, and only you have access to the plaintext password. The server can verify you know the correct password **without ever seeing or storing the password itself**.
+**Password-Protected EnvLinks:** **No.** The server uses zero-knowledge proof (ZK-proof) authentication and only stores encrypted data and password hashes. Your password derives the encryption key through PBKDF2, and the server can verify you know the correct password **without ever seeing or storing the password itself**. The server **cannot decrypt your data**.
+
+**Optional-Password EnvLinks:** **Yes.** For convenience, the server can decrypt your data since it stores the access key used for encryption. This trade-off provides password-free sharing but with reduced security. Use only for non-sensitive data or temporary sharing.
 
 </details>
 
@@ -130,9 +84,9 @@ Yes, use the `--ref` option to add a descriptive label (e.g., "production-api-ke
 <details>
 <summary>How is my data secured?</summary>
 
-All file content is encrypted using AES-256-GCM encryption before storage. The encryption uses a unique initialization vector (IV) and salt for each EnvLink. The authentication system ensures the server can verify you know the password without ever seeing it.
+All file content is encrypted using AES-256-GCM encryption before storage. The encryption uses a unique initialization vector (IV) and salt for each EnvLink.
 
-**Security Flow:**
+**Password-Protected Security (ZK-Proof Authentication):**
 
 ```mermaid
 graph LR
@@ -140,18 +94,38 @@ graph LR
     B --> C[Generate Salt + IV]
     C --> D[PBKDF2 Key Derivation]
     D --> E[AES-256-GCM Encrypt]
-    E --> F[Secure Authentication]
+    E --> F[ZK-Proof Authentication]
     F --> G[Store: Encrypted Data + Salt + IV + Hash]
 
-    H[Install: Password] --> I[Generate Proof]
+    H[Install: Password] --> I[Generate ZK-Proof]
     I --> J[Verify Server-side]
     J --> K[PBKDF2 with Salt]
     K --> L[AES-256-GCM Decrypt]
     L --> M[Original Files]
 ```
 
-**Server never stores:** Plaintext password, encryption key, or authentication tokens
-**Authentication:** Secure proof-based system using PBKDF2 (100,000 iterations)
+**Optional-Password Security (Access-Key Authentication):**
+
+```mermaid
+graph LR
+    A[Files Only] --> B[Generate Access Key]
+    B --> C[Generate Salt + IV]
+    C --> D[Client-side Key Derivation]
+    D --> E[AES-256-GCM Encrypt]
+    E --> F[Store: Encrypted Data + Access Key]
+
+    G[Install: Extended ID] --> H[Extract Access Key]
+    H --> I[Verify Access Key]
+    I --> J[Client-side Decryption]
+    J --> K[Original Files]
+```
+
+**Server Security Guarantees:**
+- **Password-Protected:** Server never stores passwords, encryption keys, or auth tokens - **Cannot decrypt your data**
+- **Optional-Password:** Server stores access keys and **can decrypt your data** for convenience
+- **Both:** Use AES-256-GCM encryption and PBKDF2 (100,000 iterations)
+
+**⚠️ Security Trade-off:** Optional-password EnvLinks sacrifice security for convenience. Use only for non-sensitive data.
 
 </details>
 
@@ -183,7 +157,11 @@ Files must follow the .env naming pattern: `.env` or `.env.{suffix}` where suffi
 <details>
 <summary>What is the format of an EnvLink ID?</summary>
 
-EnvLink IDs follow the format `el_` followed by 16 alphanumeric characters (e.g., el_abc123xyz456).
+**Password-Protected:** `el_` followed by 16 alphanumeric characters (e.g., `el_abc123xyz456`)
+
+**Optional-Password:** Extended format with `el_` + 16 chars + `_` + access key (e.g., `el_abc123xyz456_accesskey789`)
+
+The extended format allows secure access without password while maintaining encryption.
 
 </details>
 
