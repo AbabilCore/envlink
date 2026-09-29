@@ -24,4 +24,8 @@ export const ICONS = {
   INBOX: "\u2193",
   CHECK_MARK: "\u2713",
   BULLET: "\u2022",
+  LOCK: "\u2616",
+  SHIELD: "\u26E9",
+  DATABASE: "\u25A3",
+  SETTINGS: "\u2699",
 } as const;
