@@ -69,19 +69,17 @@ export const info = async (
     utils.logger.log(
       `  ${ICONS.INBOX} ${colors.bold("Installs:")} ${colors.magenta(String(data.installCount || 0))}`,
     );
-
-    if (data.reference) {
-      utils.logger.log(
-        `  ${ICONS.STAR} ${colors.bold("Reference:")} ${colors.cyan(data.reference)}`,
-      );
-    }
-
     utils.logger.log(
       `  ${ICONS.CALENDAR} ${colors.bold("Created:")}  ${colors.gray(utils.formatTimeForUser(data.createdAt))}`,
     );
     utils.logger.log(
       `  ${ICONS.CLOCK} ${colors.bold("Expires:")}  ${colors.yellow(expiryDate)}`,
     );
+    if (data.reference) {
+      utils.logger.log(
+        `  ${ICONS.TAG} ${colors.bold("Reference:")} ${colors.cyan(data.reference)}`,
+      );
+    }
     utils.logger.log(
       colors.cyan("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"),
     );

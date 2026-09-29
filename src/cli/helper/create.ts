@@ -12,6 +12,7 @@ interface ICreateEnvLinkPayload extends Record<string, unknown> {
   passwordHash: string;
   expirationDuration: string;
   reference?: string;
+  filesCount: number;
 }
 
 export const create = async (
@@ -166,6 +167,7 @@ export const create = async (
       encryptedData,
       passwordHash,
       expirationDuration: expiration,
+      filesCount: filesToUpload.length,
     };
 
     if (reference && reference.trim() !== "") {
@@ -187,7 +189,7 @@ export const create = async (
       `  ${ICONS.LINK} ${colors.bold("ID:")}      ${colors.white(response.data.id)}`,
     );
     utils.logger.log(
-      `  ${ICONS.FILE} ${colors.bold("Files:")}   ${colors.white(String(response.data.filesCount))}`,
+      `  ${ICONS.FILE} ${colors.bold("Files:")}   ${colors.white(String(filesToUpload.length))}`,
     );
     utils.logger.log(
       `  ${ICONS.CLOCK} ${colors.bold("Expires:")} ${colors.yellow(expiryDate)}`,

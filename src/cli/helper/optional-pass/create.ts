@@ -9,6 +9,7 @@ import * as utils from "@/utils";
 interface ICreateOptionalPassPayload extends Record<string, unknown> {
   encryptedData: string;
   accessKey: string;
+  filesCount: number;
 }
 
 export const create = async (
@@ -116,6 +117,7 @@ export const create = async (
     const requestPayload: ICreateOptionalPassPayload = {
       encryptedData,
       accessKey,
+      filesCount: filesToUpload.length,
     };
 
     const response = await utils.apiClient.post<types.ICreateEnvLinkResponse>(
@@ -134,7 +136,7 @@ export const create = async (
       `  ${ICONS.LINK} ${colors.bold("ID:")}      ${colors.white(extendedId)}`,
     );
     utils.logger.log(
-      `  ${ICONS.FILE} ${colors.bold("Files:")}   ${colors.white(String(response.data.filesCount))}`,
+      `  ${ICONS.FILE} ${colors.bold("Files:")}   ${colors.white(String(filesToUpload.length))}`,
     );
     utils.logger.log(
       `  ${ICONS.CLOCK} ${colors.bold("Expires:")} ${colors.yellow(expiryDate)}`,

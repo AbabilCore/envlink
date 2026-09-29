@@ -12,6 +12,7 @@ interface IUpdateEnvLinkPayload extends Record<string, unknown> {
   expirationDuration?: string;
   passwordHash?: string;
   reference?: string;
+  filesCount?: number;
 }
 
 export const update = async (
@@ -85,6 +86,7 @@ export const update = async (
     utils.logger.success("EnvLink found\n");
 
     const updateData: IUpdateEnvLinkPayload = {};
+    let filesToUpdate: string[] = [];
 
     if (options.files) {
       const cwd = process.cwd();
@@ -120,12 +122,14 @@ export const update = async (
         },
       ]);
 
-      let filesToUpdate = selectedFiles;
+      let selectedFilesToUpdate = selectedFiles;
       if (selectedFiles.includes("__SELECT_ALL__")) {
-        filesToUpdate = envFiles;
+        selectedFilesToUpdate = envFiles;
       }
 
-      const files: types.IEnvFile[] = filesToUpdate.map((filename) => ({
+      filesToUpdate = selectedFilesToUpdate;
+
+      const files: types.IEnvFile[] = selectedFilesToUpdate.map((filename) => ({
         name: filename,
         content: utils.readFileContent(path.join(cwd, filename)),
       }));
@@ -135,9 +139,10 @@ export const update = async (
       updateData.encryptedData = JSON.stringify(
         await encrypt(JSON.stringify(files), encryptionPassword),
       );
+      updateData.filesCount = selectedFilesToUpdate.length;
 
       utils.logger.log("\nFiles to update:");
-      filesToUpdate.forEach((file) =>
+      selectedFilesToUpdate.forEach((file) =>
         utils.logger.log(`  ${ICONS.BULLET} ${colors.cyan(file)}`),
       );
     }
@@ -219,9 +224,9 @@ export const update = async (
     utils.logger.log(
       `  ${ICONS.LINK} ${colors.bold("ID:")}      ${colors.white(response.data.id)}`,
     );
-    if (response.data.filesCount) {
+    if (filesToUpdate.length > 0) {
       utils.logger.log(
-        `  ${ICONS.FILE} ${colors.bold("Files:")}   ${colors.white(String(response.data.filesCount))}`,
+        `  ${ICONS.FILE} ${colors.bold("Files:")}   ${colors.white(String(filesToUpdate.length))}`,
       );
     }
     utils.logger.log(
