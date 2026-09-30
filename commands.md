@@ -16,6 +16,10 @@ envlink --help
 
 # Show help for a specific command
 envlink help <command>
+
+# Check for available updates
+envlink version-check
+envlink check-update
 ```
 
 ## Create Commands
@@ -111,6 +115,21 @@ envlink expire <extended_id>
 
 **Note:** Password is required for regular EnvLinks. Optional-password EnvLinks can be expired without passwords.
 
+## Version Check Commands
+
+```bash
+# Check for available updates (manual check)
+envlink version-check
+envlink check-update
+
+# Both commands are aliases and do the same thing:
+# - Check NPM registry for the latest EnvLink version
+# - Display update notification if newer version is available
+# - Show "up to date" message if current version is latest
+```
+
+**Note:** Version checks help ensure you have the latest features and security updates.
+
 ## Examples
 
 ### Basic Workflow
@@ -145,15 +164,46 @@ envlink expire el_abc123xyz456_accesskey789
 ### Advanced Workflow
 
 ```bash
-# 1. Create 7-day link with password and reference
+# 1. Check for updates first
+envlink version-check
+
+# 2. Create 7-day link with password and reference
 envlink create --exp 7d --pass mypass123 --ref "prod-db-keys"
 
-# 2. Update files later (current password required)
+# 3. Update files later (current password required)
 envlink update el_abc123xyz456 --files --current-pass mypass123
 
-# 3. Manually expire when done (password required)
+# 4. Manually expire when done (password required)
 envlink expire el_abc123xyz456
 ```
+
+### Version Management
+
+```bash
+# Check for EnvLink CLI updates
+envlink version-check
+
+# Alternative alias
+envlink check-update
+
+# Example output when update is available:
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+#   ⚠ Update Available!
+#   Current: 2.0.0 → Latest: 2.2.2
+#   Run: npm install -g envlink@latest
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+## Common Commands
+
+| Command                     | Description                                                     |
+| --------------------------- | --------------------------------------------------------------- |
+| `envlink create`            | Create a new EnvLink from local .env files                     |
+| `envlink install <id>`      | Install environment files from an EnvLink                      |
+| `envlink info <id>`         | Show EnvLink information (files, expiry, install count)         |
+| `envlink update <id>`       | Update an existing EnvLink (regular EnvLinks only)             |
+| `envlink expire <id>`       | Manually expire an EnvLink                                     |
+| `envlink version-check`     | Check for available CLI updates                                 |
 
 ## Common Options
 
