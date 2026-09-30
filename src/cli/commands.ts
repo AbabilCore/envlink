@@ -121,3 +121,16 @@ export const expire = (command: Command) => {
     "expire",
   );
 };
+
+export const versionCheck = (command: Command) => {
+  utils.handleCmdErr(
+    command
+      .command("version-check")
+      .alias("check-update")
+      .description("Check for available updates")
+      .action(() => {
+        helper.versionCheck();
+      }),
+    "version-check",
+  );
+};

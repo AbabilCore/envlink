@@ -29,6 +29,7 @@ commands.install(command);
 commands.update(command);
 commands.info(command);
 commands.expire(command);
+commands.versionCheck(command);
 
 command.on("command:*", ([cmd]: [string]) => {
   utils.logger.error(
