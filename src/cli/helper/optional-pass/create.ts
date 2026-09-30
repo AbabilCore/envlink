@@ -83,7 +83,7 @@ export const create = async (
       `${colors.bold("Security:")} ${colors.yellow("Access key authentication")} ${colors.gray("(no password required)")}`,
     );
     utils.logger.log(
-      `${colors.bold("Operations:")} ${colors.cyan("info, install")} ${colors.gray("(update and expire not supported)")}`,
+      `${colors.bold("Operations:")} ${colors.cyan("info, install, expire")} ${colors.gray("(update not supported)")}`,
     );
     utils.logger.log("");
 
@@ -152,7 +152,7 @@ export const create = async (
     );
     utils.logger.log(colors.cyan(`   npx envlink install ${extendedId}\n`));
     utils.logger.log(
-      `${ICONS.INFO} ${colors.yellow.bold("Note:")} This EnvLink has a fixed 1-hour expiration and supports only info and install operations.`,
+      `${ICONS.INFO} ${colors.yellow.bold("Note:")} This EnvLink has a fixed 1-hour expiration and supports info, install & expire operations.`,
     );
   } catch (error: unknown) {
     utils.logger.error(utils.getErrorMessage(error), {
