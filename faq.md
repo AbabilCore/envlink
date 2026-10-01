@@ -29,7 +29,7 @@ Yes, use `--exp never` when creating or updating an EnvLink to make it permanent
 <details>
 <summary>What happens to expired EnvLinks?</summary>
 
-Expired EnvLinks cannot be installed or updated. When the expiration date is reached or when manually expired, the EnvLink is permanently deleted from the server.
+When manually expired or cleaned up by automatic maintenance, the EnvLink is permanently deleted from the server.
 
 </details>
 
