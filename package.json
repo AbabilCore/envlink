@@ -1,6 +1,6 @@
 {
   "name": "envlink",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "Secure and anonymous environment file sharing CLI",
   "main": "./dist/index.js",
   "bin": {
@@ -11,7 +11,6 @@
     "test": "NODE_ENV=development tsx -r tsconfig-paths/register --interactive ./src/index.ts",
     "test:cli": "python3 scripts/test.py",
     "start": "node ./dist/index.js",
-    "update-pkg-meta": "sh scripts/update-pkg.sh",
     "build": "sh ./scripts/build.sh"
   },
   "repository": {
@@ -20,7 +19,6 @@
   },
   "keywords": [
     "cli",
-    "typescript",
     "envlink",
     "environment",
     "env",
@@ -38,7 +36,7 @@
   "bugs": {
     "url": "https://github.com/AbabilCore/envlink/issues"
   },
-  "homepage": "https://github.com/AbabilCore/envlink",
+  "homepage": "https://envlink.ababilspark.com",
   "engines": {
     "node": ">=18.0.0"
   },
