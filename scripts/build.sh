@@ -2,6 +2,12 @@
 
 set -e
 
+echo "Syncing package-lock version..."
+npm install --package-lock-only
+
+echo "Installing dependencies..."
+npm ci
+
 echo "Updating package info..."
 sh scripts/update-pkg.sh
 
