@@ -152,13 +152,13 @@ envlink install el_abc123xyz456
 envlink create --optional-pass
 
 # 2. Check status using extended ID (no password required)
-envlink info el_abc123xyz456_accesskey789
+envlink info el_abc123xyz456accesskey789
 
 # 3. Install on another machine (no password required)
-envlink install el_abc123xyz456_accesskey789
+envlink install el_abc123xyz456accesskey789
 
 # 4. Expire when done (no password required)
-envlink expire el_abc123xyz456_accesskey789
+envlink expire el_abc123xyz456accesskey789
 ```
 
 ### Advanced Workflow
@@ -196,33 +196,33 @@ envlink check-update
 
 ## Common Commands
 
-| Command                     | Description                                                     |
-| --------------------------- | --------------------------------------------------------------- |
-| `envlink create`            | Create a new EnvLink from local .env files                     |
-| `envlink install <id>`      | Install environment files from an EnvLink                      |
-| `envlink info <id>`         | Show EnvLink information (files, expiry, install count)         |
-| `envlink update <id>`       | Update an existing EnvLink (regular EnvLinks only)             |
-| `envlink expire <id>`       | Manually expire an EnvLink                                     |
-| `envlink version-check`     | Check for available CLI updates                                 |
+| Command                 | Description                                             |
+| ----------------------- | ------------------------------------------------------- |
+| `envlink create`        | Create a new EnvLink from local .env files              |
+| `envlink install <id>`  | Install environment files from an EnvLink               |
+| `envlink info <id>`     | Show EnvLink information (files, expiry, install count) |
+| `envlink update <id>`   | Update an existing EnvLink (regular EnvLinks only)      |
+| `envlink expire <id>`   | Manually expire an EnvLink                              |
+| `envlink version-check` | Check for available CLI updates                         |
 
 ## Common Options
 
-| Option                      | Description                                                     |
-| --------------------------- | --------------------------------------------------------------- |
-| `--exp <duration>`          | Expiration duration: `30m`, `24h`, `5d`, `6M`, `1y`           |
-| `--pass <password>`         | Password (required for create/expire operations)                |
-| `--current-pass <password>` | Current password (required for update operations)               |
-| `--ref <reference>`         | Reference label (e.g., "prod-api-keys", "staging-db")           |
-| `--optional-pass`           | Create optional-password EnvLink (no password required)         |
-| `-f, --files`               | Update files flag                                               |
-| `-s, --select-files`        | File selection mode for install                                 |
+| Option                      | Description                                             |
+| --------------------------- | ------------------------------------------------------- |
+| `--exp <duration>`          | Expiration duration: `30m`, `24h`, `5d`, `6M`, `1y`     |
+| `--pass <password>`         | Password (required for create/expire operations)        |
+| `--current-pass <password>` | Current password (required for update operations)       |
+| `--ref <reference>`         | Reference label (e.g., "prod-api-keys", "staging-db")   |
+| `--optional-pass`           | Create optional-password EnvLink (no password required) |
+| `-f, --files`               | Update files flag                                       |
+| `-s, --select-files`        | File selection mode for install                         |
 
 ## Notes
 
 - **Default expiration:** 1 day for regular EnvLinks, 1 hour (fixed) for optional-password EnvLinks
-- **EnvLink ID formats:** 
+- **EnvLink ID formats:**
   - Regular: `el_<16-char-alphanumeric>`
-  - Optional-password: `el_<16-char-alphanumeric>_<access-key>`
+  - Optional-password: `el_<32-char-alphanumeric>` (concatenated baseId + accessKey)
 - **Password protection:** Required for regular EnvLinks (create, install, info, update, expire)
 - **Optional-password EnvLinks:** No password required, use access key authentication via extended ID
 - **Reference labels:** Optional labels for organizing regular EnvLinks (not supported for optional-password)

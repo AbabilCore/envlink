@@ -51,17 +51,17 @@ Both types maintain client-side encryption - your data is always encrypted befor
 <details>
 <summary>What's the difference between password-protected and optional-password EnvLinks?</summary>
 
-| Feature | Password-Protected | Optional-Password |
-|---------|-------------------|-------------------|
-| **Password Required** | Yes, for all operations | No password needed |
-| **Server Can Decrypt** | **No** (Zero-knowledge) | **Yes** (Has access key) |
-| **ID Format** | `el_abc123xyz456` | `el_abc123xyz456_accesskey789` |
-| **Expiration** | Flexible (minutes to never) | Fixed 1 hour |
-| **Update Support** | Yes (with current password) | No (install-only after creation) |
-| **Security Level** | High (Zero-knowledge proof) | Lower (Convenience trade-off) |
-| **Use Case** | Sensitive data, team sharing | Non-sensitive, temporary sharing |
+| Feature                | Password-Protected           | Optional-Password                 |
+| ---------------------- | ---------------------------- | --------------------------------- |
+| **Password Required**  | Yes, for all operations      | No password needed                |
+| **Server Can Decrypt** | **No** (Zero-knowledge)      | **No** (Zero-knowledge)           |
+| **ID Format**          | `el_abc123xyz456`            | `el_abc123xyz456accesskey789`     |
+| **Expiration**         | Flexible (minutes to never)  | Fixed 1 hour                      |
+| **Update Support**     | Yes (with current password)  | No (install-only after creation)  |
+| **Security Level**     | High (Zero-knowledge proof)  | High (Zero-knowledge encryption)  |
+| **Use Case**           | Sensitive data, team sharing | Convenient sharing, temporary use |
 
-Both types use client-side encryption, but only password-protected EnvLinks are zero-knowledge secure.
+Both types use client-side encryption and provide complete zero-knowledge security.
 
 </details>
 
@@ -70,7 +70,7 @@ Both types use client-side encryption, but only password-protected EnvLinks are 
 
 **Password-Protected EnvLinks:** **No.** The server uses zero-knowledge proof (ZK-proof) authentication and only stores encrypted data and password hashes. Your password derives the encryption key through PBKDF2, and the server can verify you know the correct password **without ever seeing or storing the password itself**. The server **cannot decrypt your data**.
 
-**Optional-Password EnvLinks:** **Yes.** For convenience, the server can decrypt your data since it stores the access key used for encryption. This trade-off provides password-free sharing but with reduced security. Use only for non-sensitive data or temporary sharing.
+**Optional-Password EnvLinks:** **No.** These use ultra-clean zero-knowledge encryption where the access key never leaves your machine. The server only stores the encrypted data and a 19-character base identifier. The 16-character access key used for encryption/decryption is embedded in the 35-character extended ID you share, but **never sent to or stored on the server**. The server **cannot decrypt your data**.
 
 </details>
 
@@ -104,28 +104,29 @@ graph LR
     L --> M[Original Files]
 ```
 
-**Optional-Password Security (Access-Key Authentication):**
+**Optional-Password Security (Zero-Knowledge Access-Key Authentication):**
 
 ```mermaid
 graph LR
-    A[Files Only] --> B[Generate Access Key]
+    A[Files Only] --> B[Generate Access Key Locally]
     B --> C[Generate Salt + IV]
-    C --> D[Client-side Key Derivation]
-    D --> E[AES-256-GCM Encrypt]
-    E --> F[Store: Encrypted Data + Access Key]
+    C --> D[Client-side AES-256-GCM Encrypt]
+    D --> E[Send Only: Encrypted Data + BaseId]
+    E --> F[Store: BaseId + Encrypted Data]
 
-    G[Install: Extended ID] --> H[Extract Access Key]
-    H --> I[Verify Access Key]
-    I --> J[Client-side Decryption]
+    G[Install: Extended ID] --> H[Extract Access Key Locally]
+    H --> I[Fetch Encrypted Data with BaseId]
+    I --> J[Client-side AES-256-GCM Decrypt]
     J --> K[Original Files]
 ```
 
 **Server Security Guarantees:**
+
 - **Password-Protected:** Server never stores passwords, encryption keys, or auth tokens - **Cannot decrypt your data**
-- **Optional-Password:** Server stores access keys and **can decrypt your data** for convenience
+- **Optional-Password:** Server never stores access keys - **Cannot decrypt your data** (zero-knowledge)
 - **Both:** Use AES-256-GCM encryption and PBKDF2 (100,000 iterations)
 
-**⚠️ Security Trade-off:** Optional-password EnvLinks sacrifice security for convenience. Use only for non-sensitive data.
+**🔒 Ultra-Clean Zero-Knowledge:** Both EnvLink types now provide complete zero-knowledge security. Optional-password EnvLinks achieve this by keeping the decryption key client-side only.
 
 </details>
 
@@ -159,9 +160,9 @@ Files must follow the .env naming pattern: `.env` or `.env.{suffix}` where suffi
 
 **Password-Protected:** `el_` followed by 16 alphanumeric characters (e.g., `el_abc123xyz456`)
 
-**Optional-Password:** Extended format with `el_` + 16 chars + `_` + access key (e.g., `el_abc123xyz456_accesskey789`)
+**Optional-Password:** Extended format with 35 total characters: `el_` + 16 chars baseId + 16 chars accessKey (e.g., `el_abc123xyz456accesskey789`)
 
-The extended format allows secure access without password while maintaining encryption.
+The extended format embeds the decryption key directly in the ID for zero-knowledge security.
 
 </details>
 

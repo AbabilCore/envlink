@@ -70,7 +70,7 @@ envlink create --optional-pass
 Share just the extended ID:
 
 ```bash
-envlink install el_abc123xyz456_accesskey789
+envlink install el_abc123xyz456accesskey789
 ```
 
 ## Documentation
@@ -83,6 +83,7 @@ envlink install el_abc123xyz456_accesskey789
 EnvLink offers two security models:
 
 ### Password-Protected EnvLinks
+
 - **Zero-knowledge security** - Server cannot decrypt your data
 - AES-256-GCM encryption with PBKDF2 key derivation
 - Zero-knowledge proof authentication
@@ -90,13 +91,17 @@ EnvLink offers two security models:
 - Full update support
 
 ### Optional-Password EnvLinks
-- **Convenience over security** - Server can decrypt your data
-- AES-256-GCM encryption with access-key authentication
+
+- **Ultra-clean zero-knowledge security** - Server cannot decrypt your data
+- AES-256-GCM encryption with client-side access keys
+- Extended ID format embeds decryption key (never sent to server)
 - Fixed 1-hour expiration
 - Install-only after creation (no updates)
-- **Use only for non-sensitive data**
+- **Perfect for convenient sharing while maintaining security**
 
 **Both methods:**
+
+- Complete zero-knowledge security
 - No signup required
 - Anonymous sharing
 - Client-side encryption before transmission
