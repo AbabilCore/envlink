@@ -28,17 +28,17 @@ npm install -g envlink
 You can use EnvLink without installing it permanently:
 
 ```bash
-# Using npx (Node.js)
+# Using npx (Node.js) - creates optional-password by default
 npx envlink create
-npx envlink install el_abc123xyz456
+npx envlink install el_abc123xyz456accesskey789
 
 # Using bunx (Bun)
 bunx envlink create
-bunx envlink install el_abc123xyz456
+bunx envlink install el_abc123xyz456accesskey789
 
 # Using pnpm
 pnpm dlx envlink create
-pnpm dlx envlink install el_abc123xyz456
+pnpm dlx envlink install el_abc123xyz456accesskey789
 ```
 
 ## Quick Start
@@ -58,13 +58,13 @@ Share the ID and password with your team:
 envlink install el_abc123xyz456 --pass yourpassword
 ```
 
-### Optional-Password (Convenient)
+### Optional-Password (Convenient, Default)
 
-Create a convenient EnvLink without passwords (1-hour expiration):
+Create a convenient EnvLink without passwords (1-hour expiration) - this is now the default:
 
 ```bash
 cd my-project
-envlink create --optional-pass
+envlink create
 ```
 
 Share just the extended ID:

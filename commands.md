@@ -25,22 +25,25 @@ envlink check-update
 ## Create Commands
 
 ```bash
-# Interactive creation (prompts for files, expiration, password)
+# Interactive creation - creates optional-password EnvLink by default
 envlink create
 
-# Create with 5 day expiration (password required, will prompt)
+# Create with 5 day expiration (no password, optional-password EnvLink)
 envlink create --exp 5d
 
-# Create with password (non-interactive)
+# Create password-protected EnvLink (will prompt for password)
+envlink create --pass
+
+# Create password-protected with provided password
 envlink create --pass <password>
 
 # Create with reference label
 envlink create --ref "production-api-keys"
 
-# Create with all options
-envlink create --exp 1y --pass <password> --ref "prod-env"
+# Create password-protected with all options
+envlink create --pass <password> --exp 1y --ref "prod-env"
 
-# Create optional-password EnvLink (no password required, 1h fixed expiration)
+# Create optional-password EnvLink (deprecated: this is now default)
 envlink create --optional-pass
 ```
 
@@ -135,10 +138,11 @@ envlink check-update
 ### Basic Workflow
 
 ```bash
-# 1. Create an EnvLink (password required, will prompt)
+# 1. Create an EnvLink (optional-password by default, no password needed)
 envlink create
 
-# 2. Check EnvLink status (password required, will prompt)
+# 2. Check EnvLink status using extended ID (no password needed)
+envlink info el_abc123def456ghi789jkl012mno345678
 envlink info el_abc123xyz456
 
 # 3. Install on another machine (password required, will prompt)
@@ -148,10 +152,11 @@ envlink install el_abc123xyz456
 ### Optional-Password Workflow
 
 ```bash
-# 1. Create optional-password EnvLink (no password required)
-envlink create --optional-pass
+# 1. Create optional-password EnvLink (default behavior)
+envlink create
 
 # 2. Check status using extended ID (no password required)
+envlink info el_abc123def456ghi789jkl012mno345678
 envlink info el_abc123xyz456accesskey789
 
 # 3. Install on another machine (no password required)
@@ -167,8 +172,8 @@ envlink expire el_abc123xyz456accesskey789
 # 1. Check for updates first
 envlink version-check
 
-# 2. Create 7-day link with password and reference
-envlink create --exp 7d --pass mypass123 --ref "prod-db-keys"
+# 2. Create 7-day password-protected link with reference
+envlink create --pass mypass123 --exp 7d --ref "prod-db-keys"
 
 # 3. Update files later (current password required)
 envlink update el_abc123xyz456 --files --current-pass mypass123
@@ -196,14 +201,14 @@ envlink check-update
 
 ## Common Commands
 
-| Command                 | Description                                             |
-| ----------------------- | ------------------------------------------------------- |
-| `envlink create`        | Create a new EnvLink from local .env files              |
-| `envlink install <id>`  | Install environment files from an EnvLink               |
-| `envlink info <id>`     | Show EnvLink information (files, expiry, install count) |
-| `envlink update <id>`   | Update an existing EnvLink (regular EnvLinks only)      |
-| `envlink expire <id>`   | Manually expire an EnvLink                              |
-| `envlink version-check` | Check for available CLI updates                         |
+| Command                 | Description                                                               |
+| ----------------------- | ------------------------------------------------------------------------- |
+| `envlink create`        | Create a new EnvLink from local .env files (optional-password by default) |
+| `envlink install <id>`  | Install environment files from an EnvLink                                 |
+| `envlink info <id>`     | Show EnvLink information (files, expiry, install count)                   |
+| `envlink update <id>`   | Update an existing EnvLink (regular EnvLinks only)                        |
+| `envlink expire <id>`   | Manually expire an EnvLink                                                |
+| `envlink version-check` | Check for available CLI updates                                           |
 
 ## Common Options
 

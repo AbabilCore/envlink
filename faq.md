@@ -40,9 +40,9 @@ When manually expired or cleaned up by automatic maintenance, the EnvLink is per
 
 No, password protection is optional. EnvLink supports two types:
 
-**Password-Protected EnvLinks:** Use `envlink create --pass <password>` for enhanced security with explicit password protection.
+**Password-Protected EnvLinks:** Use `envlink create --pass` for enhanced security with explicit password protection.
 
-**Optional-Password EnvLinks:** Use `envlink create --optional-pass` for convenient sharing without password requirements. These expire automatically after 1 hour and use an extended ID format (e.g., el_abc123xyz456_accesskey789).
+**Optional-Password EnvLinks (Default):** Use `envlink create` for convenient sharing without password requirements. These expire automatically after 1 hour and use an extended ID format (e.g., el_abc123xyz456accesskey789).
 
 Both types maintain client-side encryption - your data is always encrypted before transmission to the server.
 
@@ -104,7 +104,7 @@ graph LR
     L --> M[Original Files]
 ```
 
-**Optional-Password Security (Zero-Knowledge Access-Key Authentication):**
+**Optional-Password Security (Client-Side Encryption with Zero Server Knowledge):**
 
 ```mermaid
 graph LR
