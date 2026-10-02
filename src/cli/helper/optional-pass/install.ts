@@ -6,23 +6,6 @@ import { ICONS } from "@/constants/icons";
 import * as types from "@/types";
 import * as utils from "@/utils";
 
-const parseExtendedId = (
-  fullId: string,
-): { baseId: string; accessKey: string } => {
-  const parsed = utils.parseEnvLinkId(fullId);
-
-  if (!parsed.isOptionalPass || !parsed.accessKey) {
-    throw new Error(
-      "Invalid optional-password EnvLink ID format. Expected format: el_xxxxxxxxxxxxxxxx_yyyyyyyyyyyyyyyy",
-    );
-  }
-
-  return {
-    baseId: parsed.baseId,
-    accessKey: parsed.accessKey,
-  };
-};
-
 export const install = async (
   id: string,
   options: types.ICommandOptions = {},
@@ -36,7 +19,7 @@ export const install = async (
       return;
     }
 
-    const { baseId, accessKey } = parseExtendedId(id);
+    const { baseId, accessKey } = utils.parseExtendedId(id);
 
     utils.logger.log(
       `${ICONS.INFO} ${colors.cyan("Processing optional-password EnvLink")}`,
@@ -45,7 +28,7 @@ export const install = async (
     utils.logger.start(`Fetching EnvLink ${baseId}...`);
 
     const response = await utils.apiClient.post<types.IInstallEnvLinkResponse>(
-      `/envlinks/${id}/install`,
+      `/envlinks/${baseId}/install`,
     );
 
     const { encryptedData } = response.data;

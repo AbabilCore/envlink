@@ -8,7 +8,6 @@ import * as utils from "@/utils";
 
 interface ICreateOptionalPassPayload extends Record<string, unknown> {
   encryptedData: string;
-  accessKey: string;
   filesCount: number;
 }
 
@@ -116,7 +115,6 @@ export const create = async (
 
     const requestPayload: ICreateOptionalPassPayload = {
       encryptedData,
-      accessKey,
       filesCount: filesToUpload.length,
     };
 
@@ -125,7 +123,7 @@ export const create = async (
       requestPayload,
     );
 
-    const extendedId = response.data.id;
+    const extendedId = `${response.data.id}${accessKey}`;
     const expiryDate = utils.formatTimeForUser(response.data.expiresAt);
 
     utils.logger.success("Optional-password EnvLink created successfully!\n");

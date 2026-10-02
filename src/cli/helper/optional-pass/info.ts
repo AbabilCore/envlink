@@ -3,23 +3,6 @@ import { ICONS } from "@/constants/icons";
 import * as types from "@/types";
 import * as utils from "@/utils";
 
-const parseExtendedId = (
-  fullId: string,
-): { baseId: string; accessKey: string } => {
-  const parsed = utils.parseEnvLinkId(fullId);
-
-  if (!parsed.isOptionalPass || !parsed.accessKey) {
-    throw new Error(
-      "Invalid optional-password EnvLink ID format. Expected format: el_xxxxxxxxxxxxxxxx_yyyyyyyyyyyyyyyy",
-    );
-  }
-
-  return {
-    baseId: parsed.baseId,
-    accessKey: parsed.accessKey,
-  };
-};
-
 export const info = async (id: string): Promise<void> => {
   try {
     if (!id) {
@@ -30,7 +13,7 @@ export const info = async (id: string): Promise<void> => {
       return;
     }
 
-    const { baseId } = parseExtendedId(id);
+    const { baseId } = utils.parseExtendedId(id);
 
     utils.logger.log(
       `${ICONS.INFO} ${colors.cyan("Processing optional-password EnvLink")}`,
@@ -39,7 +22,7 @@ export const info = async (id: string): Promise<void> => {
     utils.logger.start(`Fetching EnvLink info...`);
 
     const response = await utils.apiClient.post<types.IGetEnvLinkResponse>(
-      `/envlinks/${id}/info`,
+      `/envlinks/${baseId}/info`,
     );
 
     const data = response.data;
