@@ -17,9 +17,9 @@ export const expire = async (
       return;
     }
 
-    let password = options.pass;
+    let password: string;
 
-    if (!password) {
+    if (!options.pass || options.pass === true) {
       const { pwd } = await inquirer.prompt<{ pwd: string }>([
         {
           type: "password",
@@ -35,6 +35,8 @@ export const expire = async (
         },
       ]);
       password = pwd;
+    } else {
+      password = options.pass;
     }
 
     const { confirm } = await inquirer.prompt<{ confirm: boolean }>([

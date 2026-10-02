@@ -7,25 +7,30 @@ export const create = (command: Command): void => {
   utils.handleCmdErr(
     command
       .command("create")
-      .description("Create a new EnvLink from local .env files")
+      .description(
+        "Create a new EnvLink from local .env files (optional-password by default)",
+      )
       .option(
         "--exp <duration>",
         "Set expiration (e.g., 30m, 24h, 5d, 6M, 1y, never)",
       )
-      .option("--pass <password>", "Set password (required for encryption)")
+      .option(
+        "--pass [password]",
+        "Create password-protected EnvLink (prompts if no password provided)",
+      )
       .option(
         "--ref <reference>",
         "Set reference label (e.g., 'prod-api-keys')",
       )
       .option(
         "--optional-pass",
-        "Create optional-password EnvLink (1h expiration, info+install only)",
+        "Create optional-password EnvLink (deprecated: this is now default behavior)",
       )
       .action((options: ICommandOptions) => {
-        if (options.optionalPass) {
-          helper.optionalPass.create(options);
-        } else {
+        if (options.pass !== undefined) {
           helper.create(options);
+        } else {
+          helper.optionalPass.create(options);
         }
       }),
     "create",

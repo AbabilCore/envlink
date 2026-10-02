@@ -18,9 +18,9 @@ export const info = async (
       return;
     }
 
-    let password = options.pass;
+    let password: string;
 
-    if (!password) {
+    if (!options.pass || options.pass === true) {
       const { pwd } = await inquirer.prompt<{ pwd: string }>([
         {
           type: "password",
@@ -36,6 +36,8 @@ export const info = async (
         },
       ]);
       password = pwd;
+    } else {
+      password = options.pass;
     }
 
     utils.logger.start(`Fetching EnvLink info...`);

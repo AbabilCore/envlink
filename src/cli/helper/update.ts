@@ -134,7 +134,8 @@ export const update = async (
         content: utils.readFileContent(path.join(cwd, filename)),
       }));
 
-      const encryptionPassword = options.pass || currentPassword;
+      const encryptionPassword =
+        typeof options.pass === "string" ? options.pass : currentPassword;
 
       updateData.encryptedData = JSON.stringify(
         await encrypt(JSON.stringify(files), encryptionPassword),
@@ -155,7 +156,7 @@ export const update = async (
     }
 
     if (options.pass !== undefined) {
-      if (options.pass) {
+      if (typeof options.pass === "string") {
         updateData.passwordHash = hashPasswordDeterministic(options.pass);
         utils.logger.log(
           `\n${colors.bold("New password:")} ${colors.green("Updated")}`,

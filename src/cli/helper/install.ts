@@ -20,8 +20,8 @@ export const install = async (
       return;
     }
 
-    let password = options.pass;
-    if (!password) {
+    let password: string;
+    if (!options.pass || options.pass === true) {
       const { pwd } = await inquirer.prompt<{ pwd: string }>([
         {
           type: "password",
@@ -37,6 +37,8 @@ export const install = async (
         },
       ]);
       password = pwd;
+    } else {
+      password = options.pass;
     }
 
     utils.logger.start(`Fetching EnvLink ${id}...`);

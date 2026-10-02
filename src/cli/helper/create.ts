@@ -72,9 +72,9 @@ export const create = async (
       expiration = answer.expiration;
     }
 
-    let password = options.pass;
+    let password: string;
 
-    if (!password) {
+    if (options.pass === true) {
       const { pwd, confirmPwd } = await inquirer.prompt<{
         pwd: string;
         confirmPwd: string;
@@ -108,6 +108,8 @@ export const create = async (
       }
 
       password = pwd;
+    } else {
+      password = options.pass as string;
     }
 
     let reference = options.ref;

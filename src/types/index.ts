@@ -94,7 +94,7 @@ export interface IUpdateEnvLinkResponse {
 
 export interface ICommandOptions {
   exp?: string;
-  pass?: string;
+  pass?: string | boolean;
   ref?: string;
   selectFiles?: boolean;
   currentPassword?: string;
