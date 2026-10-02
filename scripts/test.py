@@ -176,14 +176,15 @@ class ComprehensiveTestRunner:
             response = requests.post('http://localhost:8000/api/envlinks', 
                 json={
                     'encryptedData': 'eyJmaWxlcyI6W3sibmFtZSI6Ii5lbnYiLCJjb250ZW50IjoiT1BUSU9OQUxfVkFSPW9wdGlvbmFsIn1dfQ==',
-                    'accessKey': 'fallbackTestKey',
                     'filesCount': 1
                 },
                 timeout=5
             )
             if response.status_code == 201:
                 data = response.json()
-                optional_id = data['data']['id']
+                base_id = data['data']['id']
+                test_access_key = 'fallbackTestKey1'
+                optional_id = f"{base_id}{test_access_key}"
                 self.test_envlinks.append(('optional', optional_id, None))
                 self.log(f"Created fallback optional EnvLink: {optional_id}", Colors.CYAN, "→ ")
         except Exception as e:
@@ -192,7 +193,7 @@ class ComprehensiveTestRunner:
         result = self.run_cli("create --optional-pass", input_text="\n\ny\n")
         if result['success'] and 'el_' in result['output']:
             envlink_id = self.extract_extended_envlink_id(result['output'])
-            if envlink_id and '_' in envlink_id[3:]:
+            if envlink_id and len(envlink_id) == 35:
                 self.test_envlinks.append(('optional', envlink_id, None))
                 self.pass_test("create optional-password", f"Created: {envlink_id}")
             else:
@@ -409,7 +410,7 @@ class ComprehensiveTestRunner:
     
     def extract_extended_envlink_id(self, output):
         import re
-        match = re.search(r'(el_[0-9A-Za-z]{16}_[0-9A-Za-z]+)', output)
+        match = re.search(r'(el_[0-9A-Za-z]{32})', output)
         return match.group(1) if match else None
     
     def pass_test(self, name, details=""):
