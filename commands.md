@@ -38,7 +38,7 @@ envlink create --pass
 envlink create --pass <password>
 
 # Create with reference label
-envlink create --ref "production-api-keys"
+envlink create --pass "your password" --ref "production-api-keys"
 
 # Create password-protected with all options
 envlink create --pass <password> --exp 1y --ref "prod-env"
@@ -212,15 +212,14 @@ envlink check-update
 
 ## Common Options
 
-| Option                      | Description                                             |
-| --------------------------- | ------------------------------------------------------- |
-| `--exp <duration>`          | Expiration duration: `30m`, `24h`, `5d`, `6M`, `1y`     |
-| `--pass <password>`         | Password (required for create/expire operations)        |
-| `--current-pass <password>` | Current password (required for update operations)       |
-| `--ref <reference>`         | Reference label (e.g., "prod-api-keys", "staging-db")   |
-| `--optional-pass`           | Create optional-password EnvLink (no password required) |
-| `-f, --files`               | Update files flag                                       |
-| `-s, --select-files`        | File selection mode for install                         |
+| Option                      | Description                                           |
+| --------------------------- | ----------------------------------------------------- |
+| `--exp <duration>`          | Expiration duration: `30m`, `24h`, `5d`, `6M`, `1y`   |
+| `--pass <password>`         | Password (required for create/expire operations)      |
+| `--current-pass <password>` | Current password (required for update operations)     |
+| `--ref <reference>`         | Reference label (e.g., "prod-api-keys", "staging-db") |
+| `-f, --files`               | Update files flag                                     |
+| `-s, --select-files`        | File selection mode for install                       |
 
 ## Notes
 
