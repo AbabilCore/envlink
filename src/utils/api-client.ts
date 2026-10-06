@@ -25,21 +25,30 @@ class ApiClient {
       config.body = JSON.stringify(data);
     }
 
-    const response = await fetch(`${this.baseURL}${endpoint}`, config);
+    try {
+      const response = await fetch(`${this.baseURL}${endpoint}`, config);
 
-    if (!response.ok) {
-      const error: ApiErrorResponse = await response
-        .json()
-        .catch((): ApiErrorResponse => ({ message: "Request failed" }));
+      if (!response.ok) {
+        const error: ApiErrorResponse = await response
+          .json()
+          .catch((): ApiErrorResponse => ({ message: "Request failed" }));
 
-      const errorMessage = ENV.IS_DEV
-        ? error.message || `HTTP ${response.status}: ${response.statusText}`
-        : "Something went wrong. Please try again.";
+        const errorMessage = ENV.IS_DEV
+          ? error.message || `HTTP ${response.status}: ${response.statusText}`
+          : error.message || "Something went wrong. Please try again.";
 
-      throw new Error(errorMessage);
+        throw new Error(errorMessage);
+      }
+
+      return response.json() as Promise<T>;
+    } catch (error) {
+      if (error instanceof Error && error.message.includes("fetch"))
+        throw new Error(
+          "Network error. Please check your connection and try again.",
+        );
+
+      throw error;
     }
-
-    return response.json() as Promise<T>;
   }
 
   async get<T>(endpoint: string): Promise<T> {
