@@ -29,11 +29,11 @@ export const update = async (
     }
 
     const hasUpdates =
-      options.files || options.exp || options.pass !== undefined;
+      options.files || options.exp || options.pass !== undefined || options.ref;
 
     if (!hasUpdates) {
       utils.logger.error(
-        "No update options provided. Use --files, --exp, or --pass",
+        "No update options provided. Use --files, --exp, --pass, or --ref",
         { terminate: true, code: 1 },
       );
       return;
