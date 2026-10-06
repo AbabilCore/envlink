@@ -107,10 +107,6 @@ export interface IErrorWithMessage {
   message: string;
 }
 
-export interface ApiErrorResponse {
-  message?: string;
-}
-
 export type TMethod = (
   message: string,
   config?: { terminate: boolean; code: 1 | 0 },

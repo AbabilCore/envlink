@@ -1,4 +1,3 @@
-import { ApiErrorResponse } from "@/types";
 import { generateZKProof } from "@/lib/auth";
 import ENV from "@/config";
 
@@ -29,15 +28,15 @@ class ApiClient {
       const response = await fetch(`${this.baseURL}${endpoint}`, config);
 
       if (!response.ok) {
-        const error: ApiErrorResponse = await response
-          .json()
-          .catch((): ApiErrorResponse => ({ message: "Request failed" }));
+        const error = await response.json().catch(() => ({
+          message: "Something went wrong. Please try again.",
+        }));
 
-        const errorMessage = ENV.IS_DEV
-          ? error.message || `HTTP ${response.status}: ${response.statusText}`
-          : error.message || "Something went wrong. Please try again.";
-
-        throw new Error(errorMessage);
+        throw new Error(
+          ENV.IS_DEV
+            ? error.message || `HTTP ${response.status}: ${response.statusText}`
+            : error.message,
+        );
       }
 
       return response.json() as Promise<T>;
