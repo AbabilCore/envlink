@@ -1,12 +1,12 @@
-import API_URL from "@/config";
 import { ApiErrorResponse } from "@/types";
 import { generateZKProof } from "@/lib/auth";
+import ENV from "@/config";
 
 class ApiClient {
   private baseURL: string;
 
   constructor() {
-    this.baseURL = API_URL;
+    this.baseURL = ENV.API_URL;
   }
 
   private async request<T>(
@@ -31,9 +31,12 @@ class ApiClient {
       const error: ApiErrorResponse = await response
         .json()
         .catch((): ApiErrorResponse => ({ message: "Request failed" }));
-      throw new Error(
-        error.message || `HTTP ${response.status}: ${response.statusText}`,
-      );
+
+      const errorMessage = ENV.IS_DEV
+        ? error.message || `HTTP ${response.status}: ${response.statusText}`
+        : "Something went wrong. Please try again.";
+
+      throw new Error(errorMessage);
     }
 
     return response.json() as Promise<T>;
