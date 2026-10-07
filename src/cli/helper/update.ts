@@ -2,7 +2,7 @@ import inquirer from "inquirer";
 import path from "path";
 import colors from "colors";
 import { hashPasswordDeterministic } from "@/lib/auth";
-import { encrypt } from "@/lib/crypto";
+import { encrypt, decrypt } from "@/lib/crypto";
 import { ICONS } from "@/constants/icons";
 import * as types from "@/types";
 import * as utils from "@/utils";
@@ -157,6 +157,37 @@ export const update = async (
 
     if (options.pass !== undefined) {
       if (typeof options.pass === "string") {
+        if (!options.files) {
+          try {
+            const installResponse =
+              await utils.apiClient.authenticated<types.IInstallEnvLinkResponse>(
+                "POST",
+                `/envlinks/${id}/install`,
+                id,
+                passwordHash,
+              );
+
+            if (installResponse.data.encryptedData) {
+              let plaintext: string;
+              try {
+                plaintext = await decrypt(
+                  JSON.parse(installResponse.data.encryptedData),
+                  currentPassword,
+                );
+              } catch (decryptError) {
+                throw new Error(
+                  "Failed to decrypt existing data with current password. Please verify --current-pass is correct.",
+                );
+              }
+
+              const reEncrypted = await encrypt(plaintext, options.pass);
+              updateData.encryptedData = JSON.stringify(reEncrypted);
+            }
+          } catch (error) {
+            throw error;
+          }
+        }
+
         updateData.passwordHash = hashPasswordDeterministic(options.pass);
         utils.logger.log(
           `\n${colors.bold("New password:")} ${colors.green("Updated")}`,
