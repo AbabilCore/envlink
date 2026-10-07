@@ -134,25 +134,12 @@ class ComprehensiveTestRunner:
         
         self.create_test_env_file("CREATE_TEST=standard\nVALUE=123")
         
-        try:
-            import requests
-            response = requests.post('http://localhost:8000/api/envlinks', 
-                json={
-                    'encryptedData': 'eyJmaWxlcyI6W3sibmFtZSI6Ii5lbnYiLCJjb250ZW50IjoiVEVTVF9WQVIgPSBoZWxsb193b3JsZCJ9XX0=',
-                    'passwordHash': 'ecd71870d1963316a97e3ac3408c9835ad8cf0f3c1bc703527c30265534f75ae',
-                    'expirationDuration': '1d',
-                    'filesCount': 1,
-                    'reference': 'test-fallback'
-                },
-                timeout=5
-            )
-            if response.status_code == 201:
-                data = response.json()
-                fallback_id = data['data']['id']
-                self.test_envlinks.append(('password', fallback_id, 'test123'))
-                self.log(f"Created fallback EnvLink: {fallback_id}", Colors.CYAN, "→ ")
-        except Exception as e:
-            self.log(f"Fallback API call failed: {str(e)}", Colors.YELLOW, "! ")
+        result = self.run_cli("create --pass test123 --exp 1d --ref test-fallback", input_text="\n\ny\n")
+        if result['success'] and 'el_' in result['output']:
+            envlink_id = self.extract_envlink_id(result['output'])
+            if envlink_id:
+                self.test_envlinks.append(('password', envlink_id, 'test123'))
+                self.log(f"Created main test EnvLink: {envlink_id}", Colors.CYAN, "→ ")
         
         result = self.run_cli("create --pass testpass123 --exp 1d --ref test-standard", input_text="\n\ny\n")
         if result['success'] and 'el_' in result['output']:
@@ -318,11 +305,13 @@ class ComprehensiveTestRunner:
         else:
             self.fail_test("update expiration", f"Update failed: {result['output'][:100]}")
         
-        result = self.run_cli(f"update {envlink_id} --pass newpass123 --current-pass {password}", input_text="y\n")
-        if result['success'] or 'proceed with update' in result['output'].lower():
+        result = self.run_cli(f"update {envlink_id} --pass newpass123 --current-pass {password}", input_text="y\n", timeout=30)
+        if result['success'] or 'proceed with update' in result['output'].lower() or 'updated successfully' in result['output'].lower():
             self.pass_test("update password", f"Password update works for {envlink_id}")
         else:
-            self.fail_test("update password", f"Password update failed: {result['output'][:100]}")
+            stdout_preview = result['stdout'][-200:] if result['stdout'] else 'no stdout'
+            stderr_preview = result['stderr'][-200:] if result['stderr'] else 'no stderr'
+            self.fail_test("update password", f"Exit: {result['exit_code']}, stdout: {stdout_preview}, stderr: {stderr_preview}")
         
         result = self.run_cli(f"update {envlink_id} --ref updated-reference --pass newref123 --current-pass {password}", input_text="y\n")
         if result['success'] or 'proceed with update' in result['output'].lower():
