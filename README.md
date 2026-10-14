@@ -105,3 +105,7 @@ EnvLink offers two security models:
 - No signup required
 - Anonymous sharing
 - Client-side encryption before transmission
+
+## Self-Hosting
+
+Want to run your own EnvLink server? See the [Self-Hosting Guide](./self-host.md) for complete setup instructions.
