@@ -43,8 +43,6 @@
   "files": [
     "dist/index.js",
     "README.md",
-    "commands.md",
-    "faq.md",
     "LICENSE"
   ],
   "devDependencies": {
