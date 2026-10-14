@@ -211,7 +211,7 @@ cd server
 bun run test:api
 ```
 
-For more server details, see the [server README](./server/README.md).
+For more server details, see the [server README](https://github.com/AbabilCore/envlink/blob/main/server/README.md).
 
 ## Part 2: CLI Development (Optional)
 

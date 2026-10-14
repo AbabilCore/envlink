@@ -108,4 +108,4 @@ EnvLink offers two security models:
 
 ## Self-Hosting
 
-Want to run your own EnvLink server? See the [Self-Hosting Guide](./self-host.md) for complete setup instructions.
+Want to run your own EnvLink server? See the [Self-Hosting Guide](https://github.com/AbabilCore/envlink/blob/main/self-host.md) for complete setup instructions.
