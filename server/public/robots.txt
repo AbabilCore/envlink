@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Main pages
+Allow: /
+Allow: /commands
+Allow: /faq
+
+# Static assets
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.gif
+Allow: /*.svg
+Allow: /*.ico
+
+# Block API endpoints from indexing
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://envlink.ababilspark.com/sitemap.xml

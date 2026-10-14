@@ -1,0 +1,25 @@
+{
+  "name": "EnvLink - Secure Environment File Sharing",
+  "short_name": "EnvLink",
+  "description": "Secure and anonymous CLI tool for sharing .env files with password protection and auto-expiration",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#58a6ff",
+  "background_color": "#0d1117",
+  "orientation": "portrait-primary",
+  "categories": ["developer", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/image/favicon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/image/logo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
