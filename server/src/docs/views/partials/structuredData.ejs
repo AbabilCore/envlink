@@ -1,0 +1,30 @@
+<% if (page === 'home') { %>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "EnvLink",
+    "description": "Secure and anonymous CLI tool for sharing .env files with password protection and auto-expiration",
+    "url": "<%= absoluteUrl('/') %>",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": ["Windows", "macOS", "Linux"],
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "EnvLink Team"
+    },
+    "featureList": [
+      "Password-protected sharing",
+      "Zero-knowledge encryption",
+      "Auto-expiration",
+      "Anonymous usage",
+      "Multi-file support",
+      "CLI interface"
+    ]
+  }
+</script>
+<% } %>

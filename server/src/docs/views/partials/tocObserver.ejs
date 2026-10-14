@@ -1,0 +1,26 @@
+<script>
+  pageLoader.hide();
+  
+  const toc = document.getElementById("toc");
+  const headings = document.querySelectorAll("#content h2, #content h3");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const link = toc.querySelector(`a[href="#${entry.target.id}"]`);
+        if (link) {
+          if (entry.isIntersecting) {
+            link.classList.add("text-github-primary", "border-l-github-primary", "bg-github-code");
+            link.classList.remove("text-github-textMuted", "border-transparent");
+          } else {
+            link.classList.remove("text-github-primary", "border-l-github-primary", "bg-github-code");
+            link.classList.add("text-github-textMuted", "border-transparent");
+          }
+        }
+      });
+    },
+    { rootMargin: "-10% 0px -80% 0px" }
+  );
+
+  headings.forEach((h) => observer.observe(h));
+</script>

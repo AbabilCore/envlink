@@ -1,0 +1,54 @@
+<div class="flex max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-8 gap-6 lg:gap-10 lg:flex-row flex-col">
+  <nav
+    class="flex-shrink-0 w-64 sticky self-start max-h-screen overflow-y-auto hidden lg:block"
+    style="top: 85px"
+  >
+    <p
+      class="text-xs font-semibold uppercase tracking-wider text-github-textMuted mb-2.5"
+    >
+      On this page
+    </p>
+    <ul class="list-none m-0 p-0 flex flex-col gap-0.5">
+      <% toc.forEach(item => { %>
+      <li>
+        <a
+          href="#<%= item.id %>"
+          class="block py-1.5 px-2.5 text-xs text-github-textMuted no-underline rounded border-l-2 border-transparent transition-all duration-150 hover:text-github-text hover:bg-github-hover <%= item.level === 3 ? 'pl-5' : '' %>"
+        >
+          <%= item.text %>
+        </a>
+      </li>
+      <% }) %>
+    </ul>
+  </nav>
+
+  <main class="flex-1 min-w-0 w-full">
+    <article class="markdown-body">
+      <%- content %>
+    </article>
+  </main>
+</div>
+
+<script>
+  const tocLinks = document.querySelectorAll('nav a[href^="#"]');
+  const headings = document.querySelectorAll('.markdown-body h2, .markdown-body h3');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const link = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+      if (link) {
+        if (entry.isIntersecting) {
+          link.classList.add('text-github-primary', 'border-l-github-primary', 'bg-github-code');
+          link.classList.remove('text-github-textMuted', 'border-transparent');
+        } else {
+          link.classList.remove('text-github-primary', 'border-l-github-primary', 'bg-github-code');
+          link.classList.add('text-github-textMuted', 'border-transparent');
+        }
+      }
+    });
+  }, { rootMargin: '-10% 0px -80% 0px' });
+
+  headings.forEach(h => observer.observe(h));
+
+  if (window.pageLoader) pageLoader.hide();
+</script>

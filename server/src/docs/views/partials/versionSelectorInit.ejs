@@ -1,0 +1,13 @@
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.VersionSelector) {
+      const versionSelector = new window.VersionSelector({
+        containerId: "version-selector",
+        documentType: "<%= documentType %>"
+      });
+      versionSelector.init();
+    } else {
+      console.error('VersionSelector class not found');
+    }
+  });
+</script>

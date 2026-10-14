@@ -1,0 +1,385 @@
+<header
+  class="bg-github-header border-b border-github-border fixed top-0 left-0 right-0 z-50 w-full"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <div class="flex items-center gap-3">
+        <a
+          href="<%= absoluteUrl('/') %>"
+          class="flex items-center gap-2 no-underline hover:opacity-80 transition-opacity duration-150"
+        >
+          <img
+            src="<%= absoluteUrl('/image/logo.png') %>"
+            alt="EnvLink Logo"
+            class="w-6 h-6 object-contain rounded"
+          />
+          <span class="text-lg font-bold text-github-primary tracking-tight"
+            >EnvLink</span
+          >
+        </a>
+        <span
+          class="hidden sm:inline text-xs bg-github-code text-github-primary border border-github-primary border-opacity-40 rounded-full px-2 py-0.5"
+        >
+          <%= page === 'home' ? 'Home' : page === 'commands' ? 'Commands' : page
+          === 'faq' ? 'FAQ' : 'Home' %>
+        </span>
+      </div>
+
+      <nav class="hidden md:flex items-center space-x-2">
+        <a
+          class="flex items-center gap-1.5 text-xs no-underline px-3 py-1.5 rounded border transition-all duration-150 whitespace-nowrap <%= page === 'home' ? 'text-github-primary bg-github-code border-github-primary font-medium' : 'text-github-textMuted hover:text-github-text border-github-border hover:border-github-textMuted hover:bg-github-hover' %>"
+          href="<%= absoluteUrl('/') %>"
+          <%= page === 'home' ? 'aria-current="page"' : '' %>
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+          Home
+        </a>
+        <a
+          class="flex items-center gap-1.5 text-xs no-underline px-3 py-1.5 rounded border transition-all duration-150 whitespace-nowrap <%= page === 'commands' ? 'text-github-primary bg-github-code border-github-primary font-medium' : 'text-github-textMuted hover:text-github-text border-github-border hover:border-github-textMuted hover:bg-github-hover' %>"
+          href="<%= absoluteUrl('/commands') %>"
+          <%= page === 'commands' ? 'aria-current="page"' : '' %>
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="16 18 22 12 16 6" />
+            <polyline points="8 6 2 12 8 18" />
+          </svg>
+          Commands
+        </a>
+        <a
+          class="flex items-center gap-1.5 text-xs no-underline px-3 py-1.5 rounded border transition-all duration-150 whitespace-nowrap <%= page === 'faq' ? 'text-github-primary bg-github-code border-github-primary font-medium' : 'text-github-textMuted hover:text-github-text border-github-border hover:border-github-textMuted hover:bg-github-hover' %>"
+          href="<%= absoluteUrl('/faq') %>"
+          <%= page === 'faq' ? 'aria-current="page"' : '' %>
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+          FAQ
+        </a>
+        <a
+          class="flex items-center gap-1.5 text-xs text-github-textMuted hover:text-github-text no-underline px-3 py-1.5 rounded border border-github-border transition-all duration-150 whitespace-nowrap hover:border-github-textMuted hover:bg-github-hover"
+          href="https://github.com/AbabilCore/envlink"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.185 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.138 20.203 22 16.447 22 12.021 22 6.484 17.523 2 12 2z"
+            />
+          </svg>
+          GitHub
+        </a>
+        <a
+          class="flex items-center gap-1.5 text-xs text-github-textMuted hover:text-github-text no-underline px-3 py-1.5 rounded border border-github-border transition-all duration-150 whitespace-nowrap hover:border-github-textMuted hover:bg-github-hover"
+          href="https://www.npmjs.com/package/envlink"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M0 0v24h24V0H0zm19.2 19.2H4.8V4.8h14.4v14.4zM8 8v8h4v-6h2v6h2V8H8z"
+            />
+          </svg>
+          npm
+        </a>
+
+        <div
+          class="flex items-center gap-1.5 text-xs text-github-textMuted px-2.5 py-1 rounded border border-github-border ml-2"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="opacity-60"
+          >
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          <span id="views" class="tabular-nums">—</span> views
+        </div>
+      </nav>
+
+      <button
+        id="hamburger-btn"
+        class="md:hidden p-2 text-github-textMuted hover:text-github-text focus:outline-none focus:ring-2 focus:ring-github-primary rounded-md"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Toggle navigation menu"
+      >
+        <span id="hamburger-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            style="pointer-events: none"
+          >
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </span>
+      </button>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden pb-3 sm:pb-4">
+      <nav class="flex flex-col space-y-1.5 sm:space-y-2">
+        <a
+          class="flex items-center gap-2 text-xs sm:text-sm no-underline px-3 py-1.5 sm:py-2 rounded border transition-all duration-150 <%= page === 'home' ? 'text-github-primary bg-github-code border-github-primary font-medium' : 'text-github-textMuted hover:text-github-text border-github-border hover:border-github-textMuted hover:bg-github-hover' %>"
+          href="<%= absoluteUrl('/') %>"
+          <%= page === 'home' ? 'aria-current="page"' : '' %>
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+          Home
+        </a>
+        <a
+          class="flex items-center gap-2 text-xs sm:text-sm no-underline px-3 py-1.5 sm:py-2 rounded border transition-all duration-150 <%= page === 'commands' ? 'text-github-primary bg-github-code border-github-primary font-medium' : 'text-github-textMuted hover:text-github-text border-github-border hover:border-github-textMuted hover:bg-github-hover' %>"
+          href="<%= absoluteUrl('/commands') %>"
+          <%= page === 'commands' ? 'aria-current="page"' : '' %>
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="16 18 22 12 16 6" />
+            <polyline points="8 6 2 12 8 18" />
+          </svg>
+          Commands
+        </a>
+        <a
+          class="flex items-center gap-2 text-xs sm:text-sm no-underline px-3 py-1.5 sm:py-2 rounded border transition-all duration-150 <%= page === 'faq' ? 'text-github-primary bg-github-code border-github-primary font-medium' : 'text-github-textMuted hover:text-github-text border-github-border hover:border-github-textMuted hover:bg-github-hover' %>"
+          href="<%= absoluteUrl('/faq') %>"
+          <%= page === 'faq' ? 'aria-current="page"' : '' %>
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+          FAQ
+        </a>
+        <a
+          class="flex items-center gap-2 text-xs sm:text-sm text-github-textMuted hover:text-github-text no-underline px-3 py-1.5 sm:py-2 rounded border border-github-border transition-all duration-150 hover:border-github-textMuted hover:bg-github-hover"
+          href="https://github.com/AbabilCore/envlink"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.185 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.138 20.203 22 16.447 22 12.021 22 6.484 17.523 2 12 2z"
+            />
+          </svg>
+          GitHub
+        </a>
+        <a
+          class="flex items-center gap-2 text-xs sm:text-sm text-github-textMuted hover:text-github-text no-underline px-3 py-1.5 sm:py-2 rounded border border-github-border transition-all duration-150 hover:border-github-textMuted hover:bg-github-hover"
+          href="https://www.npmjs.com/package/envlink"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M0 0v24h24V0H0zm19.2 19.2H4.8V4.8h14.4v14.4zM8 8v8h4v-6h2v6h2V8H8z"
+            />
+          </svg>
+          npm
+        </a>
+
+        <div
+          class="flex items-center gap-2 text-xs sm:text-sm text-github-textMuted px-3 py-1.5 sm:py-2 rounded border border-github-border"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="opacity-60"
+          >
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          <span id="mobile-views" class="tabular-nums">—</span> views
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<script>
+  document.body.style.paddingTop = "64px";
+
+  const hamburgerBtn = document.getElementById("hamburger-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+  const hamburgerIcon = document.getElementById("hamburger-icon");
+  let isMenuOpen = false;
+
+  hamburgerBtn.addEventListener("click", () => {
+    isMenuOpen = !isMenuOpen;
+    if (isMenuOpen) {
+      mobileMenu.classList.remove("hidden");
+      mobileMenu.classList.add("block");
+      hamburgerBtn.setAttribute("aria-expanded", "true");
+      hamburgerIcon.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+    } else {
+      mobileMenu.classList.add("hidden");
+      mobileMenu.classList.remove("block");
+      hamburgerBtn.setAttribute("aria-expanded", "false");
+      hamburgerIcon.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none;"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    if (
+      isMenuOpen &&
+      !mobileMenu.contains(e.target) &&
+      !hamburgerBtn.contains(e.target)
+    ) {
+      isMenuOpen = false;
+      mobileMenu.classList.add("hidden");
+      hamburgerIcon.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none;"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 768 && isMenuOpen) {
+      isMenuOpen = false;
+      mobileMenu.classList.add("hidden");
+      hamburgerIcon.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none;"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
+    }
+  });
+
+  const desktopViews = document.getElementById("views");
+  const mobileViews = document.getElementById("mobile-views");
+  if (desktopViews && mobileViews) {
+    const observer = new MutationObserver(() => {
+      mobileViews.textContent = desktopViews.textContent;
+    });
+    observer.observe(desktopViews, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+  }
+
+  const viewsElement = document.getElementById("views");
+  if (viewsElement) {
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/siteviews@2.1.2/dist/index.js";
+    script.type = "application/javascript";
+    script.setAttribute("scriptfor", "siteviews");
+    script.setAttribute("project-name", "envlink");
+    script.setAttribute("output-element-id", "views");
+    script.setAttribute("refresh", "10");
+    script.setAttribute("toast", "");
+    script.setAttribute("suppressLogs", "");
+    document.head.appendChild(script);
+  }
+</script>

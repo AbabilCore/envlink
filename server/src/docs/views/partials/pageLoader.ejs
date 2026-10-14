@@ -1,0 +1,101 @@
+<div id="envlink-page-loader" class="fixed inset-0 bg-github-bg flex flex-col items-center justify-center z-50 opacity-100 transition-opacity duration-500" style="backdrop-filter: blur(2px);">
+  <div class="text-center max-w-sm mx-auto px-6">
+    <div class="mb-8">
+      <div class="flex items-center justify-center gap-3 mb-4">
+        <img src="/image/logo.png" alt="EnvLink Logo" class="w-12 h-12 object-contain animate-pulse rounded-full" />
+        <div class="text-4xl font-bold text-github-primary tracking-wide animate-pulse">EnvLink</div>
+      </div>
+      <div class="w-16 h-16 mx-auto mb-4 relative">
+        <div class="absolute inset-0 rounded-full border-3 border-transparent border-t-github-primary animate-spin"></div>
+        <div class="absolute top-2 left-2 w-12 h-12 rounded-full border-3 border-transparent border-t-github-primaryMuted animate-spin" style="animation-duration: 0.7s; animation-direction: reverse;"></div>
+        <div class="absolute top-4 left-4 w-8 h-8 rounded-full border-2 border-transparent border-t-github-primary animate-spin" style="animation-duration: 1.2s;"></div>
+      </div>
+    </div>
+    <div class="w-full mb-4">
+      <div class="w-full bg-github-border rounded-full h-1 overflow-hidden">
+        <div id="loader-progress-bar" class="h-full bg-gradient-to-r from-github-primary to-github-primaryMuted rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
+      </div>
+      <div class="flex justify-between items-center mt-2 text-xs text-github-textMuted">
+        <span>Loading</span>
+        <span id="loader-progress-text">0%</span>
+      </div>
+    </div>
+    <div class="text-github-textMuted text-sm text-center">
+      <span id="loader-message" class="animate-fade-in-out">Loading documentation...</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes fadeInOut {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+  .animate-fade-in-out {
+    animation: fadeInOut 2s ease-in-out infinite;
+  }
+  .border-3 {
+    border-width: 3px;
+  }
+</style>
+
+<script>
+  window.EnvLinkPageLoader = {
+    startTime: Date.now(),
+    progressInterval: null,
+    currentProgress: 0,
+    
+    updateProgress(progress) {
+      const progressBar = document.getElementById("loader-progress-bar");
+      const progressText = document.getElementById("loader-progress-text");
+      if (progressBar && progressText) {
+        progressBar.style.width = `${progress}%`;
+        progressText.textContent = `${Math.round(progress)}%`;
+      }
+      this.currentProgress = progress;
+    },
+    
+    startAnimation() {
+      let progress = 0;
+      const increment = Math.random() * 15 + 5;
+      
+      this.progressInterval = setInterval(() => {
+        progress += increment;
+        if (progress > 90) progress += Math.random() * 2;
+        if (progress >= 95) {
+          progress = 95;
+          clearInterval(this.progressInterval);
+        }
+        this.updateProgress(progress);
+      }, 150 + Math.random() * 100);
+    },
+    
+    hide() {
+      const elapsed = Date.now() - this.startTime;
+      const remainingTime = Math.max(0, 800 - elapsed);
+      
+      this.updateProgress(100);
+      
+      setTimeout(() => {
+        if (this.progressInterval) clearInterval(this.progressInterval);
+        const loader = document.getElementById("envlink-page-loader");
+        if (loader) {
+          loader.classList.add("opacity-0", "pointer-events-none");
+          setTimeout(() => {
+            loader.remove();
+            document.body.style.overflow = "";
+          }, 500);
+        }
+      }, remainingTime);
+    },
+    
+    show() {
+      this.startTime = Date.now();
+      document.body.style.overflow = "hidden";
+      this.startAnimation();
+    }
+  };
+  
+  window.pageLoader = window.EnvLinkPageLoader;
+  window.pageLoader.show();
+</script>
