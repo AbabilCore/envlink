@@ -1,0 +1,57 @@
+{
+  "name": "envlink-server",
+  "version": "1.0.1",
+  "description": "Secure environment file sharing server with zero-knowledge encryption",
+  "main": "./build/server.js",
+  "scripts": {
+    "build": "sh scripts/app.sh build",
+    "dev": "sh scripts/app.sh dev",
+    "start": "sh scripts/app.sh start",
+    "preview": "sh scripts/app.sh preview",
+    "test:api": "./scripts/api.test.js"
+  },
+  "keywords": [
+    "envlink",
+    "environment-variables",
+    "env-file",
+    "encryption",
+    "zero-knowledge",
+    "secure-sharing"
+  ],
+  "author": "Ababil Hossain (DevAbabil) <hi@ababilspark.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AbabilCore/envlink.git"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "@types/html-minifier-terser": "^7.0.2",
+    "@types/node": "^24.19.2",
+    "@vercel/node": "^5.10.2",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.4.2",
+    "ejs": "^7.0.1",
+    "envsafe": "^2.0.3",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.1",
+    "highlight.js": "^11.12.0",
+    "html-minifier-terser": "^7.2.0",
+    "http-status-codes": "^2.3.0",
+    "marked": "^18.1.1",
+    "mermaid": "^12.2.0",
+    "mongoose": "^9.11.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/bun": "latest",
+    "@types/ejs": "^3.1.5",
+    "@types/express": "^5.0.6",
+    "@types/express-rate-limit": "^6.0.2",
+    "@types/marked": "^6.0.0",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3"
+  },
+  "private": true
+}
