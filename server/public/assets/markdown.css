@@ -220,6 +220,14 @@
   margin-bottom: 2rem;
 }
 
+.markdown-body details table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .markdown-body details table:not(:last-child) {
   margin-bottom: 2rem;
 }

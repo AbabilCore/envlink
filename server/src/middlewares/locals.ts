@@ -13,7 +13,7 @@ export const addDocsLocals: RequestHandler = async (req, res, next) => {
 
   try {
     res.locals.stats = await statsService.getStats();
-  } catch (error) {
+  } catch {
     res.locals.stats = {
       total_created: 0,
       total_installed: 0,

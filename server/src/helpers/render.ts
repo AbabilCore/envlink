@@ -1,4 +1,4 @@
-import type { Application, Response } from "express";
+import type { Response } from "express";
 
 interface RenderOptions {
   title: string;
@@ -10,7 +10,6 @@ interface RenderOptions {
 }
 
 export const renderWithLayout = (
-  app: Application,
   res: Response,
   view: string,
   options: RenderOptions,
@@ -23,7 +22,7 @@ export const renderWithLayout = (
     res.status(status);
   }
 
-  app.render(
+  res.app.render(
     view,
     {
       ...res.locals,
@@ -52,15 +51,8 @@ export const renderWithLayout = (
             if (callback) return callback(renderErr);
             throw renderErr;
           }
-
-          // Actually send the response
-          if (!res.headersSent) {
-            res.send(html);
-          }
-
-          if (callback) {
-            callback(null);
-          }
+          if (!res.headersSent) res.send(html);
+          if (callback) callback(null);
         },
       );
     },

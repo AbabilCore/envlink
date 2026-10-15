@@ -78,7 +78,6 @@ export const globalErrorHandler: ErrorRequestHandler = async (
   }
 
   renderWithLayout(
-    res.app,
     res,
     "pages/error",
     {

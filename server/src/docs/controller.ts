@@ -4,7 +4,7 @@ import { getDoc } from "./service";
 export const renderIndex = catchAsync(async (req, res) => {
   const { content, toc } = await getDoc("README.md");
 
-  renderWithLayout(res.app, res, "pages/index", {
+  renderWithLayout(res, "pages/index", {
     title:
       "EnvLink - Secure Environment File Sharing CLI | Anonymous .env Sharing",
     description:
@@ -19,7 +19,7 @@ export const renderIndex = catchAsync(async (req, res) => {
 export const renderCommands = catchAsync(async (req, res) => {
   const { content, toc } = await getDoc("commands.md");
 
-  renderWithLayout(res.app, res, "pages/commands", {
+  renderWithLayout(res, "pages/commands", {
     title: "EnvLink CLI Commands Reference | Complete Command Guide",
     description:
       "Complete reference guide for EnvLink CLI commands. Learn how to create, install, update, and manage secure environment file shares with detailed examples and options.",
@@ -33,7 +33,7 @@ export const renderCommands = catchAsync(async (req, res) => {
 export const renderFaq = catchAsync(async (req, res) => {
   const { content, toc } = await getDoc("faq.md");
 
-  renderWithLayout(res.app, res, "pages/faq", {
+  renderWithLayout(res, "pages/faq", {
     title: "EnvLink FAQ | Security, Expiration & Usage Questions Answered",
     description:
       "Get answers to frequently asked questions about EnvLink security, expiration policies, file limits, and usage. Learn about zero-knowledge encryption and password protection.",
@@ -47,7 +47,7 @@ export const renderFaq = catchAsync(async (req, res) => {
 export const renderChangelog = catchAsync(async (req, res) => {
   const { content, toc } = await getDoc("changelog.md");
 
-  renderWithLayout(res.app, res, "pages/changelog", {
+  renderWithLayout(res, "pages/changelog", {
     title: "EnvLink Changelog | Release History & Updates",
     description:
       "Complete changelog and release history for EnvLink CLI. Track new features, security improvements, and bug fixes across all versions.",
@@ -59,7 +59,7 @@ export const renderChangelog = catchAsync(async (req, res) => {
 });
 
 export const renderWorkflowIndex = catchAsync(async (req, res) => {
-  renderWithLayout(res.app, res, "pages/workflows/index", {
+  renderWithLayout(res, "pages/workflows/index", {
     title:
       "EnvLink Workflows | Encryption & Zero-Knowledge Proof Flow Diagrams",
     description:
@@ -72,7 +72,7 @@ export const renderWorkflowIndex = catchAsync(async (req, res) => {
 export const renderEncryptionFlow = catchAsync(async (req, res) => {
   const { content, toc } = await getDoc("encryption-flow.md");
 
-  renderWithLayout(res.app, res, "pages/workflows/encryption-flow", {
+  renderWithLayout(res, "pages/workflows/encryption-flow", {
     title: "EnvLink Encryption Flow | AES-256-GCM Technical Diagram",
     description:
       "Technical diagram showing EnvLink's encryption workflow using AES-256-GCM encryption, PBKDF2 key derivation, and secure file sharing process.",
@@ -86,7 +86,7 @@ export const renderEncryptionFlow = catchAsync(async (req, res) => {
 export const renderAuthenticationFlow = catchAsync(async (req, res) => {
   const { content, toc } = await getDoc("authentication-flow.md");
 
-  renderWithLayout(res.app, res, "pages/workflows/authentication-flow", {
+  renderWithLayout(res, "pages/workflows/authentication-flow", {
     title: "EnvLink Zero-Knowledge Proof Flow | ZKP Authentication Diagram",
     description:
       "Technical diagram showing EnvLink's zero-knowledge proof authentication process. Understand how passwords are verified without being stored.",
@@ -100,7 +100,7 @@ export const renderAuthenticationFlow = catchAsync(async (req, res) => {
 export const renderSelfHost = catchAsync(async (req, res) => {
   const { content, toc } = await getDoc("self-host.md");
 
-  renderWithLayout(res.app, res, "pages/self-host", {
+  renderWithLayout(res, "pages/self-host", {
     title: "Self-Host EnvLink | Complete Setup & Deployment Guide",
     description:
       "Complete guide to self-hosting EnvLink server. Learn how to deploy on VPS, cloud platforms, configure MongoDB, and publish your custom CLI package.",
