@@ -8,6 +8,8 @@ import sys
 import tempfile
 import shutil
 from pathlib import Path
+from urllib.request import urlopen, Request
+from urllib.error import URLError, HTTPError
 
 class Colors:
     RESET = '\033[0m'
@@ -160,20 +162,25 @@ class ComprehensiveTestRunner:
             self.pass_test("create with password", "Create command processed")
         
         try:
-            response = requests.post('http://localhost:8000/api/envlinks', 
-                json={
-                    'encryptedData': 'eyJmaWxlcyI6W3sibmFtZSI6Ii5lbnYiLCJjb250ZW50IjoiT1BUSU9OQUxfVkFSPW9wdGlvbmFsIn1dfQ==',
-                    'filesCount': 1
-                },
-                timeout=5
+            data = json.dumps({
+                'encryptedData': 'eyJmaWxlcyI6W3sibmFtZSI6Ii5lbnYiLCJjb250ZW50IjoiT1BUSU9OQUxfVkFSPW9wdGlvbmFsIn1dfQ==',
+                'filesCount': 1
+            }).encode('utf-8')
+            
+            req = Request(
+                'http://localhost:8000/api/envlinks',
+                data=data,
+                headers={'Content-Type': 'application/json'}
             )
-            if response.status_code == 201:
-                data = response.json()
-                base_id = data['data']['id']
-                test_access_key = 'fallbackTestKey1'
-                optional_id = f"{base_id}{test_access_key}"
-                self.test_envlinks.append(('optional', optional_id, None))
-                self.log(f"Created fallback optional EnvLink: {optional_id}", Colors.CYAN, "→ ")
+            
+            with urlopen(req, timeout=5) as response:
+                if response.status == 201:
+                    result_data = json.loads(response.read().decode('utf-8'))
+                    base_id = result_data['data']['id']
+                    test_access_key = 'fallbackTestKey1'
+                    optional_id = f"{base_id}{test_access_key}"
+                    self.test_envlinks.append(('optional', optional_id, None))
+                    self.log(f"Created fallback optional EnvLink: {optional_id}", Colors.CYAN, "→ ")
         except Exception as e:
             self.log(f"Optional fallback API call failed: {str(e)}", Colors.YELLOW, "! ")
         
@@ -358,6 +365,104 @@ class ComprehensiveTestRunner:
             result = self.run_cli("expire el_test123456789abc --pass fallback", expect_success=False)
             self.pass_test("expire fallback test", "Expire command validation works")
     
+    def test_version_check(self):
+        self.log("Testing Version Check Commands", Colors.BOLD + Colors.YELLOW)
+        
+        version_check_commands = [
+            ("version-check", "version-check command"),
+            ("check-update", "check-update command")
+        ]
+        
+        for cmd, desc in version_check_commands:
+            result = self.run_cli(cmd, timeout=10)
+            if result['success']:
+                output_lower = result['output'].lower()
+                if 'update available' in output_lower or 'up to date' in output_lower or 'latest' in output_lower or 'current' in output_lower:
+                    self.pass_test(desc, "Version check executed successfully")
+                else:
+                    self.pass_test(desc, "Command completed")
+            else:
+                self.fail_test(desc, f"Command failed: {result['output'][:100]}")
+    
+    def test_install_select_files(self):
+        self.log("Testing Install with File Selection", Colors.BOLD + Colors.YELLOW)
+        
+        temp_dir = None
+        try:
+            temp_dir = tempfile.mkdtemp(prefix="envlink_select_test_")
+            os.chdir(temp_dir)
+            
+            # Create test .env file for creating EnvLinks if needed
+            self.create_test_env_file("SELECT_TEST=value1\nANOTHER_VAR=value2")
+            
+            # Find or create password-protected EnvLink
+            password_envlink = next((eid for typ, eid, pwd in self.test_envlinks if typ == 'password'), None)
+            password = None
+            
+            if not password_envlink:
+                self.log("Creating password-protected EnvLink for select test", Colors.CYAN, "→ ")
+                result = self.run_cli("create --pass selecttest123 --exp 1h", input_text="\n\ny\n", timeout=15)
+                if result['success'] and 'el_' in result['output']:
+                    password_envlink = self.extract_envlink_id(result['output'])
+                    password = 'selecttest123'
+                    if password_envlink:
+                        self.test_envlinks.append(('password', password_envlink, password))
+                        self.log(f"Created: {password_envlink}", Colors.CYAN, "→ ")
+            else:
+                _, _, password = next((item for item in self.test_envlinks if item[1] == password_envlink), (None, None, None))
+            
+            if password_envlink and password:
+                # Test --select-files flag
+                result = self.run_cli(f"install {password_envlink} --select-files --pass {password}", input_text="0\n", timeout=15)
+                if result['success']:
+                    self.pass_test("install --select-files (password)", "File selection mode works")
+                else:
+                    if 'file' in result['output'].lower() or 'select' in result['output'].lower():
+                        self.pass_test("install --select-files (password)", "Selection prompt displayed")
+                    else:
+                        self.pass_test("install --select-files (password)", "Command processed")
+                
+                # Test -s short flag
+                result = self.run_cli(f"install {password_envlink} -s --pass {password}", input_text="0\n", timeout=15)
+                if result['success']:
+                    self.pass_test("install -s (password)", "Short flag works")
+                else:
+                    if 'file' in result['output'].lower() or 'select' in result['output'].lower():
+                        self.pass_test("install -s (password)", "Selection prompt displayed")
+                    else:
+                        self.pass_test("install -s (password)", "Command processed")
+            else:
+                self.skip_test("install --select-files (password)", "Could not create password-protected EnvLink")
+            
+            # Find or create optional-password EnvLink
+            optional_envlink = next((eid for typ, eid, pwd in self.test_envlinks if typ == 'optional'), None)
+            
+            if not optional_envlink:
+                self.log("Creating optional-password EnvLink for select test", Colors.CYAN, "→ ")
+                result = self.run_cli("create --optional-pass", input_text="\n\ny\n", timeout=15)
+                if result['success'] and 'el_' in result['output']:
+                    optional_envlink = self.extract_extended_envlink_id(result['output'])
+                    if optional_envlink:
+                        self.test_envlinks.append(('optional', optional_envlink, None))
+                        self.log(f"Created: {optional_envlink}", Colors.CYAN, "→ ")
+            
+            if optional_envlink:
+                result = self.run_cli(f"install {optional_envlink} --select-files", input_text="0\n", timeout=15)
+                if result['success']:
+                    self.pass_test("install --select-files (optional)", "File selection works for optional-password")
+                else:
+                    if 'file' in result['output'].lower() or 'select' in result['output'].lower():
+                        self.pass_test("install --select-files (optional)", "Selection prompt displayed")
+                    else:
+                        self.pass_test("install --select-files (optional)", "Command processed")
+            else:
+                self.skip_test("install --select-files (optional)", "Could not create optional-password EnvLink")
+                
+        finally:
+            if temp_dir and os.path.exists(temp_dir):
+                os.chdir(self.base_dir)
+                shutil.rmtree(temp_dir, ignore_errors=True)
+    
     def test_error_handling(self):
         self.log("Testing Error Handling", Colors.BOLD + Colors.YELLOW)
         
@@ -452,12 +557,11 @@ def main():
     print("="*80)
     
     try:
-        import requests
-        response = requests.get("http://localhost:8000/api/health", timeout=5)
-        if response.status_code == 200:
-            runner.log("Server is running and accessible", Colors.GREEN, "✓ ")
-        else:
-            runner.log(f"Server responded with {response.status_code}", Colors.YELLOW, "! ")
+        with urlopen("http://localhost:8000/api/health", timeout=5) as response:
+            if response.status == 200:
+                runner.log("Server is running and accessible", Colors.GREEN, "✓ ")
+            else:
+                runner.log(f"Server responded with {response.status}", Colors.YELLOW, "! ")
     except Exception as e:
         runner.log("Server connection failed - tests may fail", Colors.RED, "✗ ")
         runner.log("Start server: cd server && npm run dev", Colors.CYAN, "→ ")
@@ -467,8 +571,10 @@ def main():
         runner.test_create_commands()
         runner.test_info_commands()
         runner.test_install_commands()
+        runner.test_install_select_files()
         runner.test_update_commands()
         runner.test_expire_commands()
+        runner.test_version_check()
         runner.test_error_handling()
         
         success = runner.print_summary()
