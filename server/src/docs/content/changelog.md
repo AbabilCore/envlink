@@ -2,6 +2,29 @@
 
 Track EnvLink's evolution through our complete release history. From major security improvements to minor bug fixes, stay updated with all changes.
 
+## v2.5.2
+
+_Released: October 16, 2026_
+
+<details>
+<summary><strong>Bug Fixes & UX Improvements</strong></summary>
+
+- **Fixed CLI Error Handling:** Resolved issue where `install`, `info`, and `expire` commands threw unhandled exceptions with stack traces when missing or invalid EnvLink IDs were provided
+- **Added Issue Reporting:** All error messages now include a helpful link to report bugs on GitHub
+- **Improved Error Messages:** Replaced ugly stack traces with clean, user-friendly error messages
+
+</details>
+
+<details>
+<summary><strong>Benefits</strong></summary>
+
+- Better user experience with clear error messages
+- Easy bug reporting directly from error output
+- More robust error handling across CLI commands
+- Cleaner terminal output without technical stack traces
+
+</details>
+
 ## v2.5.1
 
 _Released: October 14, 2026_
