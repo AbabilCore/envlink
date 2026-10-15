@@ -1,9 +1,11 @@
 <script type="module">
-  if (document.querySelector(".mermaid")) {
-    const mermaid =
+  const mermaidElements = document.querySelectorAll(".mermaid");
+  if (mermaidElements.length > 0) {
+    const { default: mermaid } =
       await import("https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs");
-    mermaid.default.initialize({
-      startOnLoad: true,
+
+    mermaid.initialize({
+      startOnLoad: false,
       theme: "dark",
       themeVariables: {
         darkMode: true,
@@ -17,5 +19,7 @@
         fontSize: "14px",
       },
     });
+
+    await mermaid.run({ querySelector: ".mermaid" });
   }
 </script>
