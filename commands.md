@@ -18,7 +18,6 @@ envlink --help
 envlink help <command>
 
 # Check for available updates
-envlink version-check
 envlink check-update
 ```
 
@@ -42,9 +41,6 @@ envlink create --pass "your password" --ref "production-api-keys"
 
 # Create password-protected with all options
 envlink create --pass <password> --exp 1y --ref "prod-env"
-
-# Create optional-password EnvLink (deprecated: this is now default)
-envlink create --optional-pass
 ```
 
 **Expiration units:** `m` (minutes), `h` (hours), `d` (days), `M` (months), `y` (years)
