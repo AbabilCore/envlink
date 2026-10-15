@@ -2,6 +2,26 @@
 
 Track EnvLink's evolution through our complete release history. From major security improvements to minor bug fixes, stay updated with all changes.
 
+## v2.5.1
+
+_Released: October 14, 2026_
+
+<details>
+<summary><strong>Documentation & Infrastructure</strong></summary>
+
+- **Unified Repository:** Server moved into main EnvLink repository at [`/server`](https://github.com/AbabilCore/envlink/tree/main/server) for easier maintenance and self-hosting
+- **Self-Hosting Documentation:** Comprehensive self-hosting guide added with complete server setup instructions
+- **API Documentation:** Simplified API endpoint documentation with clear descriptions
+
+</details>
+
+<details>
+<summary><strong>Benefits</strong></summary>
+
+- Self-hosting is now fully documented and accessible with server included in main repo
+
+</details>
+
 ## v2.5.0
 
 _Released: October 7, 2026_
