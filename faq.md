@@ -2,7 +2,7 @@
 
 ## Expiration
 
-<details>
+<details open>
 <summary>What expiration formats are supported?</summary>
 
 **Password-Protected EnvLinks:** Support flexible expiration - minutes (m), hours (h), days (d), months (M), years (y), or 'never'. Examples: `30m` for 30 minutes, `24h` for 24 hours, `5d` for 5 days, `6M` for 6 months, `1y` for 1 year, or `never` for permanent links.
@@ -11,7 +11,7 @@
 
 </details>
 
-<details>
+<details open>
 <summary>What is the default expiration time?</summary>
 
 **Password-Protected:** 1 day if not specified during creation  
@@ -19,14 +19,14 @@
 
 </details>
 
-<details>
+<details open>
 <summary>Can I create an EnvLink that never expires?</summary>
 
 Yes, use `--exp never` when creating or updating an EnvLink to make it permanent.
 
 </details>
 
-<details>
+<details open>
 <summary>What happens to expired EnvLinks?</summary>
 
 When manually expired or cleaned up by automatic maintenance, the EnvLink is permanently deleted from the server.
@@ -35,7 +35,7 @@ When manually expired or cleaned up by automatic maintenance, the EnvLink is per
 
 ## Security
 
-<details>
+<details open>
 <summary>Is password protection required?</summary>
 
 No, password protection is optional. EnvLink supports two types:
@@ -48,7 +48,7 @@ Both types maintain client-side encryption - your data is always encrypted befor
 
 </details>
 
-<details>
+<details open>
 <summary>What's the difference between password-protected and optional-password EnvLinks?</summary>
 
 | Feature                | Password-Protected           | Optional-Password                 |
@@ -65,7 +65,7 @@ Both types use client-side encryption and provide complete zero-knowledge securi
 
 </details>
 
-<details>
+<details open>
 <summary>Can the server decrypt my data? 🔥 <i>(Most Asked)</i></summary>
 
 **Password-Protected EnvLinks:** **No.** The server uses zero-knowledge proof (ZK-proof) authentication and only stores encrypted data and password hashes. Your password derives the encryption key through PBKDF2, and the server can verify you know the correct password **without ever seeing or storing the password itself**. The server **cannot decrypt your data**.
@@ -74,14 +74,14 @@ Both types use client-side encryption and provide complete zero-knowledge securi
 
 </details>
 
-<details>
+<details open>
 <summary>Can I add a reference label to my EnvLink?</summary>
 
 Yes, use the `--ref` option to add a descriptive label (e.g., "production-api-keys", "staging-db"). This helps organize and identify EnvLinks, especially when managing multiple links.
 
 </details>
 
-<details>
+<details open>
 <summary>How is my data secured?</summary>
 
 All file content is encrypted using AES-256-GCM encryption before storage. The encryption uses a unique initialization vector (IV) and salt for each EnvLink.
@@ -126,27 +126,27 @@ graph LR
 - **Optional-Password:** Server never stores access keys - **Cannot decrypt your data** (zero-knowledge)
 - **Both:** Use AES-256-GCM encryption and PBKDF2 (100,000 iterations)
 
-**🔒 Ultra-Clean Zero-Knowledge:** Both EnvLink types now provide complete zero-knowledge security. Optional-password EnvLinks achieve this by keeping the decryption key client-side only.
+**Ultra-Clean Zero-Knowledge:** Both EnvLink types now provide complete zero-knowledge security. Optional-password EnvLinks achieve this by keeping the decryption key client-side only.
 
 </details>
 
 ## File Limits
 
-<details>
+<details open>
 <summary>How many files can I share in one EnvLink?</summary>
 
 You can share up to 10 .env files in a single EnvLink.
 
 </details>
 
-<details>
+<details open>
 <summary>What is the file size limit?</summary>
 
 Each individual file can be up to 100KB, and the total payload for all files combined cannot exceed 500KB.
 
 </details>
 
-<details>
+<details open>
 <summary>What file naming patterns are accepted?</summary>
 
 Files must follow the .env naming pattern: `.env` or `.env.{suffix}` where suffix can contain alphanumeric characters, underscores, or hyphens (e.g., .env, .env.local, .env.production).
@@ -155,7 +155,7 @@ Files must follow the .env naming pattern: `.env` or `.env.{suffix}` where suffi
 
 ## Technical
 
-<details>
+<details open>
 <summary>What is the format of an EnvLink ID?</summary>
 
 **Password-Protected:** `el_` followed by 16 alphanumeric characters (e.g., `el_abc123xyz456`)
@@ -166,7 +166,7 @@ The extended format embeds the decryption key directly in the ID for zero-knowle
 
 </details>
 
-<details>
+<details open>
 <summary>What happens if a file already exists during installation?</summary>
 
 EnvLink will detect existing files and prompt you to confirm overwriting them. Files marked as existing will show a warning indicator during the selection process.
