@@ -1,7 +1,11 @@
 import { Router } from "express";
 import * as controller from "./controller";
+import * as middlewares from "@/middlewares";
 
 const router = Router();
+
+router.use(middlewares.addDocsLocals);
+router.use(middlewares.htmlMinifierMiddleware);
 
 router.get("/", controller.renderIndex);
 router.get("/commands", controller.renderCommands);

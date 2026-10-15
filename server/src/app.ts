@@ -17,8 +17,6 @@ app.set("views", path.join(__dirname, "docs/views"));
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
 app.use(express.static(path.join(process.cwd(), "public")));
-app.use(middlewares.addLocals);
-app.use(middlewares.htmlMinifierMiddleware);
 
 if (ENV.NODE_ENV == "development") {
   app.use((req, res, next) => {

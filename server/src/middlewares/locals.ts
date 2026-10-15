@@ -2,9 +2,7 @@ import { SITE_URL } from "@/constants";
 import type { RequestHandler } from "express";
 import * as statsService from "@/apis/stats/service";
 
-export const addLocals: RequestHandler = async (req, res, next) => {
-  res.locals.currentYear = new Date().getFullYear();
-
+export const addDocsLocals: RequestHandler = async (req, res, next) => {
   res.locals.absoluteUrl = (path = ""): string => {
     try {
       return new URL(path, SITE_URL).toString();
