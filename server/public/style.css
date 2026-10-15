@@ -127,7 +127,7 @@
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   margin-top: 1rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 2rem;
   border: 1px solid #30363d;
   border-radius: 8px;
   background-color: #0d1117;
@@ -137,7 +137,7 @@
   border-collapse: collapse;
   width: 100%;
   min-width: 100%;
-  margin: 0 !important;
+  margin: 0 0 1.25rem 0 !important;
   display: table;
   font-size: 14px;
   border: none !important;
@@ -153,7 +153,7 @@
   border: 1px solid #30363d;
   border-radius: 8px;
   margin-top: 1rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 2rem;
 }
 
 .markdown-body table th,
@@ -213,6 +213,19 @@
 
 .markdown-body details[open] summary {
   margin-bottom: 10px;
+}
+
+.markdown-body details table,
+.markdown-body details > .table-container {
+  margin-bottom: 2rem;
+}
+
+.markdown-body details table:not(:last-child) {
+  margin-bottom: 2rem;
+}
+
+.markdown-body details p:last-child {
+  margin-bottom: 0;
 }
 
 /* Blockquote & Details Styles End */
@@ -277,7 +290,7 @@
 
   .table-container {
     margin-top: 0.75rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     border-radius: 6px;
   }
 
@@ -356,9 +369,14 @@
     font-size: 13.5px;
   }
 
+  .markdown-body details table,
+  .markdown-body details > .table-container {
+    margin-bottom: 1.25rem;
+  }
+
   .table-container {
     margin-top: 0.6rem;
-    margin-bottom: 0.9rem;
+    margin-bottom: 1.25rem;
     border-radius: 6px;
   }
 
