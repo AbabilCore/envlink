@@ -1,12 +1,12 @@
 <div class="flex max-w-6xl mx-auto px-6 py-8 gap-10 lg:flex-row flex-col">
-  <nav class="flex-shrink-0 w-64 sticky self-start max-h-screen overflow-y-auto hidden lg:block" style="top: 85px">
+  <nav class="flex-shrink-0 w-64 sticky top-[85px] self-start max-h-screen overflow-y-auto hidden lg:block">
     <p class="text-xs font-semibold uppercase tracking-wider text-github-textMuted mb-2.5">
       On this page
     </p>
     <ul id="toc" class="list-none m-0 p-0 flex flex-col gap-0.5">
       <% toc.forEach(item => { %>
         <li>
-          <a href="#<%= item.id %>" class="block py-1.5 px-2.5 text-xs text-github-textMuted no-underline rounded border-l-2 border-transparent transition-all duration-150 hover:text-github-text hover:bg-github-hover" style="<%= item.level === 3 ? 'padding-left: 20px' : '' %>">
+          <a href="#<%= item.id %>" class="block py-1.5 text-xs text-github-textMuted no-underline rounded border-l-2 border-transparent transition-all duration-150 hover:text-github-text hover:bg-github-hover <%= item.level === 3 ? 'pl-5' : 'px-2.5' %>">
             <%= item.text %>
           </a>
         </li>
