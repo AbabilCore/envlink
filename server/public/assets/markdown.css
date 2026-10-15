@@ -1,0 +1,425 @@
+/* Markdown Base & Typography Styles Start */
+
+.markdown-body {
+  background-color: transparent !important;
+  color: #e6edf3 !important;
+  font-size: 16px;
+  line-height: 1.6;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.markdown-body h1 {
+  border-bottom: 1px solid #30363d;
+  padding-bottom: 12px;
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.markdown-body h2 {
+  border-bottom: 1px solid #21262d;
+  padding-bottom: 8px;
+  margin-top: 36px;
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.3;
+  scroll-margin-top: 100px;
+}
+
+.markdown-body h3 {
+  margin-top: 28px;
+  margin-bottom: 12px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.35;
+  scroll-margin-top: 100px;
+}
+
+.markdown-body h4 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.markdown-body p,
+.markdown-body ul,
+.markdown-body ol {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body pre {
+  background-color: #161b22 !important;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-top: 0;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+.markdown-body pre code {
+  background-color: transparent !important;
+  color: inherit !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-size: 13.5px;
+  line-height: 1.5;
+  white-space: pre;
+  word-break: normal;
+  display: block;
+}
+
+.markdown-body code:not(pre code) {
+  background-color: #388bfd26;
+  color: #79c0ff;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 85%;
+  display: inline;
+  margin: 0 3px;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.markdown-body em,
+.markdown-body strong,
+.markdown-body a {
+  display: inline;
+}
+
+.markdown-body img {
+  display: inline !important;
+  margin: 0 2px !important;
+  vertical-align: middle;
+  max-width: 100%;
+  height: auto;
+}
+
+.markdown-body span[style] {
+  display: inline !important;
+  all: revert;
+}
+
+.markdown-body h2 span[style],
+.markdown-body h3 span[style] {
+  all: revert;
+  display: inline !important;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* Markdown Base & Typography Styles End */
+
+/* Table Styles Start */
+
+.table-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  background-color: #0d1117;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 100%;
+  margin: 0 0 1.25rem 0 !important;
+  display: table;
+  font-size: 14px;
+  border: none !important;
+}
+
+.markdown-body > table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-collapse: collapse;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 10px 14px;
+  border: 1px solid #30363d;
+  text-align: left;
+  line-height: 1.5;
+}
+
+.markdown-body table th {
+  background-color: #161b22;
+  color: #e6edf3;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #161b2266;
+}
+
+.markdown-body table tr:hover td {
+  background-color: #21262d40;
+}
+
+.markdown-body table td code {
+  white-space: nowrap;
+}
+
+/* Table Styles End */
+
+/* Blockquote & Details Styles Start */
+
+.markdown-body blockquote {
+  border-left: 3px solid #388bfd;
+  color: #8b949e;
+  padding: 0.5em 1em;
+  margin: 0 0 16px 0;
+  background-color: #161b2233;
+  border-radius: 0 6px 6px 0;
+}
+
+.markdown-body details {
+  margin-bottom: 14px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 10px 14px;
+  background-color: #161b2233;
+}
+
+.markdown-body details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #e6edf3;
+  padding: 2px 0;
+}
+
+.markdown-body details[open] summary {
+  margin-bottom: 10px;
+}
+
+.markdown-body details table,
+.markdown-body details > .table-container {
+  margin-bottom: 2rem;
+}
+
+.markdown-body details table:not(:last-child) {
+  margin-bottom: 2rem;
+}
+
+.markdown-body details p:last-child {
+  margin-bottom: 0;
+}
+
+/* Blockquote & Details Styles End */
+
+/* Mermaid Diagram Styles Start */
+
+.markdown-body pre.mermaid {
+  background-color: transparent !important;
+  border: none !important;
+  padding: 20px 0 !important;
+  text-align: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+.markdown-body .mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Mermaid Diagram Styles End */
+
+/* Responsive Scaling Styles Start */
+
+@media (max-width: 768px) {
+  .markdown-body {
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+
+  .markdown-body h1 {
+    font-size: 1.6rem !important;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+  }
+
+  .markdown-body h2 {
+    font-size: 1.3rem !important;
+    margin-top: 28px;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+    scroll-margin-top: 80px;
+  }
+
+  .markdown-body h3 {
+    font-size: 1.15rem !important;
+    margin-top: 22px;
+    margin-bottom: 10px;
+    scroll-margin-top: 80px;
+  }
+
+  .markdown-body pre {
+    padding: 12px 14px !important;
+    margin-bottom: 14px;
+    border-radius: 6px;
+  }
+
+  .markdown-body pre code {
+    font-size: 12.5px !important;
+  }
+
+  .table-container {
+    margin-top: 0.75rem;
+    margin-bottom: 1.5rem;
+    border-radius: 6px;
+  }
+
+  .markdown-body table {
+    font-size: 13px;
+  }
+
+  .markdown-body table th,
+  .markdown-body table td {
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 640px) {
+  .markdown-body {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .markdown-body h1 {
+    font-size: 1.45rem !important;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+  }
+
+  .markdown-body h2 {
+    font-size: 1.2rem !important;
+    margin-top: 24px;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+    scroll-margin-top: 75px;
+  }
+
+  .markdown-body h3 {
+    font-size: 1.05rem !important;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    scroll-margin-top: 75px;
+  }
+
+  .markdown-body h4 {
+    font-size: 0.95rem !important;
+  }
+
+  .markdown-body p,
+  .markdown-body ul,
+  .markdown-body ol {
+    margin-bottom: 12px;
+  }
+
+  .markdown-body pre {
+    padding: 10px 12px !important;
+    font-size: 12px !important;
+    margin-bottom: 12px;
+    border-radius: 6px;
+  }
+
+  .markdown-body pre code {
+    font-size: 12px !important;
+  }
+
+  .markdown-body code:not(pre code) {
+    font-size: 80%;
+    padding: 1.5px 4px;
+    margin: 0 2px;
+  }
+
+  .markdown-body blockquote {
+    padding: 0.4em 0.8em;
+    margin-bottom: 12px;
+  }
+
+  .markdown-body details {
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    font-size: 13.5px;
+  }
+
+  .markdown-body details table,
+  .markdown-body details > .table-container {
+    margin-bottom: 1.25rem;
+  }
+
+  .table-container {
+    margin-top: 0.6rem;
+    margin-bottom: 1.25rem;
+    border-radius: 6px;
+  }
+
+  .markdown-body table {
+    font-size: 12.5px;
+  }
+
+  .markdown-body table th,
+  .markdown-body table td {
+    padding: 6px 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .markdown-body {
+    font-size: 13.5px;
+  }
+
+  .markdown-body h1 {
+    font-size: 1.35rem !important;
+  }
+
+  .markdown-body h2 {
+    font-size: 1.15rem !important;
+  }
+
+  .markdown-body h3 {
+    font-size: 1rem !important;
+  }
+
+  .markdown-body pre {
+    padding: 8px 10px !important;
+  }
+
+  .markdown-body pre code {
+    font-size: 11.5px !important;
+  }
+
+  .markdown-body table th,
+  .markdown-body table td {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+}
+
+/* Responsive Scaling Styles End */

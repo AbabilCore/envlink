@@ -4,6 +4,7 @@ CONDITION=$1
 
 case $CONDITION in
 "build")
+	vite build
 	bun ./scripts/setup.js build
 	;;
 "dev")

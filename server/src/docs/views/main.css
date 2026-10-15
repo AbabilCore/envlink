@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@source "../docs/views";
+
+@theme {
+  --color-github-bg: #0d1117;
+  --color-github-border: #30363d;
+  --color-github-header: #161b22;
+  --color-github-text: #e6edf3;
+  --color-github-textMuted: #8b949e;
+  --color-github-primary: #58a6ff;
+  --color-github-primaryMuted: #79c0ff;
+  --color-github-hover: #21262d;
+  --color-github-code: #388bfd26;
+
+  --animate-spin-slow: spin 2s linear infinite;
+  --animate-pulse-custom: pulse 2s ease-in-out infinite;
+  --animate-fade-in-out: fadeInOut 1.5s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Custom Scrollbar Styles Start */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #58a6ff #0d1117;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d1117;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 10px;
+  border: 2px solid #0d1117;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #58a6ff;
+}
+
+::-webkit-scrollbar-corner {
+  background: #0d1117;
+}
+
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 1px solid #0d1117;
+  }
+
+  .table-container::-webkit-scrollbar {
+    height: 5px;
+  }
+}
+
+/* Custom Scrollbar Styles End */

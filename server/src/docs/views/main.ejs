@@ -35,13 +35,12 @@
     <meta name="theme-color" content="#58a6ff" />
     <meta name="msapplication-TileColor" content="#0d1117" />
 
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown-dark.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css" />
-    <link rel="stylesheet" href="<%= absoluteUrl('/style.css') %>" />
+    <link rel="stylesheet" href="<%= absoluteUrl('/assets/main.css') %>" />
+    <link rel="stylesheet" href="<%= absoluteUrl('/assets/markdown.css') %>" />
     
     <%- include('partials/structuredData', { page }) %>
-    <%- include('partials/tailwindConfig') %>
     <%- include('partials/versionSelector') %>
   </head>
   <body class="m-0 bg-github-bg text-github-text font-sans flex flex-col min-h-screen overflow-x-hidden">
