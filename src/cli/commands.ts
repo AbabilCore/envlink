@@ -48,12 +48,19 @@ export const install = (command: Command) => {
         "Password for decryption (optional for optional-password EnvLinks)",
       )
       .action((id: string, options: ICommandOptions) => {
-        const parsed = utils.parseEnvLinkId(id);
+        try {
+          const parsed = utils.parseEnvLinkId(id);
 
-        if (parsed.isOptionalPass) {
-          helper.optionalPass.install(id, options);
-        } else {
-          helper.install(id, options);
+          if (parsed.isOptionalPass) {
+            helper.optionalPass.install(id, options);
+          } else {
+            helper.install(id, options);
+          }
+        } catch (error: unknown) {
+          utils.logger.error(utils.getErrorMessage(error), {
+            terminate: true,
+            code: 1,
+          });
         }
       }),
     "install",
@@ -93,12 +100,19 @@ export const info = (command: Command) => {
         "Password for decryption (optional for optional-password EnvLinks)",
       )
       .action((id: string, options: ICommandOptions) => {
-        const parsed = utils.parseEnvLinkId(id);
+        try {
+          const parsed = utils.parseEnvLinkId(id);
 
-        if (parsed.isOptionalPass) {
-          helper.optionalPass.info(id);
-        } else {
-          helper.info(id, options);
+          if (parsed.isOptionalPass) {
+            helper.optionalPass.info(id);
+          } else {
+            helper.info(id, options);
+          }
+        } catch (error: unknown) {
+          utils.logger.error(utils.getErrorMessage(error), {
+            terminate: true,
+            code: 1,
+          });
         }
       }),
     "info",
@@ -115,12 +129,19 @@ export const expire = (command: Command) => {
         "Password (optional for optional-password EnvLinks)",
       )
       .action((id: string, options: ICommandOptions) => {
-        const parsed = utils.parseEnvLinkId(id);
+        try {
+          const parsed = utils.parseEnvLinkId(id);
 
-        if (parsed.isOptionalPass) {
-          helper.optionalPass.expire(id);
-        } else {
-          helper.expire(id, options);
+          if (parsed.isOptionalPass) {
+            helper.optionalPass.expire(id);
+          } else {
+            helper.expire(id, options);
+          }
+        } catch (error: unknown) {
+          utils.logger.error(utils.getErrorMessage(error), {
+            terminate: true,
+            code: 1,
+          });
         }
       }),
     "expire",
