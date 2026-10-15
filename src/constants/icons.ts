@@ -4,6 +4,7 @@ export const ICONS = {
   SUCCESS: "\u2713",
   WARNING: "\u26A0",
   ERROR: "\u2717",
+  BUG: "\u2691",
 
   // Special
   PARTY: "\u2605",

@@ -44,39 +44,16 @@ class Logger {
       mark: ICONS.ERROR,
       text: message,
     });
+
+    this.log(
+      `\n${colors.dim(`${ICONS.BUG} Report bug: `)}${colors.cyan("https://github.com/AbabilCore/envlink/issues/new")}\n`,
+    );
+
     if (config?.terminate) process.exit(config.code);
   };
 
   log: TLogMethod = (message) => {
     console.log(message);
-  };
-
-  logSuccess = (message: string) => {
-    this.log(colors.green(message));
-  };
-
-  logInfo = (message: string) => {
-    this.log(colors.cyan(message));
-  };
-
-  logWarning = (message: string) => {
-    this.log(colors.yellow(message));
-  };
-
-  logError = (message: string) => {
-    this.log(colors.red(message));
-  };
-
-  logHighlight = (message: string) => {
-    this.log(colors.white(message));
-  };
-
-  logDim = (message: string) => {
-    this.log(colors.gray(message));
-  };
-
-  logBold = (message: string) => {
-    this.log(colors.bold(message));
   };
 }
 
