@@ -328,7 +328,7 @@ npx biome check --apply .
 This repository contains both the CLI tool and the web server:
 
 - **CLI Tool** (root): The EnvLink command-line interface
-- **Web Server** (`/server`): Documentation website and API server
+- **Web Server** [`/server`](https://github.com/AbabilCore/envlink/tree/main/server): Documentation website and API server
 
 ## Contributing
 

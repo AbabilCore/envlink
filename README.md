@@ -75,7 +75,7 @@ envlink install el_abc123xyz456accesskey789
 
 ## Documentation
 
-- **[Command Reference](https://envlink.ababilspark.com)** - Complete command reference
+- **[Command Reference](https://envlink.ababilspark.com/commands)** - Complete command reference
 - **[FAQ](https://envlink.ababilspark.com/faq)** - Frequently Asked Questions
 
 ## Security
@@ -108,4 +108,4 @@ EnvLink offers two security models:
 
 ## Self-Hosting
 
-Want to run your own EnvLink server? See the [Self-Hosting Guide](https://github.com/AbabilCore/envlink/blob/main/self-host.md) for complete setup instructions.
+Want to run your own EnvLink server? See the [Self-Hosting Guide](https://envlink.ababilspark.com/self-host) for complete setup instructions.
