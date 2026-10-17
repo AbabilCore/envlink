@@ -2,6 +2,27 @@
 
 Track EnvLink's evolution through our complete release history. From major security improvements to minor bug fixes, stay updated with all changes.
 
+## v2.5.3
+
+_Released: October 17, 2026_
+
+<details>
+<summary><strong>UX Improvements</strong></summary>
+
+- **Simplified Error Output:** Running `envlink` without arguments now shows a clean error message instead of the full help menu
+- **Dependency Updates:** Updated siteviews package to version 2.2.1
+
+</details>
+
+<details>
+<summary><strong>Benefits</strong></summary>
+
+- Cleaner terminal experience with better visual separation between commands
+- Less overwhelming error output for new users
+- Users can still access full help with `envlink --help` when needed
+
+</details>
+
 ## v2.5.2
 
 _Released: October 16, 2026_
