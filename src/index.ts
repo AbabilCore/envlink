@@ -42,8 +42,6 @@ command.on("command:*", ([cmd]: [string]) => {
 });
 
 if (!process.argv.slice(2).length) {
-  command.outputHelp();
-  utils.logger.log("");
   utils.logger.error(
     `No command provided! Try envlink --help to see available commands.`,
     {
