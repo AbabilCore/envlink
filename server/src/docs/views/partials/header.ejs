@@ -372,14 +372,13 @@
   const viewsElement = document.getElementById("views");
   if (viewsElement) {
     const script = document.createElement("script");
-    script.src = "https://unpkg.com/siteviews@2.1.2/dist/index.js";
+    script.src = "https://unpkg.com/siteviews@2.2.1/dist/index.js";
     script.type = "application/javascript";
     script.setAttribute("scriptfor", "siteviews");
     script.setAttribute("project-name", "envlink");
     script.setAttribute("output-element-id", "views");
     script.setAttribute("refresh", "10");
-    script.setAttribute("toast", "");
     script.setAttribute("suppressLogs", "");
-    document.head.appendChild(script);
+    document.head.appendChild(script)
   }
 </script>
