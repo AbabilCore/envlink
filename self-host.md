@@ -243,7 +243,7 @@ npm run dev -- update <id>
 npm run dev -- expire <id>
 ```
 
-Or use the Python automated test script:
+Or use the automated test suite:
 
 ```bash
 npm run test:cli
@@ -253,7 +253,7 @@ npm run test:cli
 
 - `npm run dev` - Development mode with watch
 - `npm run test` - Run CLI directly in interactive mode
-- `npm run test:cli` - Run Python automated test script
+- `npm run test:cli` - Run automated test suite with Vitest
 - `npm run build` - Build for production
 - `npm start` - Run built version
 
