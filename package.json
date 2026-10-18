@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "NODE_ENV=development tsx -r tsconfig-paths/register --watch ./src/index.ts",
     "test": "NODE_ENV=development tsx -r tsconfig-paths/register --interactive ./src/index.ts",
-    "test:cli": "python3 scripts/test.py",
+    "test:cli": "vitest run --config tests/vitest.config.mjs",
     "start": "node ./dist/index.js",
     "build": "sh ./scripts/build.sh"
   },
@@ -49,15 +49,19 @@
     "@biomejs/biome": "^2.5.14",
     "@types/inquirer": "^9.0.10",
     "@types/node": "^26.6.4",
+    "@vitest/coverage-v8": "^5.0.5",
+    "@vitest/ui": "^5.0.5",
     "colors": "^1.4.0",
     "commander": "^15.0.0",
+    "execa": "^10.2.0",
     "inquirer": "^14.2.2",
     "nanospinner": "^1.2.2",
     "rimraf": "^6.0.1",
     "tsconfig-paths": "^4.2.0",
     "tsup": "^8.5.0",
     "tsx": "^4.20.6",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
   },
   "allowScripts": {
     "esbuild": true
