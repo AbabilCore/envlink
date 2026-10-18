@@ -3,6 +3,7 @@ import path from "path";
 import fs from "fs";
 import colors from "colors";
 import { hashPasswordDeterministic } from "@/lib/auth";
+import { decrypt } from "@/lib/crypto";
 import { ICONS } from "@/constants/icons";
 import * as types from "@/types";
 import * as utils from "@/utils";
@@ -61,7 +62,6 @@ export const install = async (
       return;
     }
 
-    const { decrypt } = await import("@/lib/crypto");
     const files: types.IEnvFile[] = JSON.parse(
       await decrypt(JSON.parse(encryptedData), password),
     );

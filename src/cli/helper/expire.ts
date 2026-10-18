@@ -1,5 +1,6 @@
 import inquirer from "inquirer";
 import colors from "colors";
+import { hashPasswordDeterministic } from "@/lib/auth";
 import { ICONS } from "@/constants/icons";
 import * as types from "@/types";
 import * as utils from "@/utils";
@@ -55,7 +56,6 @@ export const expire = async (
 
     utils.logger.start("Expiring EnvLink...");
 
-    const { hashPasswordDeterministic } = await import("@/lib/auth");
     const passwordHash = hashPasswordDeterministic(password);
 
     await utils.apiClient.authenticated<types.IExpireEnvLinkResponse>(
