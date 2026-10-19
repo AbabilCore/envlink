@@ -17,28 +17,24 @@ Secure and anonymous environment file sharing CLI - Share `.env` files with expi
 
 ## Installation
 
-### Permanent Installation
+### Recommended: Use Without Installing
 
 ```bash
-npm install -g envlink
-```
-
-### One-Time Use (No Installation)
-
-You can use EnvLink without installing it permanently:
-
-```bash
-# Using npx (Node.js) - creates optional-password by default
+# Using npx (Node.js)
 npx envlink create
-npx envlink install el_abc123xyz456accesskey789
+npx envlink install el_abc123xyz456
 
 # Using bunx (Bun)
 bunx envlink create
-bunx envlink install el_abc123xyz456accesskey789
 
 # Using pnpm
 pnpm dlx envlink create
-pnpm dlx envlink install el_abc123xyz456accesskey789
+```
+
+### Optional: Install Globally
+
+```bash
+npm install -g envlink
 ```
 
 ## Quick Start
@@ -48,29 +44,27 @@ pnpm dlx envlink install el_abc123xyz456accesskey789
 Create a secure EnvLink with password protection:
 
 ```bash
-cd my-project
-envlink create --pass yourpassword
+npx envlink create --pass yourpassword
 ```
 
 Share the ID and password with your team:
 
 ```bash
-envlink install el_abc123xyz456 --pass yourpassword
+npx envlink install el_abc123xyz456 --pass yourpassword
 ```
 
 ### Optional-Password (Convenient, Default)
 
-Create a convenient EnvLink without passwords (1-hour expiration) - this is now the default:
+Create a convenient EnvLink without passwords (1-hour expiration):
 
 ```bash
-cd my-project
-envlink create
+npx envlink create
 ```
 
 Share just the extended ID:
 
 ```bash
-envlink install el_abc123xyz456accesskey789
+npx envlink install el_abc123xyz456accesskey789
 ```
 
 ## Documentation

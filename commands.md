@@ -2,45 +2,45 @@
 
 Complete command reference for EnvLink CLI tool.
 
+> **Tip:** Use `npx envlink` to run without installing: `npx envlink create`
+
 ## Version & Help
 
 ```bash
 # Show version number
-envlink -v
-envlink -V
-envlink --version
+npx envlink -v
+npx envlink --version
 
 # Show help for all commands
-envlink -h
-envlink --help
+npx envlink --help
 
 # Show help for a specific command
-envlink help <command>
+npx envlink help <command>
 
 # Check for available updates
-envlink check-update
+npx envlink check-update
 ```
 
 ## Create Commands
 
 ```bash
 # Interactive creation - creates optional-password EnvLink by default
-envlink create
+npx envlink create
 
 # Create with 5 day expiration (no password, optional-password EnvLink)
-envlink create --exp 5d
+npx envlink create --exp 5d
 
 # Create password-protected EnvLink (will prompt for password)
-envlink create --pass
+npx envlink create --pass
 
 # Create password-protected with provided password
-envlink create --pass <password>
+npx envlink create --pass <password>
 
 # Create with reference label
-envlink create --pass "your password" --ref "production-api-keys"
+npx envlink create --pass "your password" --ref "production-api-keys"
 
 # Create password-protected with all options
-envlink create --pass <password> --exp 1y --ref "prod-env"
+npx envlink create --pass <password> --exp 1y --ref "prod-env"
 ```
 
 **Expiration units:** `m` (minutes), `h` (hours), `d` (days), `M` (months), `y` (years)
@@ -53,14 +53,14 @@ envlink create --pass <password> --exp 1y --ref "prod-env"
 
 ```bash
 # Install all files from EnvLink (password required for regular EnvLinks)
-envlink install <id>
+npx envlink install <id>
 
 # Install with file selection prompt
-envlink install <id> -s
-envlink install <id> --select-files
+npx envlink install <id> -s
+npx envlink install <id> --select-files
 
 # Install from optional-password EnvLink (no password required)
-envlink install <extended_id>
+npx envlink install <extended_id>
 ```
 
 **Note:** Password is required for regular EnvLinks. Optional-password EnvLinks use extended ID format and don't require passwords.
@@ -69,10 +69,10 @@ envlink install <extended_id>
 
 ```bash
 # Show EnvLink details (status, files, expiry, install count)
-envlink info <id>
+npx envlink info <id>
 
 # Show optional-password EnvLink details (no password required)
-envlink info <extended_id>
+npx envlink info <extended_id>
 ```
 
 **Note:** Password is required for regular EnvLinks. Optional-password EnvLinks use extended ID format and don't require passwords.
@@ -81,20 +81,20 @@ envlink info <extended_id>
 
 ```bash
 # Update files from current directory (current password required)
-envlink update <id> -f --current-pass <password>
-envlink update <id> --files --current-pass <password>
+npx envlink update <id> -f --current-pass <password>
+npx envlink update <id> --files --current-pass <password>
 
 # Update expiration to 30 days
-envlink update <id> --exp 30d --current-pass <password>
+npx envlink update <id> --exp 30d --current-pass <password>
 
 # Update password (current password required for authentication)
-envlink update <id> --pass <new-password> --current-pass <password>
+npx envlink update <id> --pass <new-password> --current-pass <password>
 
 # Update reference label
-envlink update <id> --ref "staging-keys" --current-pass <password>
+npx envlink update <id> --ref "staging-keys" --current-pass <password>
 
 # Combine multiple updates
-envlink update <id> --files --exp 7d --ref "temp-keys" --current-pass <password>
+npx envlink update <id> --files --exp 7d --ref "temp-keys" --current-pass <password>
 ```
 
 **Note:** Update operations are only supported for regular password-protected EnvLinks. Optional-password EnvLinks cannot be updated for security reasons.
@@ -103,13 +103,13 @@ envlink update <id> --files --exp 7d --ref "temp-keys" --current-pass <password>
 
 ```bash
 # Manually expire a regular EnvLink (password required, will prompt)
-envlink expire <id>
+npx envlink expire <id>
 
 # Expire with password (non-interactive)
-envlink expire <id> --pass <password>
+npx envlink expire <id> --pass <password>
 
 # Expire optional-password EnvLink (no password required)
-envlink expire <extended_id>
+npx envlink expire <extended_id>
 ```
 
 **Note:** Password is required for regular EnvLinks. Optional-password EnvLinks can be expired without passwords.
@@ -118,8 +118,8 @@ envlink expire <extended_id>
 
 ```bash
 # Check for available updates (manual check)
-envlink version-check
-envlink check-update
+npx envlink version-check
+npx envlink check-update
 
 # Both commands are aliases and do the same thing:
 # - Check NPM registry for the latest EnvLink version
@@ -135,76 +135,76 @@ envlink check-update
 
 ```bash
 # 1. Create an EnvLink (optional-password by default, no password needed)
-envlink create
+npx envlink create
 
 # 2. Check EnvLink status using extended ID (no password needed)
-envlink info el_abc123def456ghi789jkl012mno345678
-envlink info el_abc123xyz456
+npx envlink info el_abc123def456ghi789jkl012mno345678
+npx envlink info el_abc123xyz456
 
 # 3. Install on another machine (password required, will prompt)
-envlink install el_abc123xyz456
+npx envlink install el_abc123xyz456
 ```
 
 ### Optional-Password Workflow
 
 ```bash
 # 1. Create optional-password EnvLink (default behavior)
-envlink create
+npx envlink create
 
 # 2. Check status using extended ID (no password required)
-envlink info el_abc123def456ghi789jkl012mno345678
-envlink info el_abc123xyz456accesskey789
+npx envlink info el_abc123def456ghi789jkl012mno345678
+npx envlink info el_abc123xyz456accesskey789
 
 # 3. Install on another machine (no password required)
-envlink install el_abc123xyz456accesskey789
+npx envlink install el_abc123xyz456accesskey789
 
 # 4. Expire when done (no password required)
-envlink expire el_abc123xyz456accesskey789
+npx envlink expire el_abc123xyz456accesskey789
 ```
 
 ### Advanced Workflow
 
 ```bash
 # 1. Check for updates first
-envlink version-check
+npx envlink version-check
 
 # 2. Create 7-day password-protected link with reference
-envlink create --pass mypass123 --exp 7d --ref "prod-db-keys"
+npx envlink create --pass mypass123 --exp 7d --ref "prod-db-keys"
 
 # 3. Update files later (current password required)
-envlink update el_abc123xyz456 --files --current-pass mypass123
+npx envlink update el_abc123xyz456 --files --current-pass mypass123
 
 # 4. Manually expire when done (password required)
-envlink expire el_abc123xyz456
+npx envlink expire el_abc123xyz456
 ```
 
 ### Version Management
 
 ```bash
 # Check for EnvLink CLI updates
-envlink version-check
+npx envlink version-check
 
 # Alternative alias
-envlink check-update
+npx envlink check-update
 
 # Example output when update is available:
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 #   ⚠ Update Available!
 #   Current: 2.0.0 → Latest: 2.2.2
-#   Run: npm install -g envlink@latest
+#   Run: npx envlink (uses latest version automatically)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 ## Common Commands
 
-| Command                 | Description                                                               |
-| ----------------------- | ------------------------------------------------------------------------- |
-| `envlink create`        | Create a new EnvLink from local .env files (optional-password by default) |
-| `envlink install <id>`  | Install environment files from an EnvLink                                 |
-| `envlink info <id>`     | Show EnvLink information (files, expiry, install count)                   |
-| `envlink update <id>`   | Update an existing EnvLink (regular EnvLinks only)                        |
-| `envlink expire <id>`   | Manually expire an EnvLink                                                |
-| `envlink version-check` | Check for available CLI updates                                           |
+| Command                     | Description                                                               |
+| --------------------------- | ------------------------------------------------------------------------- |
+| `npx envlink create`        | Create a new EnvLink from local .env files (optional-password by default) |
+| `npx envlink install <id>`  | Install environment files from an EnvLink                                 |
+| `npx envlink info <id>`     | Show EnvLink information (files, expiry, install count)                   |
+| `npx envlink update <id>`   | Update an existing EnvLink (regular EnvLinks only)                        |
+| `npx envlink expire <id>`   | Manually expire an EnvLink                                                |
+| `npx envlink version-check` | Check for available CLI updates                                           |
 
 ## Common Options
 
