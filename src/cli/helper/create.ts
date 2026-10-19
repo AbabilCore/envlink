@@ -88,6 +88,9 @@ export const create = async (
             if (!input || input.length === 0) {
               return "Password is required";
             }
+            if (input.length < 4) {
+              return "Password must be at least 4 characters";
+            }
             return true;
           },
         },
@@ -110,6 +113,13 @@ export const create = async (
       password = pwd;
     } else {
       password = options.pass as string;
+      if (password.length < 4) {
+        utils.logger.error("Password must be at least 4 characters", {
+          terminate: true,
+          code: 1,
+        });
+        return;
+      }
     }
 
     let reference = options.ref;
@@ -163,7 +173,7 @@ export const create = async (
       await encrypt(JSON.stringify(files), password),
     );
 
-    const passwordHash = hashPasswordDeterministic(password);
+    const passwordHash = await hashPasswordDeterministic(password);
 
     const requestPayload: ICreateEnvLinkPayload = {
       encryptedData,

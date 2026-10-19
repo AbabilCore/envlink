@@ -66,7 +66,7 @@ export const update = async (
       return;
     }
 
-    const passwordHash = hashPasswordDeterministic(currentPassword);
+    const passwordHash = await hashPasswordDeterministic(currentPassword);
     const infoResponse =
       await utils.apiClient.authenticated<types.IGetEnvLinkResponse>(
         "POST",
@@ -157,6 +157,14 @@ export const update = async (
 
     if (options.pass !== undefined) {
       if (typeof options.pass === "string") {
+        if (options.pass.length < 4) {
+          utils.logger.error("New password must be at least 4 characters", {
+            terminate: true,
+            code: 1,
+          });
+          return;
+        }
+
         if (!options.files) {
           try {
             const installResponse =
@@ -188,7 +196,7 @@ export const update = async (
           }
         }
 
-        updateData.passwordHash = hashPasswordDeterministic(options.pass);
+        updateData.passwordHash = await hashPasswordDeterministic(options.pass);
         utils.logger.log(
           `\n${colors.bold("New password:")} ${colors.green("Updated")}`,
         );

@@ -31,6 +31,9 @@ export const expire = async (
             if (!input || input.length === 0) {
               return "Password is required";
             }
+            if (input.length < 4) {
+              return "Password must be at least 4 characters";
+            }
             return true;
           },
         },
@@ -38,6 +41,13 @@ export const expire = async (
       password = pwd;
     } else {
       password = options.pass;
+      if (password.length < 4) {
+        utils.logger.error("Password must be at least 4 characters", {
+          terminate: true,
+          code: 1,
+        });
+        return;
+      }
     }
 
     const { confirm } = await inquirer.prompt<{ confirm: boolean }>([
@@ -56,7 +66,7 @@ export const expire = async (
 
     utils.logger.start("Expiring EnvLink...");
 
-    const passwordHash = hashPasswordDeterministic(password);
+    const passwordHash = await hashPasswordDeterministic(password);
 
     await utils.apiClient.authenticated<types.IExpireEnvLinkResponse>(
       "DELETE",

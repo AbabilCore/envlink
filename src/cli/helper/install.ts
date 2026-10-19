@@ -33,6 +33,9 @@ export const install = async (
             if (!input || input.length === 0) {
               return "Password is required";
             }
+            if (input.length < 4) {
+              return "Password must be at least 4 characters";
+            }
             return true;
           },
         },
@@ -40,10 +43,17 @@ export const install = async (
       password = pwd;
     } else {
       password = options.pass;
+      if (password.length < 4) {
+        utils.logger.error("Password must be at least 4 characters", {
+          terminate: true,
+          code: 1,
+        });
+        return;
+      }
     }
 
     utils.logger.start(`Fetching EnvLink ${id}...`);
-    const passwordHash = hashPasswordDeterministic(password);
+    const passwordHash = await hashPasswordDeterministic(password);
     const response =
       await utils.apiClient.authenticated<types.IInstallEnvLinkResponse>(
         "POST",
