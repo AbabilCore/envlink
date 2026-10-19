@@ -1,8 +1,8 @@
-// AES-256-GCM & PBKDF2  constants
+// Cipher & PBKDF2 constants (client-side)
 export const CRYPTO_CONFIG = {
-  ALGORITHM: "aes-256-gcm",
-  DIGEST: "sha256",
+  CIPHER_ALGORITHM: "aes-256-gcm",
+  HASH_ALGORITHM: "sha256",
   KEY_LENGTH: 32,
   IV_LENGTH: 16,
-  ITERATIONS: 100000,
+  ITERATIONS: 1000000,
 } as const;

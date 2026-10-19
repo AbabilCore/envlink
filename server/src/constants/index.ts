@@ -6,13 +6,11 @@ export const SITE_URL =
     ? `http://localhost:${ENV.PORT}`
     : ENV.PROD_SITE_URL;
 
-// AES-256-GCM & PBKDF2 constants
+// PBKDF2 & hashing constants (server-side)
 export const CRYPTO_CONFIG = {
-  ALGORITHM: "aes-256-gcm",
-  DIGEST: "sha256",
+  HASH_ALGORITHM: "sha256",
   KEY_LENGTH: 32,
-  IV_LENGTH: 16,
-  ITERATIONS: 100000,
+  ITERATIONS: 1000000,
 } as const;
 
 export const ENVLINK_CONSTANTS = {
@@ -21,6 +19,5 @@ export const ENVLINK_CONSTANTS = {
   MAX_ENCRYPTED_PAYLOAD_SIZE: 1024 * 1024 * 2,
   MAX_FILES_PER_ENVLINK: 10,
   MAX_TOTAL_PAYLOAD: 500 * 1024,
-  ENCRYPTION_ALGORITHM: "aes-256-gcm",
   ID_PREFIX: "el_",
 } as const;
