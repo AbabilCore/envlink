@@ -1,6 +1,10 @@
 # EnvLink Encryption Workflow
 
+> **Note:** All encryption and decryption operations are performed on the client machine. The server only stores encrypted data and never has access to plaintext content or encryption keys.
+
 ## CRYPTO MODULES
+
+Required Node.js modules for cryptographic operations.
 
 ```js
 import crypto from "crypto";
@@ -9,18 +13,21 @@ import util from "util";
 
 ## CONSTANTS
 
+Client-side constants for AES-256-GCM encryption and PBKDF2 key derivation.
+
 ```js
-// AES-256-GCM & PBKDF2 constants
 export const CRYPTO_CONFIG = {
-  ALGORITHM: "aes-256-gcm",
-  DIGEST: "sha256",
+  CIPHER_ALGORITHM: "aes-256-gcm",
+  HASH_ALGORITHM: "sha256",
   KEY_LENGTH: 32,
   IV_LENGTH: 16,
-  ITERATIONS: 100000,
+  ITERATIONS: 1000000,
 };
 ```
 
 ## DERIVED KEY GENERATOR
+
+Generates encryption key from password using PBKDF2 with 1 million iterations.
 
 ```js
 export const deriveKey = async (password, salt) => {
@@ -30,12 +37,14 @@ export const deriveKey = async (password, salt) => {
     salt,
     CRYPTO_CONFIG.ITERATIONS,
     CRYPTO_CONFIG.KEY_LENGTH,
-    CRYPTO_CONFIG.DIGEST,
+    CRYPTO_CONFIG.HASH_ALGORITHM,
   );
 };
 ```
 
 ## ENCRYPTOR
+
+Encrypts plaintext using AES-256-GCM with random salt and IV.
 
 ```js
 export const encrypt = async (plaintext, password) => {
@@ -43,7 +52,7 @@ export const encrypt = async (plaintext, password) => {
   const key = await deriveKey(password, salt);
   const iv = crypto.randomBytes(CRYPTO_CONFIG.IV_LENGTH);
 
-  const cipher = crypto.createCipheriv(CRYPTO_CONFIG.ALGORITHM, key, iv);
+  const cipher = crypto.createCipheriv(CRYPTO_CONFIG.CIPHER_ALGORITHM, key, iv);
   const encrypted = Buffer.concat([
     cipher.update(plaintext, "utf8"),
     cipher.final(),
@@ -60,6 +69,8 @@ export const encrypt = async (plaintext, password) => {
 
 ## DECRYPTOR
 
+Decrypts ciphertext using password. Verifies authentication tag for data integrity.
+
 ```js
 export const decrypt = async (input, password) => {
   const encryptedData = Buffer.from(input.encryptedData, "base64");
@@ -69,7 +80,11 @@ export const decrypt = async (input, password) => {
 
   try {
     const key = await deriveKey(password, salt);
-    const decipher = crypto.createDecipheriv(CRYPTO_CONFIG.ALGORITHM, key, iv);
+    const decipher = crypto.createDecipheriv(
+      CRYPTO_CONFIG.CIPHER_ALGORITHM,
+      key,
+      iv,
+    );
 
     decipher.setAuthTag(authTag);
 
