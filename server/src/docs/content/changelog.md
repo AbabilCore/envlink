@@ -2,6 +2,41 @@
 
 Track EnvLink's evolution through our complete release history. From major security improvements to minor bug fixes, stay updated with all changes.
 
+## v3.0.0
+
+_Released: October 20, 2026_
+
+<details>
+<summary><strong>Security Upgrade</strong></summary>
+
+**Password-Protected EnvLinks:**
+
+- Password hashing upgraded from SHA-256 to PBKDF2 with 1,000,000 iterations
+- Each password attempt now requires 1 million hash operations, making offline brute-force attacks significantly harder
+- Added password length validation (minimum 4 characters) to prevent weak passwords and reduce unnecessary server requests
+
+**Note:** Optional-password EnvLinks are not affected by these changes.
+
+</details>
+
+<details>
+<summary><strong>Breaking Changes</strong></summary>
+
+EnvLinks created with v2.x and earlier won't work with v3.0.0. You need to upgrade CLI and recreate your EnvLinks.
+
+</details>
+
+## v2.6.0
+
+_Released: October 19, 2026_
+
+<details>
+<summary><strong>Internal Release</strong></summary>
+
+Skipped to v3.0.0 due to breaking changes.
+
+</details>
+
 ## v2.5.3
 
 _Released: October 17, 2026_
