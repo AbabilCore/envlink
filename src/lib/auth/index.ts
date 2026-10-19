@@ -7,7 +7,7 @@ export const generateZKProof = async (
   envlinkId: string,
 ): Promise<string> => {
   const serverSalt = crypto
-    .createHash(CRYPTO_CONFIG.DIGEST)
+    .createHash(CRYPTO_CONFIG.HASH_ALGORITHM)
     .update(`envlink:${envlinkId}`)
     .digest("hex");
 
@@ -18,5 +18,10 @@ export const generateZKProof = async (
   return key.toString("base64");
 };
 
-export const hashPasswordDeterministic = (password: string): string =>
-  crypto.createHash(CRYPTO_CONFIG.DIGEST).update(password).digest("hex");
+export const hashPasswordDeterministic = async (password: string) => {
+  const authSalt = crypto
+    .createHash(CRYPTO_CONFIG.HASH_ALGORITHM)
+    .digest("hex");
+  const key = await deriveKey(password, authSalt);
+  return key.toString("hex");
+};

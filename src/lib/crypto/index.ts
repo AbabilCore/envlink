@@ -16,7 +16,7 @@ export const deriveKey = async (password: string, salt: Buffer | string) => {
     salt,
     CRYPTO_CONFIG.ITERATIONS,
     CRYPTO_CONFIG.KEY_LENGTH,
-    CRYPTO_CONFIG.DIGEST,
+    CRYPTO_CONFIG.HASH_ALGORITHM,
   );
 };
 
@@ -28,7 +28,7 @@ export const encrypt = async (
   const key = await deriveKey(password, salt);
   const iv = crypto.randomBytes(CRYPTO_CONFIG.IV_LENGTH);
 
-  const cipher = crypto.createCipheriv(CRYPTO_CONFIG.ALGORITHM, key, iv);
+  const cipher = crypto.createCipheriv(CRYPTO_CONFIG.CIPHER_ALGORITHM, key, iv);
 
   const encrypted = Buffer.concat([
     cipher.update(plaintext, "utf8"),
@@ -54,7 +54,11 @@ export const decrypt = async (
 
   try {
     const key = await deriveKey(password, salt);
-    const decipher = crypto.createDecipheriv(CRYPTO_CONFIG.ALGORITHM, key, iv);
+    const decipher = crypto.createDecipheriv(
+      CRYPTO_CONFIG.CIPHER_ALGORITHM,
+      key,
+      iv,
+    );
 
     decipher.setAuthTag(authTag);
 

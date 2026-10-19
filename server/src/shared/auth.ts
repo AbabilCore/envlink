@@ -9,7 +9,7 @@ const deriveKey = async (password: string, salt: Buffer | string) => {
     salt,
     CRYPTO_CONFIG.ITERATIONS,
     CRYPTO_CONFIG.KEY_LENGTH,
-    CRYPTO_CONFIG.DIGEST,
+    CRYPTO_CONFIG.HASH_ALGORITHM,
   );
 };
 
@@ -18,7 +18,7 @@ export const generateZKProof = async (
   envlinkId: string,
 ): Promise<string> => {
   const serverSalt = crypto
-    .createHash(CRYPTO_CONFIG.DIGEST)
+    .createHash(CRYPTO_CONFIG.HASH_ALGORITHM)
     .update(`envlink:${envlinkId}`)
     .digest("hex");
 
