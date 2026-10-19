@@ -1,79 +1,246 @@
 <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
-  <div class="markdown-body">
-    <h1 class="text-2xl sm:text-3xl font-bold mb-3 sm:mb-6">EnvLink Workflows</h1>
-
-    <p class="text-sm sm:text-lg text-github-textMuted mb-6 sm:mb-8">
-      Learn about different EnvLink workflows and technical implementations.
+  <div class="text-center mb-8 sm:mb-12">
+    <h1 class="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4">
+      Technical Workflows
+    </h1>
+    <p class="text-base sm:text-lg text-github-textMuted max-w-2xl mx-auto">
+      Deep dive into EnvLink's cryptographic implementations and zero-knowledge
+      architecture.
     </p>
+  </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-      <a
-        href="<%= absoluteUrl('/workflow/encryption-flow') %>"
-        class="block border border-github-border rounded-lg p-4 sm:p-6 hover:border-github-primary hover:shadow-md transition-all duration-200"
-      >
-        <div class="flex items-center gap-3 mb-3 sm:mb-4">
-          <div
-            class="w-7 h-7 sm:w-8 sm:h-8 bg-github-primary bg-opacity-20 rounded-lg flex items-center justify-center flex-shrink-0"
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-12">
+    <a
+      href="<%= absoluteUrl('/workflow/encryption-flow') %>"
+      class="group block border border-github-border rounded-xl p-5 sm:p-7 hover:border-github-primary hover:shadow-lg transition-all duration-200 bg-gradient-to-br from-transparent to-github-primary/5"
+    >
+      <div class="flex items-start gap-4 mb-4">
+        <div
+          class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
+          style="background-color: rgba(88, 166, 255, 0.15)"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#58a6ff"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            style="display: block"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="text-github-primary"
-            >
-              <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
-              <circle cx="12" cy="16" r="1" />
-              <path d="m7 11V7a5 5 0 0 1 10 0v4" />
-            </svg>
-          </div>
-          <h2 class="text-lg sm:text-xl font-semibold !mt-0 !mb-0 !border-b-0 !pb-0">Encryption Flow</h2>
+            <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+            <circle cx="12" cy="16" r="1"></circle>
+            <path d="m7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
         </div>
-        <p class="text-xs sm:text-sm text-github-textMuted !mb-0">
-          Understand how EnvLink encrypts and secures your environment files
-          using AES-256-GCM encryption.
-        </p>
-      </a>
+        <div class="flex-1 min-w-0">
+          <h2 class="text-xl sm:text-2xl font-semibold mb-2">
+            Encryption Flow
+          </h2>
+          <p class="text-sm sm:text-base text-github-textMuted leading-relaxed">
+            AES-256-GCM encryption with PBKDF2 key derivation (1M iterations)
+            for maximum security.
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-2 mt-4">
+        <span
+          class="inline-flex items-center px-2.5 py-1 rounded-md bg-github-primary/10 text-xs font-medium"
+          style="color: var(--color-accent-fg)"
+        >
+          AES-256-GCM
+        </span>
+        <span
+          class="inline-flex items-center px-2.5 py-1 rounded-md bg-green-500/10 text-xs font-medium"
+          style="color: #22c55e"
+        >
+          PBKDF2
+        </span>
+        <span
+          class="inline-flex items-center px-2.5 py-1 rounded-md bg-purple-500/10 text-xs font-medium"
+          style="color: #a855f7"
+        >
+          Client-Side
+        </span>
+      </div>
+    </a>
 
-      <a
-        href="<%= absoluteUrl('/workflow/authentication-flow') %>"
-        class="block border border-github-border rounded-lg p-4 sm:p-6 hover:border-github-primary hover:shadow-md transition-all duration-200"
-      >
-        <div class="flex items-center gap-3 mb-3 sm:mb-4">
-          <div
-            class="w-7 h-7 sm:w-8 sm:h-8 bg-green-500 bg-opacity-20 rounded-lg flex items-center justify-center flex-shrink-0"
+    <a
+      href="<%= absoluteUrl('/workflow/authentication-flow') %>"
+      class="group block border border-github-border rounded-xl p-5 sm:p-7 hover:border-green-500 hover:shadow-lg transition-all duration-200 bg-gradient-to-br from-transparent to-green-500/5"
+    >
+      <div class="flex items-start gap-4 mb-4">
+        <div
+          class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
+          style="background-color: rgba(34, 197, 94, 0.15)"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#22c55e"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            style="display: block"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="text-green-400"
-            >
-              <path d="M9 12l2 2 4-4" />
-              <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3" />
-              <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3" />
-              <path d="M13 12h3" />
-              <path d="M8 12H5" />
-            </svg>
-          </div>
-          <h2 class="text-lg sm:text-xl font-semibold !mt-0 !mb-0 !border-b-0 !pb-0">Authentication Flow</h2>
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path>
+            <path d="m9 12 2 2 4-4"></path>
+          </svg>
         </div>
-        <p class="text-xs sm:text-sm text-github-textMuted !mb-0">
-          Learn about zero-knowledge proof authentication and how EnvLink
-          verifies passwords without storing them.
-        </p>
-      </a>
+        <div class="flex-1 min-w-0">
+          <h2 class="text-xl sm:text-2xl font-semibold mb-2">
+            Authentication Flow
+          </h2>
+          <p class="text-sm sm:text-base text-github-textMuted leading-relaxed">
+            Zero-knowledge proof authentication ensures server never sees
+            plaintext passwords.
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-2 mt-4">
+        <span
+          class="inline-flex items-center px-2.5 py-1 rounded-md bg-green-500/10 text-xs font-medium"
+          style="color: #22c55e"
+        >
+          Zero-Knowledge
+        </span>
+        <span
+          class="inline-flex items-center px-2.5 py-1 rounded-md bg-yellow-500/10 text-xs font-medium"
+          style="color: #eab308"
+        >
+          1M Iterations
+        </span>
+        <span
+          class="inline-flex items-center px-2.5 py-1 rounded-md bg-blue-500/10 text-xs font-medium"
+          style="color: #3b82f6"
+        >
+          Server-Side
+        </span>
+      </div>
+    </a>
+  </div>
+
+  <div class="markdown-body">
+    <div
+      class="border border-github-border rounded-xl p-6 sm:p-8 bg-gradient-to-br from-github-primary/5 to-transparent"
+    >
+      <h3 class="text-lg sm:text-xl font-semibold mb-4 flex items-center gap-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          style="display: inline-block; vertical-align: middle"
+        >
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path>
+        </svg>
+        Security Highlights
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="flex items-start gap-3">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#22c55e"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="mt-1 flex-shrink-0"
+            style="display: block"
+          >
+            <path d="M20 6 9 17l-5-5"></path>
+          </svg>
+          <div>
+            <p class="font-medium text-sm">1,000,000 PBKDF2 Iterations</p>
+            <p class="text-xs text-github-textMuted">
+              Maximum protection against brute-force
+            </p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#22c55e"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="mt-1 flex-shrink-0"
+            style="display: block"
+          >
+            <path d="M20 6 9 17l-5-5"></path>
+          </svg>
+          <div>
+            <p class="font-medium text-sm">Zero-Knowledge Architecture</p>
+            <p class="text-xs text-github-textMuted">
+              Server never sees plaintext passwords
+            </p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#22c55e"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="mt-1 flex-shrink-0"
+            style="display: block"
+          >
+            <path d="M20 6 9 17l-5-5"></path>
+          </svg>
+          <div>
+            <p class="font-medium text-sm">AES-256-GCM Encryption</p>
+            <p class="text-xs text-github-textMuted">
+              Military-grade authenticated encryption
+            </p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#22c55e"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="mt-1 flex-shrink-0"
+            style="display: block"
+          >
+            <path d="M20 6 9 17l-5-5"></path>
+          </svg>
+          <div>
+            <p class="font-medium text-sm">Timing-Safe Comparisons</p>
+            <p class="text-xs text-github-textMuted">
+              Protection against timing attacks
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
