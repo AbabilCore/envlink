@@ -13,7 +13,7 @@ Secure and anonymous environment file sharing CLI - Share `.env` files with expi
 - **Auto-Expiration**: From minutes to never (password-protected) or fixed 1-hour (optional-password)
 - **No Signup**: Completely anonymous
 - **Update Support**: Modify password-protected EnvLinks after creation
-- **Multi-File**: Share up to 10 .env files per EnvLink
+- **Multi-File Support**: Share multiple .env files in one link (2.5MB payload limit)
 
 ## Installation
 

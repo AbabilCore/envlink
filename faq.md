@@ -135,14 +135,25 @@ graph LR
 <details open>
 <summary>How many files can I share in one EnvLink?</summary>
 
-You can share up to 10 .env files in a single EnvLink.
+There is no limit on the number of .env files per EnvLink. You can share as many files as you need, as long as the total encrypted payload stays within the 2.5MB limit.
 
 </details>
 
 <details open>
 <summary>What is the file size limit?</summary>
 
-Each individual file can be up to 100KB, and the total payload for all files combined cannot exceed 500KB.
+The encrypted payload size cannot exceed 2.5MB. This limit applies to the total encrypted data including all files, metadata, and encryption overhead.
+
+**Example scenarios:**
+
+| Scenario             | File Count | Raw File Sizes | Encrypted Payload | Status    |
+| -------------------- | ---------- | -------------- | ----------------- | --------- |
+| Single large file    | 1          | `.env` (2.3MB) | ~2.4MB            | Allowed   |
+| Multiple small files | 5          | Each ~400KB    | ~2.1MB            | Allowed   |
+| Many tiny files      | 20         | Each ~100KB    | ~2.2MB            | Allowed   |
+| Exceeds limit        | 3          | Each 1MB       | ~3.2MB            | Too large |
+
+The limit is on the **encrypted payload** (after encryption + metadata), not individual file sizes. You can share as many files as you want, as long as the total stays within 2.5MB after encryption.
 
 </details>
 

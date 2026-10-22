@@ -15,19 +15,22 @@ import util from "util";
 
 Client-side constants for AES-256-GCM encryption and PBKDF2 key derivation.
 
+- **IV_LENGTH**: 12 bytes (NIST recommended size for GCM mode)
+- **ITERATIONS**: 700,000 (exceeds OWASP minimum of 600,000 for PBKDF2-SHA256)
+
 ```js
 export const CRYPTO_CONFIG = {
   CIPHER_ALGORITHM: "aes-256-gcm",
   HASH_ALGORITHM: "sha256",
   KEY_LENGTH: 32,
-  IV_LENGTH: 16,
-  ITERATIONS: 1000000,
+  IV_LENGTH: 12,
+  ITERATIONS: 700000,
 };
 ```
 
 ## DERIVED KEY GENERATOR
 
-Generates encryption key from password using PBKDF2 with 1 million iterations.
+Generates encryption key from password using PBKDF2 with 700,000 iterations.
 
 ```js
 export const deriveKey = async (password, salt) => {

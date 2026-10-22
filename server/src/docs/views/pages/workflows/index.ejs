@@ -41,8 +41,8 @@
             Encryption Flow
           </h2>
           <p class="text-sm sm:text-base text-github-textMuted leading-relaxed">
-            AES-256-GCM encryption with PBKDF2 key derivation (1M iterations)
-            for maximum security.
+            AES-256-GCM encryption with PBKDF2-SHA256 key derivation (700K
+            iterations) for optimal security and performance.
           </p>
         </div>
       </div>
@@ -114,7 +114,7 @@
           class="inline-flex items-center px-2.5 py-1 rounded-md bg-yellow-500/10 text-xs font-medium"
           style="color: #eab308"
         >
-          1M Iterations
+          700K Iterations
         </span>
         <span
           class="inline-flex items-center px-2.5 py-1 rounded-md bg-blue-500/10 text-xs font-medium"
@@ -165,9 +165,9 @@
             <path d="M20 6 9 17l-5-5"></path>
           </svg>
           <div>
-            <p class="font-medium text-sm">1,000,000 PBKDF2 Iterations</p>
+            <p class="font-medium text-sm">700,000 PBKDF2-SHA256 Iterations</p>
             <p class="text-xs text-github-textMuted">
-              Maximum protection against brute-force
+              Exceeds OWASP minimum for brute-force protection
             </p>
           </div>
         </div>
@@ -211,9 +211,9 @@
             <path d="M20 6 9 17l-5-5"></path>
           </svg>
           <div>
-            <p class="font-medium text-sm">AES-256-GCM Encryption</p>
+            <p class="font-medium text-sm">AES-256-GCM with 12-byte IV</p>
             <p class="text-xs text-github-textMuted">
-              Military-grade authenticated encryption
+              NIST-recommended authenticated encryption
             </p>
           </div>
         </div>

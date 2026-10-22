@@ -13,13 +13,15 @@ import util from "util";
 
 ## Configuration
 
-Server-side constants for PBKDF2 hashing with 1 million iterations.
+Server-side constants for PBKDF2-SHA256 hashing.
+
+- **ITERATIONS**: 700,000 (exceeds OWASP minimum of 600,000 for PBKDF2-SHA256)
 
 ```js
 export const CRYPTO_CONFIG = {
   HASH_ALGORITHM: "sha256",
   KEY_LENGTH: 32,
-  ITERATIONS: 1000000,
+  ITERATIONS: 700000,
 };
 ```
 

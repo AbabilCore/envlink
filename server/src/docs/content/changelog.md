@@ -2,6 +2,49 @@
 
 Track EnvLink's evolution through our complete release history. From major security improvements to minor bug fixes, stay updated with all changes.
 
+## v4.0.0
+
+_Released: October 22, 2026_
+
+<details>
+<summary><strong>Cryptography Improvements</strong></summary>
+
+**AES-GCM IV Length Optimization:**
+
+- IV (Initialization Vector) length changed from 16 bytes to 12 bytes
+- 12 bytes is the NIST-recommended standard for AES-GCM mode
+- More efficient and follows industry best practices
+
+**PBKDF2 Iteration Optimization:**
+
+- Reduced from 1,000,000 to 700,000 iterations
+- Exceeds OWASP minimum of 600,000 for PBKDF2-SHA256
+- ~30% faster encryption/decryption operations
+- Better user experience without compromising security
+
+**Breaking Change:**
+
+- EnvLinks created with v3.x and earlier cannot be decrypted with v4.0.0
+- Users need to upgrade CLI and recreate EnvLinks
+
+</details>
+
+<details>
+<summary><strong>Payload Limits Update</strong></summary>
+
+**Increased Payload Capacity:**
+
+- Maximum encrypted payload size increased to 2.5MB (with 3MB server-side grace space)
+- Removed obsolete file count limit (previously 10 files per EnvLink)
+- No limit on number of files - only total encrypted payload size matters
+
+**Documentation:**
+
+- Updated FAQ with clear examples and comparison table
+- Clarified file size limits across all documentation
+
+</details>
+
 ## v3.0.0
 
 _Released: October 20, 2026_
