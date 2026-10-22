@@ -12,7 +12,7 @@ const BASE_URL = process.env.BASE_URL || "http://localhost:8000";
 const API_PATH = "/api/envlinks";
 
 // PBKDF2 configuration === server PBKDF2
-const PBKDF2_ITERATIONS = 100000;
+const PBKDF2_ITERATIONS = 700000;
 const PBKDF2_KEY_LENGTH = 32;
 const PBKDF2_DIGEST = "sha256";
 
